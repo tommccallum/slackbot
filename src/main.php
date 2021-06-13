@@ -17,9 +17,9 @@ autoload_environment();
 
 savelog("Begin session");
 try {
-    $json = file_get_contents('php://input');
-    savelog($json);
-    if (isset($json)) {
+    $requestBody = file_get_contents('php://input');
+    savelog($requestBody);
+    if (isset($requestBody)) {
         $args = json_decode($json, true);
     } else {
         if (count($_POST) > 0) {
@@ -35,11 +35,29 @@ try {
         sendSlackChallengeResponse($app);
         savelog("End of session");
     } else {
-        $bot = createNewBot($app);
-        $botResponseText = $bot->ask($app->text);
-        $bot->printInfo();
-        sendMessage($app, $botResponseText);
-        savelog("End of session");
+
+        // implement the slack security procedure
+        $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];
+        savelog("Slack Request Timestamp: " . $slackRequestTimestamp);
+        if ( abs(time() - $slackRequestTimestamp ) > 60 * 5 ) {
+            throw new Exception("slack request timestamp over 5 minutes old, discarding request");
+        }
+        $slackSigningSecret = SLACK_SIGNING_SECRET;
+        $sig_basestring = 'v0:' . $slackRequestTimestamp . ':' . $requestBody;
+        $signature = 'v0=' . hash('sha256', $slackSigningSecret,$sig_basestring);
+        $slackSignature = $_SERVER['X-Slack-Signature'];
+        savelog("Computed hash: " . $signature);
+        savelog("Received hash: " . $slackSignature);
+
+        if ($signature === $slackSignature) {
+            $bot = createNewBot($app);
+            $botResponseText = $bot->ask($app->text);
+            $bot->printInfo();
+            sendMessage($app, $botResponseText);
+            savelog("End of session");
+        } else {
+            throw new Exception("computed hash did not match the received hash");
+        }
     }
 } catch ( Exception $ex ) {
     savelog($ex);
