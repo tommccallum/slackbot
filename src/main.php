@@ -17,11 +17,12 @@ autoload_environment();
 
 savelog("Begin session");
 try {
-    if (count($_POST) == 0) {
+    if (count($_POST) > 0) {
         $args = $_POST;
     } else {
         $args = $argv;
     }
+    savelog($args);
     $app = new App($args);
     $bot = createNewBot($app);
     $botResponseText = $bot->ask($app->text);
