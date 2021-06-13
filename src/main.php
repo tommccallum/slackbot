@@ -28,7 +28,7 @@ try {
     $bot->printInfo();
     sendMessage($app, $botResponseText);
     savelog("End of session");
-} catch( Exception $ex ) {
+} catch ( Exception $ex ) {
     savelog($ex);
     savelog("End of session");
 }
