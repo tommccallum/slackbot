@@ -6,8 +6,8 @@ $json = file_get_contents('php://input');
 
 // Converts it into a PHP object
 $data = json_decode($json);
-file_put_contents("hello.log", date("Y-m-d H:i:s T"));
-file_put_contents("hello.log", $json."\n");
+file_put_contents("hello.log", date("Y-m-d H:i:s T")."\n");
+file_put_contents("hello.log", $json."\n", FILE_APPEND);
 file_put_contents("hello.log", json_encode($_REQUEST)."\n", FILE_APPEND);
 file_put_contents("hello.log", json_encode($_GET)."\n", FILE_APPEND);
 file_put_contents("hello.log", json_encode($_POST)."\n", FILE_APPEND);
