@@ -23,7 +23,6 @@ try {
     }
     savelog($requestMethod);
 
-
     $contentType = null;
     if ( isset($_SERVER['CONTENT_TYPE']) ) {
         $contentType = $_SERVER['CONTENT_TYPE'];
@@ -60,7 +59,6 @@ try {
         savelog("End of session");
     } else {
         // implement the slack security procedure
-        savelog($_SERVER);
         if ( !isset($_SERVER['X-Slack-Request-Timestamp']) ) {
             if (!isset($_SERVER['HTTP_X_SLACK_REQUEST_TIMESTAMP'])) {
                 throw new Exception("Slack request timestamp not found, discarding request");
@@ -70,7 +68,10 @@ try {
         } else {
             $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];
         }
-        savelog("Slack Request Timestamp: " . $slackRequestTimestamp);
+        if ( abs(time() - $slackRequestTimestamp ) > 60 * 5 ) {
+            savelog("Slack Request Timestamp: " . $slackRequestTimestamp);
+            throw new Exception("slack request timestamp over 5 minutes old, discarding request");
+        }
 
         if ( !isset($_SERVER['X-Slack-Signature']) ) {
             if ( !isset($_SERVER['HTTP_X_SLACK_SIGNATURE']) ) {
@@ -82,17 +83,10 @@ try {
             $slackSignature = $_SERVER['X-Slack-Signature'];
         }
 
-        
-        if ( abs(time() - $slackRequestTimestamp ) > 60 * 5 ) {
-            throw new Exception("slack request timestamp over 5 minutes old, discarding request");
-        }
         $slackSigningSecret = SLACK_SIGNING_SECRET;
         $sig_basestring = 'v0:' . $slackRequestTimestamp . ':' . $requestBody;
         $signature = 'v0=' . hash_hmac('sha256', $sig_basestring, $slackSigningSecret);
         
-        savelog("Computed hash: " . $signature);
-        savelog("Received hash: " . $slackSignature);
-
         if ($signature === $slackSignature) {
             $bot = createNewBot($app);
             $botResponseText = $bot->ask($app->text);
@@ -100,6 +94,8 @@ try {
             sendMessage($app, $botResponseText);
             savelog("End of session");
         } else {
+            savelog("Computed hash: " . $signature);
+            savelog("Received hash: " . $slackSignature);
             throw new Exception("computed hash did not match the received hash");
         }
     }
