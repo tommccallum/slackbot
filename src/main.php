@@ -59,23 +59,36 @@ try {
         sendSlackChallengeResponse($app);
         savelog("End of session");
     } else {
+        // implement the slack security procedure
         if ( !isset($_SERVER['X-Slack-Request-Timestamp']) ) {
-            throw new Exception("Slack request timestamp not found, discarding request");
+            if (!isset($_SERVER['HTTP_X_Slack_Request_Timestamp'])) {
+                throw new Exception("Slack request timestamp not found, discarding request");
+            } else {
+                $slackRequestTimestamp = $_SERVER['HTTP_X_Slack_Request_Timestamp'];
+            }
+        } else {
+            $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];
         }
+        savelog("Slack Request Timestamp: " . $slackRequestTimestamp);
+
         if ( !isset($_SERVER['X-Slack-Signature']) ) {
-            throw new Exception("Slack signature not found, discarding request");
+            if ( !isset($_SERVER['HTTP_X_SLACK_SIGNATURE']) ) {
+                throw new Exception("Slack signature not found, discarding request");
+            } else {
+                $slackSignature = $_SERVER['HTTP_X_SLACK_SIGNATURE'];    
+            }
+        } else {
+            $slackSignature = $_SERVER['X-Slack-Signature'];
         }
 
-        // implement the slack security procedure
-        $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];
-        savelog("Slack Request Timestamp: " . $slackRequestTimestamp);
+        
         if ( abs(time() - $slackRequestTimestamp ) > 60 * 5 ) {
             throw new Exception("slack request timestamp over 5 minutes old, discarding request");
         }
         $slackSigningSecret = SLACK_SIGNING_SECRET;
         $sig_basestring = 'v0:' . $slackRequestTimestamp . ':' . $requestBody;
         $signature = 'v0=' . hash('sha256', $slackSigningSecret,$sig_basestring);
-        $slackSignature = $_SERVER['X-Slack-Signature'];
+        
         savelog("Computed hash: " . $signature);
         savelog("Received hash: " . $slackSignature);
 
