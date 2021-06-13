@@ -1,6 +1,6 @@
 <?php
 
-function savelog($str) {
+function savelog($obj) {
     if ( !defined("LOG_LEVEL") ) return;
     if ( !defined("LOG_PATH") ) return;
     
@@ -15,10 +15,12 @@ function savelog($str) {
     $logPrefix .= date("H:i:s");
     $logPrefix .= " INFO ";
 
-    if ( gettype($str) == "string" ) {
-        file_put_contents($logPath, $logPrefix.$str."\n", FILE_APPEND);
-    } else if ( gettype($str) == "array" ) {
-        $str = json_encode($str);
-        file_put_contents($logPath, $logPrefix.$str."\n", FILE_APPEND);
+    if ( gettype($obj) == "string" ) {
+        $str = $obj;
+    } else if ( gettype($obj) == "array" ) {
+        $str = json_encode($obj);
+    } else if ( is_a($obj, "Exception" ) ) {
+        $str = "exception thrown: " . $obj->getMessage() . " (" . $obj->code . ")";
     }
+    file_put_contents($logPath, $logPrefix.$str."\n", FILE_APPEND);
 }

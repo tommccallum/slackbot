@@ -16,14 +16,19 @@ require_once("SlackIO.php");
 autoload_environment();
 
 savelog("Begin session");
-if ( count($_POST) == 0 ) {
-    $args = $_POST;
-} else {
-    $args = $argv;
+try {
+    if (count($_POST) == 0) {
+        $args = $_POST;
+    } else {
+        $args = $argv;
+    }
+    $app = new App($args);
+    $bot = createNewBot($app);
+    $botResponseText = $bot->ask($app->text);
+    $bot->printInfo();
+    sendMessage($app, $botResponseText);
+    savelog("End of session");
+} catch( Exception $ex ) {
+    savelog($ex);
+    savelog("End of session");
 }
-$app = new App($args);
-$bot = createNewBot($app);
-$botResponseText = $bot->ask($app->text);
-$bot->printInfo();
-sendMessage($app, $botResponseText);
-savelog("End of session");
