@@ -18,6 +18,7 @@ autoload_environment();
 savelog("Begin session");
 try {
     $json = file_get_contents('php://input');
+    savelog($json);
     if (isset($json)) {
         $args = json_decode($json);
     } else {
