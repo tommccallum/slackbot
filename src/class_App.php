@@ -18,7 +18,8 @@ class App
     public $apiAppId = null;
     public $isEnterpriseInstall = false;
     public $triggerId = null;
-
+    public $challenge = null;
+    
     function __construct($inputArguments) {
         try {
             $this->fromInternet($inputArguments);
@@ -66,6 +67,9 @@ class App
             }
             if ( isset($inputArguments['trigger_id'])) {
                 $this->triggerId = $inputArguments['trigger_id'];
+            }
+            if ( isset($inputArguments['challenge'])) {
+                $this->challenge = $inputArguments['challenge'];
             }
         } else {
             throw new Exception("No command specified");

@@ -24,11 +24,17 @@ try {
     }
     savelog($args);
     $app = new App($args);
-    $bot = createNewBot($app);
-    $botResponseText = $bot->ask($app->text);
-    $bot->printInfo();
-    sendMessage($app, $botResponseText);
-    savelog("End of session");
+    if ( $app->challenge ) {
+        savelog("Detected challenge");
+        sendMessage($app, $app->challenge);
+        savelog("End of session");
+    } else {
+        $bot = createNewBot($app);
+        $botResponseText = $bot->ask($app->text);
+        $bot->printInfo();
+        sendMessage($app, $botResponseText);
+        savelog("End of session");
+    }
 } catch ( Exception $ex ) {
     savelog($ex);
     savelog("End of session");
