@@ -12,10 +12,10 @@ require_once("class_Bot.php");
 require_once("createNewBot.php");
 require_once("SlackIO.php");
 
-log("Begin session");
+savelog("Begin session");
 $app = new App($_POST || $argv);
 $bot = createNewBot($app);
 $botResponseText = $bot->ask($app->text);
 $bot->printInfo();
 sendMessage($app, $botResponseText);
-log("End of session");
+savelog("End of session");

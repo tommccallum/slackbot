@@ -1,6 +1,6 @@
 <?php
 
-function log($str) {
+function savelog($str) {
     if ( !defined("LOG_LEVEL") ) return;
     if ( !defined("LOG_PATH") ) return;
     
