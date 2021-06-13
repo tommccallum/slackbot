@@ -11,20 +11,12 @@ function sendMessage($app, $message) {
     }
 }
 
-function autoload_secrets() {
-    if ( file_exists(".htenv.php") ) {
-        require_once(".htenv.php");
-    } else if ( file_exists("../.htenv.php") ) {
-        require_once("../.htenv.php");
-    } else {
-        print("Could not locate .htenv.php file with API information in.");
-        exit(0);
-    }
-    
-}
+
 
 function sendSlackMessage($app, $message) {
-    autoload_secrets();
+    if ( !defined("SLACK_WEBHOOK_URL") ) {
+        autoload_environment();
+    }
     $data = array(
 		"username" => "rainbow",
 		"channel" => $app->channelId,

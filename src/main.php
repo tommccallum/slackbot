@@ -6,11 +6,14 @@
 # $icon_url= // local icon
 $GLOBALS['DEBUG'] = 0;
 
+require_once("autoload_environment.php");
 require_once("logging.php");
 require_once("class_App.php");
 require_once("class_Bot.php");
 require_once("createNewBot.php");
 require_once("SlackIO.php");
+
+autoload_environment();
 
 savelog("Begin session");
 if ( count($_POST) == 0 ) {
