@@ -43,14 +43,10 @@ function sendSlackMessage($app, $message) {
         )
     );
     $result = curl_exec($slack_call);
-    savelog($result);
-    
     curl_close($slack_call);
 
+    savelog($result);
     if ( $result == "no_active_hooks" ) {
         throw new Exception("Slack reported 'No active hooks'");
     }
-    var_dump($result);
-    // TODO check $result for success
-    
 }
