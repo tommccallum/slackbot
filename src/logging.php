@@ -20,7 +20,7 @@ function savelog($obj) {
     } else if ( gettype($obj) == "array" ) {
         $str = json_encode($obj);
     } else if ( is_a($obj, "Exception" ) ) {
-        $str = "exception thrown: " . $obj->getMessage() . " (" . $obj->code . ")";
+        $str = "exception thrown: " . $obj->getMessage() . " (" . $obj->getCode() . ")";
     }
     file_put_contents($logPath, $logPrefix.$str."\n", FILE_APPEND);
 }
