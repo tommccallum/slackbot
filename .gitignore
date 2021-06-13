@@ -2,3 +2,4 @@
 .env*
 .phpunit*
 .phpunit.result.cache
+dist/
