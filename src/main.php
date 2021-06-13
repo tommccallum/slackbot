@@ -4,17 +4,12 @@
 # $slack_webhook_url = // web url from Slack website
 # $oauth_token= // oAuth token from slack website
 # $icon_url= // local icon
-$GLOBALS['DEBUG'] = 1;
-
-
+$GLOBALS['DEBUG'] = 0;
 
 require_once("class_App.php");
 require_once("class_Bot.php");
 require_once("createNewBot.php");
 require_once("SlackIO.php");
-
-var_dump($argv);
-var_dump($_POST);
 
 $app = new App($_POST || $args);
 $bot = createNewBot($app);
