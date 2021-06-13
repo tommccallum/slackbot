@@ -17,24 +17,54 @@ autoload_environment();
 
 savelog("Begin session");
 try {
-    $requestBody = file_get_contents('php://input');
-    savelog($requestBody);
-    if (isset($requestBody)) {
-        $args = json_decode($json, true);
-    } else {
-        if (count($_POST) > 0) {
-            $args = $_POST;
-        } else {
-            $args = $argv;
+    $requestMethod = null;
+    if ( isset($_SERVER['REQUEST_METHOD']) ) {
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+    }
+    savelog($requestMethod);
+
+
+    $contentType = null;
+    if ( isset($_SERVER['CONTENT_TYPE']) ) {
+        $contentType = $_SERVER['CONTENT_TYPE'];
+    }
+    if (!isset($contentType) || strlen($contentType) == 0) {
+        if (isset($_SERVER['HTTP_CONTENT_TYPE'])) {
+            $contentType = $_SERVER['HTTP_CONTENT_TYPE'];
         }
     }
+    savelog($contentType);
+    
+    $requestBody = file_get_contents('php://input');
+    savelog($requestBody);
+
+    if ( $requestMethod == "GET" ) {
+        // get request?
+        $args = $_GET;
+    } else if ( $requestMethod == "POST" ) {
+        if ( $contentType == "application/json" ) {
+            $args = json_decode($requestBody, true);
+        } else {
+            $args = $_POST;
+        }
+    } else {
+        $args = $argv;
+    }
     savelog($args);
+
+
     $app = new App($args);
     if ( isset($app->type) && $app->type == "url_verification" ) {
         savelog("Detected challenge");
         sendSlackChallengeResponse($app);
         savelog("End of session");
     } else {
+        if ( !isset($_SERVER['X-Slack-Request-Timestamp']) ) {
+            throw new Exception("Slack request timestamp not found, discarding request");
+        }
+        if ( !isset($_SERVER['X-Slack-Signature']) ) {
+            throw new Exception("Slack signature not found, discarding request");
+        }
 
         // implement the slack security procedure
         $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];

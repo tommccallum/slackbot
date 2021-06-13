@@ -2,6 +2,9 @@
 
 # Check server is receiving what we think it should be
 
+print("CONTENT TYPE:\n");
+print($_SERVER['CONTENT_TYPE']."\n");
+
 $json = file_get_contents('php://input');
 
 // Converts it into a PHP object
