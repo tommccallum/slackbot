@@ -13,7 +13,12 @@ require_once("createNewBot.php");
 require_once("SlackIO.php");
 
 savelog("Begin session");
-$app = new App($_POST || $argv);
+if ( count($_POST) == 0 ) {
+    $args = $_POST;
+} else {
+    $args = $argv;
+}
+$app = new App($args);
 $bot = createNewBot($app);
 $botResponseText = $bot->ask($app->text);
 $bot->printInfo();
