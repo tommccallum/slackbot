@@ -20,7 +20,7 @@ class App
     public $triggerId = null;
     public $challenge = null;
     public $type = null;
-    
+
     function __construct($inputArguments) {
         try {
             $this->fromInternet($inputArguments);
@@ -30,54 +30,48 @@ class App
     }
 
     function fromInternet($inputArguments) {
-        if ( isset($inputArguments['command']) ) {
-            $this->sendToSlack = true;
-            $this->command = $inputArguments['command'];
-            if (isset($inputArguments['text'])) {
-                $this->text = $inputArguments['text'];
-            }
-            if (isset($inputArguments['token'])) {
-                $this->token = $inputArguments['token'];
-            }
-            if (isset($inputArguments['channel_id'])) {
-                $this->channelId = $inputArguments['channel_id'];
-            }
-            if (isset($inputArguments['user_name'])) {
-                $this->userName = $inputArguments['user_name'];
-            }
-            if ( isset($inputArguments['sendToSlack'])) {
-                $this->sendToSlack = $inputArguments['sendToSlack'];
-            }
-            if ( isset($inputArguments['response_url'])) {
-                $this->responseUrl = $inputArguments['response_url'];
-            }
-            if ( isset($inputArguments['team_id'])) {
-                $this->teamId = $inputArguments['team_id'];
-            }
-            if ( isset($inputArguments['team_domain'])) {
-                $this->teamDomain = $inputArguments['team_domain'];
-            }
-            if ( isset($inputArguments['channel_name'])) {
-                $this->channelName = $inputArguments['channel_name'];
-            }
-            if ( isset($inputArguments['api_app_id'])) {
-                $this->apiAppId = $inputArguments['api_app_id'];
-            }
-            if ( isset($inputArguments['is_enterprise_install'])) {
-                $this->isEnterpriseInstall = $inputArguments['is_enterprise_install'];
-            }
-            if ( isset($inputArguments['trigger_id'])) {
-                $this->triggerId = $inputArguments['trigger_id'];
-            }
-            if ( isset($inputArguments['challenge'])) {
-                $this->challenge = $inputArguments['challenge'];
-            }
-            if ( isset($inputArguments['type'])) {
-                $this->type = $inputArguments['type'];
-            }
-            
-        } else {
-            throw new Exception("No command specified");
+        $this->command = $inputArguments['command'];
+        if (isset($inputArguments['text'])) {
+            $this->text = $inputArguments['text'];
+        }
+        if (isset($inputArguments['token'])) {
+            $this->token = $inputArguments['token'];
+        }
+        if (isset($inputArguments['channel_id'])) {
+            $this->channelId = $inputArguments['channel_id'];
+        }
+        if (isset($inputArguments['user_name'])) {
+            $this->userName = $inputArguments['user_name'];
+        }
+        if ( isset($inputArguments['sendToSlack'])) {
+            $this->sendToSlack = $inputArguments['sendToSlack'];
+        }
+        if ( isset($inputArguments['response_url'])) {
+            $this->responseUrl = $inputArguments['response_url'];
+        }
+        if ( isset($inputArguments['team_id'])) {
+            $this->teamId = $inputArguments['team_id'];
+        }
+        if ( isset($inputArguments['team_domain'])) {
+            $this->teamDomain = $inputArguments['team_domain'];
+        }
+        if ( isset($inputArguments['channel_name'])) {
+            $this->channelName = $inputArguments['channel_name'];
+        }
+        if ( isset($inputArguments['api_app_id'])) {
+            $this->apiAppId = $inputArguments['api_app_id'];
+        }
+        if ( isset($inputArguments['is_enterprise_install'])) {
+            $this->isEnterpriseInstall = $inputArguments['is_enterprise_install'];
+        }
+        if ( isset($inputArguments['trigger_id'])) {
+            $this->triggerId = $inputArguments['trigger_id'];
+        }
+        if ( isset($inputArguments['challenge'])) {
+            $this->challenge = $inputArguments['challenge'];
+        }
+        if ( isset($inputArguments['type'])) {
+            $this->type = $inputArguments['type'];
         }
     }
 
