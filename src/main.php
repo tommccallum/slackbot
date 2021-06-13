@@ -60,11 +60,12 @@ try {
         savelog("End of session");
     } else {
         // implement the slack security procedure
+        savelog($_SERVER);
         if ( !isset($_SERVER['X-Slack-Request-Timestamp']) ) {
-            if (!isset($_SERVER['HTTP_X_Slack_Request_Timestamp'])) {
+            if (!isset($_SERVER['HTTP_X_SLACK_REQUEST_TIMESTAMP'])) {
                 throw new Exception("Slack request timestamp not found, discarding request");
             } else {
-                $slackRequestTimestamp = $_SERVER['HTTP_X_Slack_Request_Timestamp'];
+                $slackRequestTimestamp = $_SERVER['HTTP_X_SLACK_REQUEST_TIMESTAMP'];
             }
         } else {
             $slackRequestTimestamp = $_SERVER['X-Slack-Request-Timestamp'];
