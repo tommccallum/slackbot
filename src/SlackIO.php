@@ -29,7 +29,7 @@ function sendSlackMessage($app, $message) {
     savelog($data);
 
     $json = json_encode($data);
-    $slack_call = curl_init(SLACK_WEBHOOK_URL);
+    $slack_call = curl_init($app->responseUrl);
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json);
     curl_setopt($slack_call, CURLOPT_CRLF, true);

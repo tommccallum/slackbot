@@ -11,6 +11,13 @@ class App
     public $language = null;
     public $languageName = null;
     public $botSelectionName = "Eliza";
+    public $responseUrl = null;
+    public $teamId = null;
+    public $teamDomain = null;
+    public $channelName = null;
+    public $apiAppId = null;
+    public $isEnterpriseInstall = false;
+    public $triggerId = null;
 
     function __construct($inputArguments) {
         try {
@@ -38,6 +45,27 @@ class App
             }
             if ( isset($inputArguments['sendToSlack'])) {
                 $this->sendToSlack = $inputArguments['sendToSlack'];
+            }
+            if ( isset($inputArguments['response_url'])) {
+                $this->responseUrl = $inputArguments['response_url'];
+            }
+            if ( isset($inputArguments['team_id'])) {
+                $this->teamId = $inputArguments['team_id'];
+            }
+            if ( isset($inputArguments['team_domain'])) {
+                $this->teamDomain = $inputArguments['team_domain'];
+            }
+            if ( isset($inputArguments['channel_name'])) {
+                $this->channelName = $inputArguments['channel_name'];
+            }
+            if ( isset($inputArguments['api_app_id'])) {
+                $this->apiAppId = $inputArguments['api_app_id'];
+            }
+            if ( isset($inputArguments['is_enterprise_install'])) {
+                $this->isEnterpriseInstall = $inputArguments['is_enterprise_install'];
+            }
+            if ( isset($inputArguments['trigger_id'])) {
+                $this->triggerId = $inputArguments['trigger_id'];
             }
         } else {
             throw new Exception("No command specified");
