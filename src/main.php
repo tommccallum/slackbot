@@ -26,7 +26,7 @@ try {
     $app = new App($args);
     if ( isset($app->type) && $app->type == "url_verification" ) {
         savelog("Detected challenge");
-        print($app->challenge);
+        sendSlackChallengeResponse($app);
         savelog("End of session");
     } else {
         $bot = createNewBot($app);

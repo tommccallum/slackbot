@@ -11,7 +11,12 @@ function sendMessage($app, $message) {
     }
 }
 
-
+function sendSlackChallengeResponse($app) {
+    if ( !isset($app->challenge) ) {
+        throw new Exception("challenge code not found");
+    }
+    print($app->challenge);
+}
 
 function sendSlackMessage($app, $message) {
     if ( !defined("SLACK_WEBHOOK_URL") ) {
