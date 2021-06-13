@@ -88,7 +88,7 @@ try {
         }
         $slackSigningSecret = SLACK_SIGNING_SECRET;
         $sig_basestring = 'v0:' . $slackRequestTimestamp . ':' . $requestBody;
-        $signature = 'v0=' . hash_hmac('sha256', $slackSigningSecret,$sig_basestring);
+        $signature = 'v0=' . hash_hmac('sha256', $sig_basestring, $slackSigningSecret);
         
         savelog("Computed hash: " . $signature);
         savelog("Received hash: " . $slackSignature);
