@@ -58,7 +58,7 @@ try {
         sendSlackChallengeResponse($app);
         savelog("End of session");
     } else {
-        // implement the slack security procedure
+        // implement the slack security procedure (https://api.slack.com/authentication/verifying-requests-from-slack)
         if ( !isset($_SERVER['X-Slack-Request-Timestamp']) ) {
             if (!isset($_SERVER['HTTP_X_SLACK_REQUEST_TIMESTAMP'])) {
                 throw new Exception("Slack request timestamp not found, discarding request");
