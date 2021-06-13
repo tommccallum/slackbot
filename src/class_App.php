@@ -19,6 +19,7 @@ class App
     public $isEnterpriseInstall = false;
     public $triggerId = null;
     public $challenge = null;
+    public $type = null;
     
     function __construct($inputArguments) {
         try {
@@ -71,6 +72,10 @@ class App
             if ( isset($inputArguments['challenge'])) {
                 $this->challenge = $inputArguments['challenge'];
             }
+            if ( isset($inputArguments['type'])) {
+                $this->type = $inputArguments['type'];
+            }
+            
         } else {
             throw new Exception("No command specified");
         }

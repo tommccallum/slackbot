@@ -24,9 +24,9 @@ try {
     }
     savelog($args);
     $app = new App($args);
-    if ( $app->challenge ) {
+    if ( isset($app->type) && $app->type == "url_verification" ) {
         savelog("Detected challenge");
-        sendMessage($app, $app->challenge);
+        print($app->challenge);
         savelog("End of session");
     } else {
         $bot = createNewBot($app);
