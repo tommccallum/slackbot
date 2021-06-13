@@ -6,11 +6,9 @@ function createNewBot($app)
     $whichBotToLoad = 0;
     if ( $app->botSelectionName == "random" ) {
         $botFiles = glob("bots/class_*.php", GLOB_NOSORT);
-        var_dump($botFiles);
+        #var_dump($botFiles);
         $whichBotToLoad = floor(rand() / getrandmax() * count($botFiles));
-        if ( $GLOBALS['DEBUG'] ) {
-            print("Selected bot: " . $botFiles[$whichBotToLoad] . "\n");
-        }
+        log("Selected bot: " . $botFiles[$whichBotToLoad]);
         require_once($botFiles[$whichBotToLoad]);
     } else {
         if ( !isset($app->botSelectionName) ) {
@@ -24,8 +22,6 @@ function createNewBot($app)
             var_dump($matches);
     }
     $botType = $matches[1];
-    if ( $GLOBALS['DEBUG'] ) {
-        print("Creating bot of type: " . $botType . "\n");
-    }
+    log("Creating bot of type: " . $botType);
     return new $botType($app);
 }

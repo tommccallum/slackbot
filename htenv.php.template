@@ -1,0 +1,7 @@
+<?php
+
+define("SLACK_WEBHOOK_URL",   "<webhook>");
+define("SLACK_OAUTH_TOKEN",   "<oauth token from slack app panel");
+define("SLACK_ICON_URL",      "favicon.ico");
+define("LOG_LEVEL", 1);
+define("LOG_PATH", "./logs/slack.log);

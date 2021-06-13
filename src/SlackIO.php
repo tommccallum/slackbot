@@ -34,6 +34,10 @@ function sendSlackMessage($app, $message) {
 		"attachments" => null
 	);
 
+    if ( defined("LOG_LEVEL")  && LOG_LEVEL > 0 ) {
+        log($data);
+    }
+
     $json = json_encode($data);
     $slack_call = curl_init(SLACK_WEBHOOK_URL);
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
@@ -49,6 +53,10 @@ function sendSlackMessage($app, $message) {
         )
     );
     $result = curl_exec($slack_call);
+    if ( defined("LOG_LEVEL")  && LOG_LEVEL > 0 ) {
+        log($result);
+    }
+
     curl_close($slack_call);
 
     if ( $result == "no_active_hooks" ) {
