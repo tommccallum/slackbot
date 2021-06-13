@@ -12,7 +12,7 @@ function savelog($obj) {
 
     $logPrefix = date("Y-m-d");
     $logPrefix .= "T";
-    $logPrefix .= date("H:i:se");
+    $logPrefix .= date("H:i:sT");
     $logPrefix .= " INFO ";
 
     if ( gettype($obj) == "string" ) {
