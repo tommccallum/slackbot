@@ -17,10 +17,15 @@ autoload_environment();
 
 savelog("Begin session");
 try {
-    if (count($_POST) > 0) {
-        $args = $_POST;
+    $json = file_get_contents('php://input');
+    if (isset($json)) {
+        $args = json_decode($json);
     } else {
-        $args = $argv;
+        if (count($_POST) > 0) {
+            $args = $_POST;
+        } else {
+            $args = $argv;
+        }
     }
     savelog($args);
     $app = new App($args);
