@@ -20,7 +20,7 @@ try {
     $json = file_get_contents('php://input');
     savelog($json);
     if (isset($json)) {
-        $args = json_decode($json);
+        $args = json_decode($json, true);
     } else {
         if (count($_POST) > 0) {
             $args = $_POST;
