@@ -2,7 +2,7 @@
 
 class App 
 {
-    public $isSlack = 1;					// flag for if we are being called from slack or from command line
+    public $sendToSlack = false;					// flag for if we are being called from slack or from command line
     public $command = null;
     public $channelId = null;
     public $text = null;
@@ -12,30 +12,53 @@ class App
     public $languageName = null;
     public $botSelectionName = "Eliza";
 
-    function __construct() {
-        $this->fromInternet();
-        $this->fromCommandLine();
-    }
-
-    function fromInternet() {
-        if ( isset($_POST['command']) ) {
-            $this->command = $_POST['command'];
-            $this->text = $_POST['text'];
-            $this->token = $_POST['token'];
-            $this->channelId = $_POST['channel_id'];
-            $this->userName = $_POST['user_name'];
+    function __construct($inputArguments) {
+        try {
+            $this->fromInternet($inputArguments);
+        } catch( Exception $ex) {
+            $this->fromConsole($inputArguments);
         }
     }
 
-    function fromCommandLine() {
-        global $argv;
-
-        $this->text = $argv;              // ignore squiggly as this is a global php variable
-        array_shift($this->text);         // remove first argument
-        $this->text = join(" ", $this->text);
-        $this->isSlack = 0;
+    function fromInternet($inputArguments) {
+        if ( isset($inputArguments['command']) ) {
+            $this->sendToSlack = true;
+            $this->command = $inputArguments['command'];
+            if (isset($inputArguments['text'])) {
+                $this->text = $inputArguments['text'];
+            }
+            if (isset($inputArguments['token'])) {
+                $this->token = $inputArguments['token'];
+            }
+            if (isset($inputArguments['channel_id'])) {
+                $this->channelId = $inputArguments['channel_id'];
+            }
+            if (isset($inputArguments['user_name'])) {
+                $this->userName = $inputArguments['user_name'];
+            }
+            if ( isset($inputArguments['sendToSlack'])) {
+                $this->sendToSlack = $inputArguments['sendToSlack'];
+            }
+        } else {
+            throw new Exception("No command specified");
+        }
     }
 
-
-    
+    function fromConsole($inputArguments) {
+        array_shift($inputArguments); // get rid of application name
+        if ( count($inputArguments) == 0 ) {
+            throw new Exception("No arguments or text received, nothing to do.");
+        }
+        if( count($inputArguments) == 1 ) {
+            $this->text = $inputArguments[0];
+            return;
+        }
+        $ii = 0;
+        while ( $ii < count($inputArguments)) {
+            if ( $inputArguments[$ii] == '-t' ) {
+                $this->text = $inputArguments[++$ii];
+            }
+            $ii++;
+        }
+    }
 }

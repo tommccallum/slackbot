@@ -1,2 +1,4 @@
 .ht*
 .env*
+.phpunit*
+.phpunit.result.cache

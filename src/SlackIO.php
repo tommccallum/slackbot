@@ -1,7 +1,7 @@
 <?php
 
 function sendMessage($app, $message) {
-    if ( $app->isSlack ) {
+    if ( $app->sendToSlack ) {
         sendSlackMessage($app, $message);
     } else {
         if (isset($response)) {
@@ -11,18 +11,31 @@ function sendMessage($app, $message) {
     }
 }
 
+function autoload_secrets() {
+    if ( file_exists(".htenv.php") ) {
+        require_once(".htenv.php");
+    } else if ( file_exists("../.htenv.php") ) {
+        require_once("../.htenv.php");
+    } else {
+        print("Could not locate .htenv.php file with API information in.");
+        exit(0);
+    }
+    
+}
+
 function sendSlackMessage($app, $message) {
+    autoload_secrets();
     $data = array(
 		"username" => "rainbow",
 		"channel" => $app->channelId,
 		"text" => $message,
 		"mrkdwn" => true,
-		"icon_url" => $app->icon_url,
+		"icon_url" => SLACK_ICON_URL,
 		"attachments" => null
 	);
 
     $json = json_encode($data);
-    $slack_call = curl_init($app->slack_webhook_url);
+    $slack_call = curl_init(SLACK_WEBHOOK_URL);
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json);
     curl_setopt($slack_call, CURLOPT_CRLF, true);
@@ -36,7 +49,12 @@ function sendSlackMessage($app, $message) {
         )
     );
     $result = curl_exec($slack_call);
-
-    // TODO check $result for success
     curl_close($slack_call);
+
+    if ( $result == "no_active_hooks" ) {
+        throw new Exception("Slack reported 'No active hooks'");
+    }
+    var_dump($result);
+    // TODO check $result for success
+    
 }
