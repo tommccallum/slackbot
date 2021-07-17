@@ -54,7 +54,7 @@ class TranslatorBot extends Bot
         return false;
     }
 
-    public function ask($message)
+    protected function respond($message)
     {
         if (preg_match("/wh(at|ich) languages do you speak/", $userInputText)) {
             $translated = "I speak the following languages: ";

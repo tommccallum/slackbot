@@ -53,7 +53,7 @@ try {
 
 
     $app = new App($args);
-    if ( isset($app->type) && $app->type == "url_verification" ) {
+    if ( $app->isChallenge() ) { # isset($app->type) && $app->type == "url_verification"
         savelog("Detected challenge");
         sendSlackChallengeResponse($app);
         savelog("End of session");
@@ -89,15 +89,16 @@ try {
         
         if ($signature === $slackSignature) {
             $bot = createNewBot($app);
-            $botResponseText = $bot->ask($app->text);
+            $botResponseText = $bot->handle($app);
+            savelog($botResponseText);
             $bot->printInfo();
             sendMessage($app, $botResponseText);
-            savelog("End of session");
         } else {
             savelog("Computed hash: " . $signature);
             savelog("Received hash: " . $slackSignature);
             throw new Exception("computed hash did not match the received hash");
         }
+        savelog("End of session");
     }
 } catch ( Exception $ex ) {
     savelog($ex);

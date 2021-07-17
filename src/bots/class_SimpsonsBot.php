@@ -4,7 +4,7 @@ class SimpsonsBot extends Bot
 {
     public $mode = "Simpsons";
 
-    public function respond($question)
+    protected function respond($question)
     {
         $automated_response = readSimpsons($question);
         if ($automated_response == null) {

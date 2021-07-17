@@ -15,6 +15,7 @@ final class SlackIOTest extends TestCase
         $app = new App($args);
         $message = "Hello World!";
         
-        sendSlackMessage($app, $message);
+        $result = sendSlackMessage($app, $message);
+        $this->assertNotSame($result, "no_service");
     }
 }
