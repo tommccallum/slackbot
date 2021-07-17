@@ -16,6 +16,8 @@ require_once("SlackIO.php");
 autoload_environment();
 
 savelog("Begin session");
+savelog("Bot ID: ".BOT_ID);
+
 try {
     $requestMethod = null;
     if ( isset($_SERVER['REQUEST_METHOD']) ) {
