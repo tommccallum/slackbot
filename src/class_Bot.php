@@ -37,17 +37,23 @@ abstract class Bot
     // Main dispatch method to handle the different events that we will receive.
     public function handle($app) {
         if ( $app->isCommand() ) {
+            savelog("Bot::handle(command)");
             return $this->obey($app);
         }
         if ($app->isEvent()) {
+            savelog("Bot::handle(event)");
             if ($app->type == "app_mention") {
+                savelog("Bot::handle(app_mention)");
                 return $this->onAppMention($app);
             } else if ($app->type == "message") {
+                savelog("Bot::handle(message)");
                 return $this->onMessage($app);
             } else {
                 return "Sorry, I do not understand how to respond to a '"+$app->event['type']+"' message.";
             }
         }
+        savelog("Bot::handle(null)");
+        return null;
     }
 }
 

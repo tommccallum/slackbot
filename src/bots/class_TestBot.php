@@ -7,6 +7,7 @@ class TestBot extends Bot
 
     protected function onMessage($app)
     {
+        savelog("TestBot::onMessage");
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
