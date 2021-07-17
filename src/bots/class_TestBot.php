@@ -5,7 +5,7 @@ class TestBot extends Bot
 {
     public $mode = "Test Bot";
 
-    public function respond($question)
+    protected function onMessage($app)
     {
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
