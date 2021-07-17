@@ -22,6 +22,8 @@ function sendSlackMessage($app, $message) {
     if ( !defined("SLACK_WEBHOOK_URL") ) {
         autoload_environment();
     }
+    savelog("Sending response back to Slack");
+    
     $data = array(
 		"username" => "rainbow",
 		"channel" => $app->channelId,

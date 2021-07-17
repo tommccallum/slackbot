@@ -10,7 +10,7 @@ class App
     public $userName = null;
     public $language = null;
     public $languageName = null;
-    public $botSelectionName = "Eliza";
+    public $botSelectionName = "Test";
     public $responseUrl = null;
     public $teamId = null;
     public $teamDomain = null;
@@ -30,6 +30,7 @@ class App
     }
 
     function fromInternet($inputArguments) {
+        $this->sendToSlack = true;
         $this->command = $inputArguments['command'];
         if (isset($inputArguments['text'])) {
             $this->text = $inputArguments['text'];
