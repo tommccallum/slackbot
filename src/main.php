@@ -53,7 +53,10 @@ try {
 
 
     $app = new App($args);
-    if ( $app->isChallenge() ) { # isset($app->type) && $app->type == "url_verification"
+    if ( $app->isSelf() ) {
+        savelog("Own message received, nothing sent in response.");
+        savelog("End of session");
+    } else if ( $app->isChallenge() ) { # isset($app->type) && $app->type == "url_verification"
         savelog("Detected challenge");
         sendSlackChallengeResponse($app);
         savelog("End of session");
@@ -90,9 +93,13 @@ try {
         if ($signature === $slackSignature) {
             $bot = createNewBot($app);
             $botResponseText = $bot->handle($app);
-            savelog($botResponseText);
-            $bot->printInfo();
-            sendMessage($app, $botResponseText);
+            if (isset($botResponseText)) {
+                savelog($botResponseText);
+                $bot->printInfo();
+                sendMessage($app, $botResponseText);
+            }  else { // else the user is not expecting a response to this event
+                savelog("No response sent in response to this event.");
+            }
         } else {
             savelog("Computed hash: " . $signature);
             savelog("Received hash: " . $slackSignature);

@@ -4,7 +4,7 @@ DEFINE("TYPE_UNKNOWN", 0);
 DEFINE("TYPE_CHALLENGE", 1);
 DEFINE("TYPE_COMMAND", 2);
 DEFINE("TYPE_EVENT", 3);
-
+DEFINE("TYPE_SELF", 4);
 
 class App 
 {
@@ -69,6 +69,9 @@ class App
         return $this->type() == TYPE_EVENT;
     }
 
+    public function isSelf() {
+        return $this->type() == TYPE_EVENT && $this->event['subtype'] == "bot_message" && $this->event['bot_id'] == BOT_ID;
+    }
 
     function fromInternet($inputArguments) {
         $this->jsonRequest = $inputArguments;
@@ -180,6 +183,18 @@ class App
             //     "is_ext_shared_channel":false,
             //     "event_context":"3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"
             // }
+            //
+            // There are also bot messages:
+            // 
+            // {"token":"YRa10rG6JrFoGpB3n8fBY3NT","team_id":"TUPQR1UBH","api_app_id":"A01CBLUJU3U",
+            // "event":{"type":"message","subtype":"bot_message","text":"Hello World!","ts":"1626535205.001200",
+            // "bot_id":"B025930SRHP","channel":"C023JCGLMGB","event_ts":"1626535205.001200","channel_type":"channel"},
+            // "type":"event_callback","event_id":"Ev028AE81MRB","event_time":1626535205,
+            // "authorizations":[{"enterprise_id":null,"team_id":"TUPQR1UBH","user_id":"U01CHRXLSUC","is_bot":true,"is_enterprise_install":false}],
+            // "is_ext_shared_channel":false,"event_context":"3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"}
+
+
+
             if ( isset($inputArguments['event']) ) {
                 $this->event = $inputArguments['event'];
                 $this->channelId = $inputArguments['channel'];
