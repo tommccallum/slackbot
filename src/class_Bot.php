@@ -41,7 +41,7 @@ abstract class Bot
             return $this->obey($app);
         }
         if ($app->isEvent()) {
-            savelog("Bot::handle(event)");
+            savelog("Bot::handle(event=".$app->type .")");
             if ($app->type == "app_mention") {
                 savelog("Bot::handle(app_mention)");
                 return $this->onAppMention($app);
