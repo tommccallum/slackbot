@@ -4,4 +4,4 @@
 .phpunit.result.cache
 dist/
 slack_messages.md
-users.json
+*.json

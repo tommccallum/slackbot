@@ -6,19 +6,17 @@
  * @see https://api.slack.com/docs/messages/builder
  */
 
-require_once(".htenv.php");
+require_once("../.htenv.php");
 
-$url="https://slack.com/api/users.list";
+$url="https://slack.com/api/conversations.info";
 $method="POST";
 $contentType="application/x-www-form-urlencoded";
 
-$channelOrUser = "UUNQNAB24"; // this must be the member id not the user's name
-$message = "Testing direct message from Alice";
+$channel = "C023JCGLMGB";
 
 $data = array(
     "token" => SLACK_OAUTH_TOKEN,
-    "team_id" => "TUPQR1UBH",
-    "limit" => 0,
+    "channel" => $channel,
     "include_locale" => true
 );
 
@@ -40,7 +38,7 @@ curl_setopt(
     $slack_call,
     CURLOPT_HTTPHEADER,
     array(
-        "Content-Type: " . $contentType . "; charset=utf-8",
+        "Content-Type: " . $contentType,
         "Authorization: Bearer " . SLACK_OAUTH_TOKEN
     )
 );
@@ -48,7 +46,7 @@ $result = curl_exec($slack_call);
 // $info = curl_getinfo($slack_call);
 // print_r($info);
 $jsonOutput = json_encode($result);
-file_put_contents("users.json", $jsonOutput);
+file_put_contents("../channel_".$channel.".json", $jsonOutput);
 // curl_close($slack_call);
 // print("Callback result:\n");
 // var_dump($result);
