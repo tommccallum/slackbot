@@ -8,6 +8,7 @@ class TestBot extends Bot
     protected function onMessage($app)
     {
         savelog("TestBot::onMessage");
+        sendSlackReaction($app, "thumbsup");
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
@@ -15,4 +16,5 @@ class TestBot extends Bot
     protected function onSomeoneHasJoinedTheChannel($app) {
         return "Welcome <@".$app->event['user'].">";
     }
+
 }

@@ -55,6 +55,10 @@ abstract class Bot
             savelog("Bot::handle(event=".$eventType .")");
             if ($eventType == "app_mention") {
                 return $this->onAppMention($app);
+            } else if ( $eventType == "member_left_channel") {
+                
+            } else if ( $eventType == "member_join_channel") {
+
             } else if ($eventType == "message") {
                 if (isset($eventSubtype)) {
                     if ( $eventSubtype == "channel_join" ) {
