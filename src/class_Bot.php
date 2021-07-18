@@ -52,8 +52,8 @@ abstract class Bot
             if ($eventType == "app_mention") {
                 return $this->onAppMention($app);
             } else if ($eventType == "message") {
-                if (isset($eventSubType)) {
-                    if ( $eventSubType == "channel_join" ) {
+                if (isset($eventSubtype)) {
+                    if ( $eventSubtype == "channel_join" ) {
                         return $this->onSomeoneHasJoinedTheChannel($app);
                     } else {
                         return $this->onMessage($app);
