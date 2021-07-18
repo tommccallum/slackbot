@@ -51,7 +51,7 @@ $jsonOutput = json_encode($result);
 file_put_contents("../users.json", $jsonOutput);
 
 // lets try saving these in a mongo database
-$conn = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017");
+$conn = new MongoDB\Client("mongodb://127.0.0.1:27017");
 $db = $conn->Slackbot;
 $usersCollection = $db->Users;
 $n = $usersCollection->count();
