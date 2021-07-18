@@ -71,10 +71,14 @@ class App
 
     public function isSelf() {
         return $this->type() == TYPE_EVENT  
-                && ( $this->event['subtype'] === "bot_message" && 
-                    $this->event['bot_id'] === BOT_ID ) 
-                || ( isset($this->event['bot_profile']) && 
-                    $this->event['bot_profile']['name'] == SLACK_APP_ID);
+                && (
+                    ( 
+                        $this->event['subtype'] === "bot_message" && $this->event['bot_id'] === BOT_ID ) 
+                    || 
+                    ( 
+                        isset($this->event['bot_profile']) && $this->event['bot_profile']['app_id'] == SLACK_APP_ID
+                    )
+                );
     }
 
     function fromInternet($inputArguments) {
