@@ -11,4 +11,8 @@ class TestBot extends Bot
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
+
+    protected function onSomeoneHasJoinedTheChannel($app) {
+        return "Welcome <@".$app->event['user'].">";
+    }
 }
