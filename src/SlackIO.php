@@ -35,6 +35,8 @@ function sendSlackMessage($app, $message) {
 
     if ( $app->isReplyToThread() ) {
         $data['thread_ts'] = $app->getThreadId();
+    } else if ( $app->isEvent() ) {
+        $data['thread_ts'] = $app->getThreadId();
     }
 
     savelog($data);
