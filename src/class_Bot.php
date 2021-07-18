@@ -36,6 +36,10 @@ abstract class Bot
         return "Welcome friend!";
     }
 
+    protected function newBotAddedToChannel($app) {
+        return null;
+    }
+
     // Main dispatch method to handle the different events that we will receive.
     public function handle($app) {
         if ( $app->isCommand() ) {
@@ -55,6 +59,8 @@ abstract class Bot
                 if (isset($eventSubtype)) {
                     if ( $eventSubtype == "channel_join" ) {
                         return $this->onSomeoneHasJoinedTheChannel($app);
+                    } else if ( $eventSubtype == "bot_add") {
+                        return $this->newBotAddedToChannel($app);
                     } else {
                         return $this->onMessage($app);
                     }

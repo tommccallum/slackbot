@@ -33,6 +33,10 @@ function sendSlackMessage($app, $message) {
 		"attachments" => null
 	);
 
+    if ( $app->isReplyToThread() ) {
+        $data['thread_ts'] = $app->getThreadId();
+    }
+
     savelog($data);
 
     $json = json_encode($data);

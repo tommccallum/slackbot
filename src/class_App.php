@@ -81,6 +81,46 @@ class App
                 );
     }
 
+    public function isReplyToThread() {
+        if ( !isset($this->event) ) {
+            return false;
+        }
+        return isset($this->event['thread_ts']);
+    }
+
+    public function isParentMessageOfThread() {
+        if ( !isset($this->event) ) {
+            return false; // not a thread at all
+        }
+        if ( isset($this->event['thread_ts']) ) {
+            $thread_ts = $this->event['thread_ts'];
+        } else {
+            // if no thread_ts is present then this is a parent thread.
+            return true;
+        }
+        // if the ts == thread_ts value then it its a parent thread message
+        return isset($this->jsonRequest['ts']) && $this->jsonRequest['ts'] === $thread_ts;
+    }
+
+    public function isChildMessageOfThread() {
+        if ( !isset($this->event) ) {
+            return false;
+        }
+        if ( isset($this->event['thread_ts']) ) {
+            $thread_ts = $this->event['thread_ts'];
+        } else {
+            return false;
+        }
+        return isset($this->jsonRequest['ts']) && $this->jsonRequest['ts'] != $thread_ts;
+    }
+
+    public function getThreadId() {
+        if ( isset($this->event) ) {
+            return $this->event['ts'];
+        }
+        return null;
+    }
+
     function fromInternet($inputArguments) {
         $this->jsonRequest = $inputArguments;
         $this->sendToSlack = true;
