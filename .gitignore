@@ -3,3 +3,4 @@
 .phpunit*
 .phpunit.result.cache
 dist/
+slack_messages.md

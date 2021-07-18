@@ -22,10 +22,9 @@ function sendSlackMessage($app, $message) {
     if ( !defined("SLACK_WEBHOOK_URL") ) {
         autoload_environment();
     }
-    savelog("Sending response back to Slack");
+    savelog("Sending response back to Slack (".$app->channelId.")");
 
     $data = array(
-		"username" => "rainbow",
 		"channel" => $app->channelId,
 		"text" => $message,
 		"mrkdwn" => true,
@@ -39,8 +38,13 @@ function sendSlackMessage($app, $message) {
     $slack_call = null;
     if (isset($app->responseUrl)) {
         $slack_call = curl_init($app->responseUrl);
-    } else {
+    } else if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "im" ) {
+        $slack_call = curl_init(SLACK_DM_URL);
+    } else if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "channel" ) {
         $slack_call = curl_init(SLACK_WEBHOOK_URL);
+    } else {
+        savelog("Unrecognised message, not sure where to respond to.");
+        return (null);
     }
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json);

@@ -6,3 +6,5 @@ define("SLACK_ICON_URL",      "favicon.ico");
 define("LOG_LEVEL", 1);
 define("LOG_PATH", "./logs/slack.log);
 define("SLACK_SIGNING_SECRET", "<get this from the basic information tab>");
+define("BOT_USER_ID","<bot user id e.g. ABCDEFG30>");
+define("SLACK_DM_URL", "https://slack.com/api/chat.postMessage");

@@ -44,10 +44,8 @@ abstract class Bot
             $eventType = $app->event['type'];
             savelog("Bot::handle(event=".$eventType .")");
             if ($eventType == "app_mention") {
-                savelog("Bot::handle(app_mention)");
                 return $this->onAppMention($app);
             } else if ($eventType == "message") {
-                savelog("Bot::handle(message)");
                 return $this->onMessage($app);
             } else {
                 return "Sorry, I do not understand how to respond to a '"+$eventType+"' message.";
