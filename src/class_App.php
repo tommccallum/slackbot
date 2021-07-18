@@ -198,7 +198,6 @@ class App
             if ( isset($inputArguments['event']) ) {
                 $this->event = $inputArguments['event'];
                 $this->channelId = $this->event['channel'];
-                $this->type = $this->event['type'];
             }
             if ( isset($inputArguments['is_ext_shared_channel'])) {
                 $this->isExtSharedChannel = $inputArguments['is_ext_shared_channel'];
