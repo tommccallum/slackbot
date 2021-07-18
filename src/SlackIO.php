@@ -59,7 +59,8 @@ function sendSlackMessage($app, $message) {
         CURLOPT_HTTPHEADER,
         array(
             "Content-Type: application/json; charset=utf-8",
-            "Content-Length: " . strlen($json)
+            "Content-Length: " . strlen($json),
+            "Authorization: Bearer " . SLACK_OAUTH_TOKEN
         )
     );
     $result = curl_exec($slack_call);
