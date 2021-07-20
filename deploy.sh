@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DEPLOYDIR="/var/www/html/slackbot"
-LOGFILE="${DEPLOYDIR}/logs/slackbot.log"
+LOGFILE="${DEPLOYDIR}/logs/slack.log"
 
 echo
 echo "Deploying Slackbot to server"
