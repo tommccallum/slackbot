@@ -112,3 +112,56 @@ The messages can have the following tags:
 * We look for a question word such as How, What, Why, When, Where and if not found is there a question mark.  We can also write a classifier to look for reverse parts of speech e.g. can I ...?
 * We look for verbs (the intent of the sentence) so "Can you recommend a resource for learning HTML?"
 * Given an intent we will then forward the request to be fulfilled.
+
+## Update Users and Channels
+
+Our bot needs to know about the users and channels in the Slack area so we can do the following to create a local copy.  
+
+TODO This needs to be updated via a crontab.
+
+```
+php getAllUsers.php 
+php getChannelsList.php 
+php uploadUsers.php 
+php uploadChannels.php 
+```
+
+
+
+## Parts Of Speech Tagger
+
+Download from [https://github.com/geekgirljoy/Part-Of-Speech-Tagger](https://github.com/geekgirljoy/Part-Of-Speech-Tagger)
+
+In file 3 you need to change all the INSERTs to INSERT IGNORE to stop errors with duplication.
+
+```
+sudo mysql -u root -p -D PartsOfSpeechTagger < Tags_Structure.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Tags_Data.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Data_1.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Structure.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Words_Structure.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Words_Data.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Data_1.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Data_2.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Data_3.sql 
+sudo mysql -u root -p -D PartsOfSpeechTagger < Trigrams_Data_4.sql 
+```
+
+Now you can run the following:
+
+```
+php AddHashes.php
+```
+
+### Problem: Timeout when inserting data
+
+If you get the following error:
+
+```
+ERROR 2013 (HY000) at line 27: Lost connection to MySQL server during query
+```
+
+You will need to make sure your machine has enough memory otherwise you will need to load in to a machine that does and then mysql dump the database using
+```
+mysqldump -u root -p -B PartsOfSpeechTagger --extended-insert=false > PartsOfSpeechTagger.sql
+```

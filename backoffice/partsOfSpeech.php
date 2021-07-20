@@ -6,10 +6,10 @@ Inspired by FastTest.php in https://github.com/geekgirljoy/Part-Of-Speech-Tagger
 
 */
 
-require_once(__DIR__."/../.htenv.php");
-require_once("stemmer.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."../.htenv.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."stemmer.php");
 
-$antonyms = array_map("str_getcsv", file("../data/special_antonyms.txt"));
+$antonyms = array_map("str_getcsv", file(__DIR__ . DIRECTORY_SEPARATOR . "data/special_antonyms.txt"));
 
 # maps negative -> positive
 $antonym_neg_to_pos_map = [];
