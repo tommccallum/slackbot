@@ -1,5 +1,11 @@
 #!/bin/bash
 
+composer update
+if [ $? -ne 0 ]; then 
+    echo "Composer failed, please fix and then try again."
+    exit 1
+fi
+
 if [ ! -e "dist" ]; then
     mkdir dist
 fi

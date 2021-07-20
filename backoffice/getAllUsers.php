@@ -47,32 +47,9 @@ curl_setopt(
 $result = curl_exec($slack_call);
 // $info = curl_getinfo($slack_call);
 // print_r($info);
-$jsonOutput = json_encode($result);
-file_put_contents("../users.json", $jsonOutput);
+#$jsonOutput = json_encode($result);
+file_put_contents("../users.json", $result);
 
-// lets try saving these in a mongo database
-$conn = new MongoDB\Client("mongodb://127.0.0.1:27017");
-$db = $conn->Slackbot;
-$usersCollection = $db->Users;
-$n = $usersCollection->count();
-print("(pre delete) $n records were found in the Users collection");
-
-// delete everyone and then readd
-$usersCollection->remove(array());
-$n = $usersCollection->count();
-print("(post delete) $n records were found in the Users collection");
-
-// reload all users
-foreach( $result['members'] as $user) {
-    $id = $user['id'];
-    $mongo_id = new MongoId($id);
-    $item->_id = $mongo_id;
-    // insert or update each record
-    $usersCollection->update(array('_id' => $mongo_id), $item, array('upsert' => true));
-}
-// get how many records are now in the collection
-$n = $usersCollection->count();
-print("(post load) $n records were found in the Users collection");
 
 
 // curl_close($slack_call);

@@ -45,8 +45,8 @@ curl_setopt(
 $result = curl_exec($slack_call);
 // $info = curl_getinfo($slack_call);
 // print_r($info);
-$jsonOutput = json_encode($result);
-file_put_contents("../channel_".$channel.".json", $jsonOutput);
+#$jsonOutput = json_encode($result);
+file_put_contents("../channel_".$channel.".json", $result);
 // curl_close($slack_call);
 // print("Callback result:\n");
 // var_dump($result);

@@ -1,5 +1,12 @@
 <?php
 
+#
+#  Listens for Slack events
+#   replies to challenge requests
+#   ignores messages that are sent by itself
+#   stores all other messages in the events MongoDB queue
+#
+
 # Requires these 3 variables in .htenv.php
 # $slack_webhook_url = // web url from Slack website
 # $oauth_token= // oAuth token from slack website
@@ -93,15 +100,20 @@ try {
         $signature = 'v0=' . hash_hmac('sha256', $sig_basestring, $slackSigningSecret);
         
         if ($signature === $slackSignature) {
-            $bot = createNewBot($app);
-            $botResponseText = $bot->handle($app);
-            if (isset($botResponseText)) {
-                savelog($botResponseText);
-                $bot->printInfo();
-                sendMessage($app, $botResponseText);
-            }  else { // else the user is not expecting a response to this event
-                savelog("No response sent in response to this event.");
-            }
+            savelog("Received message");
+            savelog($args);
+
+            # save event in database to be replied to
+            require_once __DIR__ . '/../vendor/autoload.php';
+            $collection = (new MongoDB\Client)->slackbot->events;
+            $args['slackbot'] = [
+                "incoming" => true,
+                "replied_to" => false,
+                "timestamp" => time()
+            ];
+            $insertOneResult = $collection->insertOne($args);
+            savelog("Inserted ".$insertOneResult->getInsertedCount()." document(s)");
+
         } else {
             savelog("Computed hash: " . $signature);
             savelog("Received hash: " . $slackSignature);
