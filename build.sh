@@ -11,6 +11,7 @@ if [ ! -e "dist" ]; then
 fi
 
 cp -R src/* dist
+cp -R vendor dist
 if [ -e ".htenv.php" ]; then
     echo "Copying local copy of .htenv.php"
     cp .htenv.php dist

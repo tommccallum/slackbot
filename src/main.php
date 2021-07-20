@@ -104,7 +104,11 @@ try {
             savelog($args);
 
             # save event in database to be replied to
-            require_once __DIR__ . '/../vendor/autoload.php';
+            if ( file_exists(__DIR__.DIRECTORY_SEPARATOR."vendor") ) {
+                require_once __DIR__ . '/vendor/autoload.php';
+            } else {
+                require_once __DIR__ . '/../vendor/autoload.php';
+            }
             $collection = (new MongoDB\Client)->slackbot->events;
             $args['slackbot'] = [
                 "incoming" => true,
