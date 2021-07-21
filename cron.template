@@ -1,0 +1,5 @@
+# Crontab template to launch regular messages
+# The timings of the messages are in the data so we just have to the
+# post tool every minute and it will respond to existing messages and
+# also post our direct messages.
+* * * * * /home/tom/slackbot/runPostMessages.sh

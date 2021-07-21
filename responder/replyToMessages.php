@@ -1,5 +1,10 @@
 <?php
 
+#
+# Replies to messages in the database
+# This is NOT the same as postMessages which posts scheduled messages. 
+#
+
 require_once __DIR__ . '/../vendor/autoload.php';
 $collection = (new MongoDB\Client)->slackbot->events;
 

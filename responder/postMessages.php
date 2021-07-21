@@ -2,118 +2,23 @@
 
 # Cronjob to post messages on day at particular time.
 # Expected to be processed on a minute by minute schedule
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once(__DIR__."/../.htenv.php");
+# This is NOT the same as replyToMessages that replies to a users input
 
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once(__DIR__."/include_source.php");
+include_source("autoload_environment.php");
+include_source("getDirContents.php");
+include_source("sendMessage.php");
+include_source("replaceTags.php");
+include_source("parseCsvIntoJson.php");
 
 # Set this to a number which you do not expect to ever reach. If it reached we die.
 $MAX_LIMIT_ON_POSTS = 20;      
 
-
 $cwd = __DIR__;
-$dataDir = $cwd . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "posts";
+$dataDir = $cwd . DIRECTORY_SEPARATOR . "posts";
 
 print("Data Directory: ".$dataDir."\n");
-
-function getDirContents($dir, &$results = array()) {
-    $files = scandir($dir);
-
-    foreach ($files as $key => $value) {
-        $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
-        if (!is_dir($path)) {
-            $results[] = $path;
-        } else if ($value != "." && $value != "..") {
-            getDirContents($path, $results);
-            $results[] = $path;
-        }
-    }
-
-    return $results;
-}
-
-function parseCsvIntoJson($path) 
-{
-    $json = [];
-
-    $csv = array_map('str_getcsv', file($path));
-    array_walk($csv, function(&$a) use ($csv) {
-      $a = array_combine($csv[0], $a);
-    });
-    array_shift($csv); # remove column header
-
-    foreach( $csv as $row ) {
-        $item = array(
-            "date" => $row['Date'],
-            "time" => $row['Time'],
-            "channel_name" => $row['Channel'],
-            "message" => $row['Message']
-        );
-        $json[count($json)] = $item;
-    }
-    return $json;
-}
-
-function replaceTags($str, $keyvalues) 
-{
-    if (isset($keyvalues['timestamp'])) {
-        $str = preg_replace("/%dayofweek%/", date("l", $keyvalues['timestamp']), $str);
-        $str = preg_replace("/%date%/", date("l jS F", $keyvalues['timestamp']), $str);
-        $str = preg_replace("/%time%/", date("H:i", $keyvalues['timestamp']), $str);
-    }
-    if (isset($keyvalues['user'])) {
-        $nameParts = explode(' ', $keyvalues['user']['real_name']);
-        $str = preg_replace("/%name%/", $nameParts[0], $str);
-        $str = preg_replace("/%firstname%/", $nameParts[0], $str);
-        $str = preg_replace("/%surname%/", $nameParts[count($nameParts)-1], $str);
-    }
-    if (isset($keyvalues['me']) ) {
-        // TODO replace %me.name% with name etc
-        $hasMatches = preg_match_all("/%me\.(\w+)%/", $str, $matches);
-        var_dump($matches);
-        if ( $hasMatches ) {
-            $full_text_that_matched_array = $matches[0];
-            $text_that_matched_array = $matches[1];
-            for($ii=0; $ii < count($full_text_that_matched_array); $ii++ ) {
-                $replacement = $keyvalues['me']->get($text_that_matched_array);
-                $str = preg_replace("/".$full_text_that_matched_array[$ii]."/", $replacement, $str);
-            }
-        }
-    }
-    return $str;
-}
-
-function sendMessage($msg) {
-    print("Sending message:\n");
-    var_dump($msg);
-
-    $url="https://slack.com/api/chat.postMessage";
-    $method="POST";
-    $contentType="application/json";    
-
-    $json = json_encode($msg);
-    $slack_call = curl_init($url);
-    curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, $method);
-    curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json);
-    curl_setopt($slack_call, CURLOPT_CRLF, true);
-    curl_setopt($slack_call, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt(
-        $slack_call,
-        CURLOPT_HTTPHEADER,
-        array(
-            "Content-Type: " . $contentType . "; charset=utf-8",
-            "Content-Length: " . strlen($json),
-            "Authorization: Bearer " . SLACK_OAUTH_TOKEN
-        )
-    );
-    $result = curl_exec($slack_call);
-    curl_close($slack_call);
-    print("Server response:\n");
-    var_dump($result);
-    if ( substr($result,0,2) == "no") {
-        return ( false );
-    }
-    return ( true );
-}
 
 #
 # Attempt to load channels, users and research subjects first
