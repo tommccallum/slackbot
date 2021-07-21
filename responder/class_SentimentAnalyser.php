@@ -33,7 +33,7 @@ class SentimentAnalyser
     private $prior = array('very negative' => 0.2, 'negative' => 0.2, 'neutral' => 0.2, 'positive' => 0.2, 'very positive' => 0.2);
 
     private $stopWordList = array();
-    private $stopWordFile = __DIR__."/../data/stopwords.txt";
+    private $stopWordFile = __DIR__."/data/stopwords.txt";
 
     public function addExample($class, $line )
     {

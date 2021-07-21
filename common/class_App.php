@@ -159,7 +159,6 @@ class App
             //     "is_enterprise_install":"false",
             //     "response_url":"https:\/\/hooks.slack.com\/commands\/TUPQR1UBH\/2282447058613\/au9d6swBVIcEq2LxK0S5ShDr",
             //     "trigger_id":"2298124972993.975841062391.eabc08b133d336494b3e4eb2c341a96e"}
-
             $this->command = $inputArguments['command'];
             if (isset($inputArguments['text'])) {
                 $this->text = $inputArguments['text'];

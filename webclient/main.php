@@ -13,12 +13,13 @@
 # $icon_url= // local icon
 $GLOBALS['DEBUG'] = 0;
 
-require_once("autoload_environment.php");
-require_once("logging.php");
-require_once("class_App.php");
-require_once("class_Bot.php");
-require_once("createNewBot.php");
-require_once("SlackIO.php");
+require_once("include_source.php");
+include_source("autoload_environment.php");
+include_source("logging.php");
+include_source("class_App.php");
+include_source("class_Bot.php");
+include_source("createNewBot.php");
+include_source("SlackIO.php");
 
 autoload_environment();
 

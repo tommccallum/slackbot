@@ -1,5 +1,6 @@
 <?php
 
+
 spl_autoload_register(function ($className) {
     $phpFilePath = __DIR__ . "/class_" . $className . '.php';
     if ( !class_exists($className) && file_exists($phpFilePath) ) {
@@ -12,8 +13,8 @@ spl_autoload_register(function ($className) {
     }
 });
 
-require_once("logging.php");
-require_once("autoload_environment.php");
-require_once("helloworld.php");
-require_once("createNewBot.php");
-require_once("SlackIO.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."logging.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."autoload_environment.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."helloworld.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."createNewBot.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."SlackIO.php");

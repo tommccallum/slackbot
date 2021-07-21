@@ -10,7 +10,8 @@ if [ ! -e "dist" ]; then
     mkdir dist
 fi
 
-cp -R src/* dist
+cp -R common/* dist
+cp -R webclient/* dist
 cp -R vendor dist
 if [ -e ".htenv.php" ]; then
     echo "Copying local copy of .htenv.php"
