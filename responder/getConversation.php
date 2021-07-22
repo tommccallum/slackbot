@@ -51,11 +51,27 @@ function shouldAliceReplyToEvent($event) {
         # this event is a child event
         # we need to get the parent 
         # we should get the parent from our database if we can but for now we get directly from slack.
-        $conversation = getConversationRepliesFromSlack($message['channel'], $message['thread_ts']);
+        $conversation = getConversationRepliesFromSlack($message['channel'], $message['thread_ts'], $message['ts']);
         if ( didAliceGetMentionedInThisThreadAnywhere($conversation) ) {
             return true;
         }
         if ( didAliceStartThisConversation($conversation) ) {
+            return true;
+        }
+    } else {
+        # IF this is a private IM conversation then we reply to everything as we are the only other 
+        #   user in the chat.
+        if ($message['channel_type'] == "im")  {
+            return true;
+        }
+
+        # IF this is a channel conversation if its not an im then we don't normally reply to this unless
+        #   they tag is (@Alice).
+        $conversation = getConversationRepliesFromSlack($message['channel'], $message['ts']);
+        if (didAliceGetMentionedInThisThreadAnywhere($conversation)) {
+            return true;
+        }
+        if (didAliceStartThisConversation($conversation)) {
             return true;
         }
     }
@@ -78,8 +94,6 @@ function getConversation(&$app) {
 }
 
 function checkElementsForUserID($parent) {
-    savelog("checkElementsForUserID");
-    savelog(json_encode($parent));
     if ( !isset($parent['elements']) ) {
         return [];
     }
@@ -113,6 +127,7 @@ function didAliceGetMentionedInThisThreadAnywhere($conversation)
                 foreach($blocks as $block) {
                     $usersArray = checkElementsForUserID($block);
                     $usersArray = array_unique($usersArray);
+                    // TODO keeping in for now when we test @here and @everyone to see what happens
                     savelog("::didAliceGetMentionedInThisThreadAnywhere::");
                     savelog(json_encode($usersArray));
                     foreach($usersArray as $userId ) {

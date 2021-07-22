@@ -12,6 +12,7 @@
 # $oauth_token= // oAuth token from slack website
 # $icon_url= // local icon
 $GLOBALS['DEBUG'] = 0;
+$outputLogToScreen = false;
 
 require_once("include_source.php");
 include_source("autoload_environment.php");

@@ -9,7 +9,7 @@ $GBL_SLACK_CONVERSATIONS = [];
 
 ## TODO handle getting full conversation here for a single thread, should mostly be short < 200 messages anyway
 
-function getConversationRepliesFromSlack($channel, $ts) {
+function getConversationRepliesFromSlack($channel, $ts, $latest = null) {
     global $GBL_SLACK_CONVERSATIONS;
     savelog("Retrieving conversation from slack (channel=$channel, timestamp=$ts)");
 
@@ -30,6 +30,10 @@ function getConversationRepliesFromSlack($channel, $ts) {
         "limit" => 5,
         "inclusive" => true
     );
+
+    if ( isset($latest) ) {
+        $data['latest'] = $latest;
+    }
     
     $postfields_data = "";
     foreach( $data as $key => $value ) {
