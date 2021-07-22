@@ -37,7 +37,7 @@ while ( true ) {
             'slackbot.action' => "ignored, failed 'shouldAliceReplyToEvent' check"
             ]] );
 
-        if ( $updatedResult->getMatchedCount() == 1 && $$updatedResult->getModifiedCount() == 1 ) {
+        if ( $updatedResult->getMatchedCount() == 1 && $updatedResult->getModifiedCount() == 1 ) {
             # success
             savelog("Successfully saved update to event");
         } else {
@@ -64,7 +64,7 @@ while ( true ) {
             'slackbot.responseText' => $botResponseText 
             ]] );
 
-        if ( $updatedResult->getMatchedCount() == 1 && $$updatedResult->getModifiedCount() == 1 ) {
+        if ( $updatedResult->getMatchedCount() == 1 && $updatedResult->getModifiedCount() == 1 ) {
             # success
             savelog("Successfully saved update to event");
         } else {
