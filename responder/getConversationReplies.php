@@ -53,7 +53,7 @@ function getConversationRepliesFromSlack($channel, $ts) {
         )
     );
     $result = curl_exec($slack_call);
-    var_dump($result);
+    savelog($result);
     if ( substr($result,0,2) == "no") {
         savelog("[ERROR] conversation.replies failed with error: ".$result);
         return ( false );

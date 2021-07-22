@@ -94,11 +94,14 @@ function didAliceGetMentionedInThisThreadAnywhere($conversation)
                     if ( isset($block['elements']) ) {
                         $elements = $block['elements'];
                         foreach( $elements as $element ) {
-                            if ( $element['type'] == "user" ) {
-                                if (isset($element['user_id'])) {
-                                    $userId = $element['user_id'];
-                                    if ( isThisAlice($userId) ) {
-                                        return true;
+                            $elements = $block['elements']; // WARNING: elements themselves have elements but appears to be one layer deep
+                            foreach ($elements as $element) {
+                                if ($element['type'] == "user") {
+                                    if (isset($element['user_id'])) {
+                                        $userId = $element['user_id'];
+                                        if (isThisAlice($userId)) {
+                                            return true;
+                                        }
                                     }
                                 }
                             }
