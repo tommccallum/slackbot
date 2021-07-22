@@ -86,10 +86,10 @@ function checkElementsForUserID($parent) {
     $users = [];
     foreach ($parent['elements'] as $element) {
         $users = array_merge($users, checkElementsForUserID($element));
-        if (isset($parent['type'])) {
-            if ($parent['type'] == "user") {
-                if (isset($parent['user_id'])) {
-                    array_push($users, $parent['user_id']);
+        if (isset($element['type'])) {
+            if ($element['type'] == "user") {
+                if (isset($element['user_id'])) {
+                    array_push($users, $element['user_id']);
                 }
             }
         }
@@ -113,6 +113,7 @@ function didAliceGetMentionedInThisThreadAnywhere($conversation)
                 foreach($blocks as $block) {
                     $usersArray = checkElementsForUserID($block);
                     $usersArray = array_unique($usersArray);
+                    savelog("::didAliceGetMentionedInThisThreadAnywhere::");
                     savelog(json_encode($usersArray));
                     foreach($usersArray as $userId ) {
                         if (isThisAlice($userId)) {
