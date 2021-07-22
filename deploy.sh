@@ -54,9 +54,9 @@ fi
 if [ -e "./logs/replyToMessages.log" ]; then
     echo "Resetting logs/replyToMessages.log for responder service"
     rm "./logs/replyToMessages.log"
-
-    touch "./logs/replyToMessages.log"
 fi
+
+touch "./logs/replyToMessages.log"
 
 
 echo "Update is successfully deployed."

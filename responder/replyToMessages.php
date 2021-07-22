@@ -30,6 +30,19 @@ while ( true ) {
 
     if ( shouldAliceReplyToEvent($event) === false ) {
         savelog("Ignoring event as not one which Alice will reply to.");
+        
+        # update current message as replied to
+        $updatedResult = $collection->updateOne([ "_id" => $msg['_id'], ['$set' => [
+            'slackbot.replied_to' => true, 
+            'slackbot.action' => "ignored, failed 'shouldAliceReplyToEvent' check"
+            ]]] );
+
+        if ( $updatedResult->getMatchedCount() == 1 && $$updatedResult->getModifiedCount() == 1 ) {
+            # success
+            savelog("Successfully saved update to event");
+        } else {
+            savelog("An error occurred updating message after response was sent. (_id: ".$msg['_id'].").");
+        }
         continue;
     }
     savelog("Alice should reply to this message");
@@ -47,6 +60,7 @@ while ( true ) {
         # update current message as replied to
         $updatedResult = $collection->updateOne([ "_id" => $msg['_id'], ['$set' => [
             'slackbot.replied_to' => true, 
+            'slackbot.action' => 'reply',
             'slackbot.responseText' => $botResponseText 
             ]]] );
 
