@@ -77,6 +77,26 @@ function getConversation(&$app) {
     $app->setConversation($conversation);
 }
 
+function checkElementsForUserID($parent) {
+    savelog("checkElementsForUserID");
+    savelog(json_encode($parent));
+    if ( !isset($parent['elements']) ) {
+        return [];
+    }
+    $users = [];
+    foreach ($parent['elements'] as $element) {
+        $users = array_merge($users, checkElementsForUserID($element));
+        if (isset($parent['type'])) {
+            if ($parent['type'] == "user") {
+                if (isset($parent['user_id'])) {
+                    array_push($users, $parent['user_id']);
+                }
+            }
+        }
+    }
+    return $users;
+}
+
 
 /**
  * Look for any "mentions" of Alice in the entire thread
@@ -91,20 +111,12 @@ function didAliceGetMentionedInThisThreadAnywhere($conversation)
             if ( isset($message['blocks']) ) {
                 $blocks = $message['blocks'];
                 foreach($blocks as $block) {
-                    if ( isset($block['elements']) ) {
-                        $elements = $block['elements'];
-                        foreach( $elements as $element ) {
-                            $elements = $block['elements']; // WARNING: elements themselves have elements but appears to be one layer deep
-                            foreach ($elements as $element) {
-                                if ($element['type'] == "user") {
-                                    if (isset($element['user_id'])) {
-                                        $userId = $element['user_id'];
-                                        if (isThisAlice($userId)) {
-                                            return true;
-                                        }
-                                    }
-                                }
-                            }
+                    $usersArray = checkElementsForUserID($block);
+                    $usersArray = array_unique($usersArray);
+                    savelog(json_encode($usersArray));
+                    foreach($usersArray as $userId ) {
+                        if (isThisAlice($userId)) {
+                            return true;
                         }
                     }
                 }
@@ -116,6 +128,7 @@ function didAliceGetMentionedInThisThreadAnywhere($conversation)
 
 function didAliceStartThisConversation($conversation)
 {
+    // TODO we could also use the parent_user_id field if it exists here.
     $initiatingUser = $conversation['messages'][0]['user'];
     if ( isThisAlice($initiatingUser) ) {
         return true;
