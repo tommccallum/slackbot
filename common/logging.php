@@ -1,10 +1,14 @@
 <?php
 
 function savelog($obj) {
+    global $LOG_PATH;
     if ( !defined("LOG_LEVEL") ) return;
-    if ( !defined("LOG_PATH") ) return;
-    
-    $logPath = LOG_PATH;
+    if ( !defined("LOG_PATH") && !isset($LOG_PATH)) return;
+    if ( isset($LOG_PATH) ) {
+        $logPath = $LOG_PATH;
+    } else if ( defined("LOG_PATH") ) {
+        $logPath = LOG_PATH;
+    }
     $logLevel = LOG_LEVEL;
 
     if ( file_exists($logPath) === false ) return;
