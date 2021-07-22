@@ -2,8 +2,32 @@
 
 abstract class Bot
 {
+    private $intents = [];
+    private $partOfDay = [];
+
     public function __construct()
     {
+    }
+
+    public function getPartOfDay() {
+        return $this->partOfDay;
+    }
+
+    public function setPartOfDay($partOfDay) {
+        $this->partOfDay = $partOfDay;
+    }
+
+    public function addIntent($intent) {
+        array_push($this->intents, $intent);
+    }
+
+    public function removeIntent($name) {
+        foreach( $this->intents as $key => $value ) {
+            if ( $value->name() == $name ) {
+                unset($this->intents[$key]);
+                return;
+            }
+        }
     }
 
     public function printInfo() {

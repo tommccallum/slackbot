@@ -1,3 +1,3 @@
 "Date","Time","Channel","Message"
-18/07/21,*,"virtual-assistant-dev","Hi everyone, its Alice here! Its %date% at %time% and I am working on something awesome!"
-18/07/21,*,*,"Hi %name%, its Alice here! Its %date% at %time% and I am working on something awesome!"
+*,*,"virtual-assistant-dev","Hi everyone, its Alice here! Its %date% at %time% and I am working on something awesome!"
+*,*,*,"Hi %name%, its Alice here! Its %date% at %time% and I am working on something awesome!"

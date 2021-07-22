@@ -8,6 +8,12 @@ Ensure you are using PHP 7.2 or above.
 
 We are using mongodb database to store all the JSON information we use.  
 
+Install the lockfile program:
+
+```
+sudo apt install lockfile-progs
+```
+
 ### Install the mongodb driver
 
 ```

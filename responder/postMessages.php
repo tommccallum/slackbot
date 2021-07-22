@@ -11,6 +11,7 @@ include_source("getDirContents.php");
 include_source("sendMessage.php");
 include_source("replaceTags.php");
 include_source("parseCsvIntoJson.php");
+autoload_environment();
 
 # Set this to a number which you do not expect to ever reach. If it reached we die.
 $MAX_LIMIT_ON_POSTS = 20;      
