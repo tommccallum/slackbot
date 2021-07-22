@@ -51,11 +51,11 @@ if [ ! -e "logs" ]; then
     fi
 fi
 
-if [ -e "logs/slack.log" ]; then
-    echo "Resetting logs/slack.log for responder service"
-    rm "logs/slack.log"
+if [ -e "./logs/replyToMessages.log" ]; then
+    echo "Resetting logs/replyToMessages.log for responder service"
+    rm "./logs/replyToMessages.log"
 
-    touch "logs/slack.log"
+    touch "./logs/replyToMessages.log"
 fi
 
 
