@@ -7,7 +7,7 @@ function isThisAlice($userId) {
     $result = $collection->findOne(["id" => $userId]);
     if ( isset($result) ) {
         if ( $result['is_bot'] ) {
-            if ( $result['first_name'] === "Alice" ) {
+            if ( $result['profile']['first_name'] === "Alice" ) {
                 return true;
             }
         }
