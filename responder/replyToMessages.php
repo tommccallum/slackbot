@@ -10,7 +10,9 @@ $collection = (new MongoDB\Client)->slackbot->events;
 
 $result = $collection->find(['slackbot' => ['replied_to' => false], 'event' => ['type' => 'message']]);
 
-var_dump($result);
+foreach ($result as $msg) {
+    var_dump($msg);
+}
 // $bot = createNewBot($app);
 // $botResponseText = $bot->handle($app);
 // if (isset($botResponseText)) {
