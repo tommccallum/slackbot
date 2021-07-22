@@ -18,6 +18,8 @@ spl_autoload_register(function ($className) {
     }
 });
 
+$LOG_PATH = __DIR__ . "/../logs/responder.php";
+
 require_once(__DIR__."/include_source.php");
 include_source("logging.php");
 include_source("autoload_environment.php");
