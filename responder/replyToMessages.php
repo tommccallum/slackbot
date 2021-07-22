@@ -30,9 +30,9 @@ while ( true ) {
 
     if ( shouldAliceReplyToEvent($event) === false ) {
         savelog("Ignoring event as not one which Alice will reply to.");
-        
+
         # update current message as replied to
-        $updatedResult = $collection->updateOne([ "_id" => $msg['_id'], ['$set' => [
+        $updatedResult = $collection->updateOne([ "_id" => $event['_id'], ['$set' => [
             'slackbot.replied_to' => true, 
             'slackbot.action' => "ignored, failed 'shouldAliceReplyToEvent' check"
             ]]] );
@@ -58,7 +58,7 @@ while ( true ) {
         sendMessage($app, $botResponseText);
         
         # update current message as replied to
-        $updatedResult = $collection->updateOne([ "_id" => $msg['_id'], ['$set' => [
+        $updatedResult = $collection->updateOne([ "_id" => $event['_id'], ['$set' => [
             'slackbot.replied_to' => true, 
             'slackbot.action' => 'reply',
             'slackbot.responseText' => $botResponseText 
