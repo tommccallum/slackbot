@@ -43,7 +43,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-if [ !-e "logs" ]; then
+if [ ! -e "logs" ]; then
     mkdir logs
     if [ $? -ne 0 ]; then
         echo "Failed to create directory 'logs' in local area where we will run the responder service."

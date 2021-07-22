@@ -45,7 +45,7 @@ function shouldAliceReplyToEvent($event) {
     if ( $event['event']['type'] != "message" ) {
         return false;
     }
-    $message = $event['message'];
+    $message = $event['event'];
     if ( isset($message['thread_ts'])
         && $message['ts'] != $message['thread_ts'] ) {
         # this event is a child event
