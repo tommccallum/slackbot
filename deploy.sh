@@ -43,6 +43,21 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+if [ !-e "logs" ]; then
+    mkdir logs
+    if [ $? -ne 0 ]; then
+        echo "Failed to create directory 'logs' in local area where we will run the responder service."
+        exit 1
+    fi
+fi
+
+if [ -e "logs/slack.log" ]; then
+    echo "Resetting logs/slack.log for responder service"
+    rm "logs/slack.log"
+
+    touch "logs/slack.log"
+fi
+
 
 echo "Update is successfully deployed."
 

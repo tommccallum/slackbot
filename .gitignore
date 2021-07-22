@@ -6,6 +6,7 @@ dist/
 slack_messages.md
 /*.json
 /large_data/
+logs/
 
 #Allow
 !/composer.json

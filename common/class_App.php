@@ -30,6 +30,8 @@ class App
     public $event = null;
     public $authorizations = null;
     public $eventContext = null;
+    private $conversation = null;
+
 
     function __construct($inputArguments) {
         try {
@@ -37,6 +39,12 @@ class App
         } catch( Exception $ex) {
             $this->fromConsole($inputArguments);
         }
+    }
+
+    public function setConversation($conversation) {
+        $this->conversation = $conversation;
+
+        # TODO if we are not replying to the latest message then we should move to that.
     }
 
     function getChannelId() {
@@ -117,6 +125,17 @@ class App
     public function getThreadId() {
         if ( isset($this->event) ) {
             return $this->event['ts'];
+        }
+        return null;
+    }
+
+    public function getParentThread() {
+        if ( isset($this->event) ) {
+            if( isset($this->event['thread_ts'])) {
+                return $this->event['thread_ts'];
+            } else {
+                return $this->event['ts'];
+            }
         }
         return null;
     }

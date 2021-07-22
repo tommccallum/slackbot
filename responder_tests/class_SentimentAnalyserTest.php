@@ -13,22 +13,22 @@ final class class_SentimentAnalyserTest extends TestCase
 
         $test = "Hi everyone! Great to see you!";
         $result = $model->classify($test);
-        print("TEXT : $test\n");
-        print("CLASS: $result\n");
+        // print("TEXT : $test\n");
+        // print("CLASS: $result\n");
 
 
         $test = "Hi everyone, its ok to see you.";
         $result = $model->classify($test, true);
-        print("TEXT : $test\n");
-        print("CLASS:\n");
-        var_dump($result);
+        // print("TEXT : $test\n");
+        // print("CLASS:\n");
+        // var_dump($result);
 
 
         $test = "I'm feeling really bad today.";
         $result = $model->classify($test, true);
-        print("TEXT : $test\n");
-        print("CLASS:\n");
-        var_dump($result);
+        // print("TEXT : $test\n");
+        // print("CLASS:\n");
+        // var_dump($result);
 
         // $test = "It's an awful day.";
         // $result = $model->classify($test, true);

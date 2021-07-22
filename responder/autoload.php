@@ -24,3 +24,7 @@ include_source("autoload_environment.php");
 include_source("helloworld.php");
 include_source("createNewBot.php");
 include_source("SlackIO.php");
+include_source("getConversation.php");
+include_source("getConversationReplies.php");
+include_source("getConversationHistory.php");
+include_source("isThisAlice.php");
