@@ -8,7 +8,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 $collection = (new MongoDB\Client)->slackbot->events;
 
-$result = $collection->find(['slackbot' => ['replied_to' => false], 'event' => ['type' => 'message']]);
+$result = $collection->find(['slackbot.replied_to' => false, 'slackbot.event.type' => "message"]);
 
 foreach ($result as $msg) {
     var_dump($msg);
