@@ -51,7 +51,7 @@ function shouldAliceReplyToEvent($event) {
         # this event is a child event
         # we need to get the parent 
         # we should get the parent from our database if we can but for now we get directly from slack.
-        $conversation = getConversationRepliesFromSlack($message['channel'], $message['thread_id']);
+        $conversation = getConversationRepliesFromSlack($message['channel'], $message['thread_ts']);
         if ( didAliceGetMentionedInThisThreadAnywhere($conversation) ) {
             return true;
         }
