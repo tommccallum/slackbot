@@ -70,9 +70,9 @@ while ($watchLoop) {
         getConversation($app);
         
         $bot = createNewBot($app);
-        $botResponseText = $bot->handle($app);
         loadDialogue($bot);
         loadIntents($bot);
+        $botResponseText = $bot->handle($app);
         if (isset($botResponseText)) {
             savelog($botResponseText);
             $bot->printInfo();
