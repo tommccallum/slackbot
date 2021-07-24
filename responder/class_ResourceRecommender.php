@@ -42,7 +42,7 @@ class ResourceRecommender
         # here we are just going to look for the key in the question
         # its a a bit simple and we can improve it later on to look
         # for synonyms.
-        $str = "You can also check out <a href='https://rl.talis.com/3/uhi/lists/40F502DF-66AD-61B2-F3B2-93D993BF638F.html?lang=en-GB&login=1'>the reading list</a>.";
+        $str = "You can also check out <https://rl.talis.com/3/uhi/lists/40F502DF-66AD-61B2-F3B2-93D993BF638F.html?lang=en-GB&login=1|the reading list>.";
         $request = $matchedIntent['variables']['topic']['value'];
         $url = $this->documentRecommender->classify($request);
         $chosenItem = null;
@@ -59,12 +59,11 @@ class ResourceRecommender
             }
         }
 
-        $response = "You could try this resource that I saw in the reading list, its called <a href="
-                    . $item['url']." target='_blank'>" 
-                    . $item['name'] . "</a> and I found it in the " 
+        $response = "You could try this resource that I saw in the reading list, its called <"
+                    . $item['url']."|" . $item['name'] . "> and I found it in the " 
                     . $item['topic']." section.";
         $response .= "\n\n$str";
-        $response .= "\n\nI suppose you could always try IBM Academic Initiative resources, Google or LinkedIn Learning ::smiley::.";
+        $response .= "\n\nI suppose you could always try IBM Academic Initiative resources, Google or LinkedIn Learning :smiley:.";
         return $response;
     }
 

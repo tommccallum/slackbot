@@ -65,7 +65,7 @@ while ($watchLoop) {
         }
         savelog("Alice should reply to this message");
         $app = new App($event);
-        $app->botSelectionName = "ResponderBot";
+        $app->botSelectionName = "Alice";
 
         getConversation($app);
         

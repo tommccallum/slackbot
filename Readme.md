@@ -171,3 +171,12 @@ You will need to make sure your machine has enough memory otherwise you will nee
 ```
 mysqldump -u root -p -B PartsOfSpeechTagger --extended-insert=false > PartsOfSpeechTagger.sql
 ```
+
+## Mysql 
+
+If you are running on a low memory footprint server then you might want to add these to your ```/etc/mysql/mysql.conf.d/mysqld.cnf``` file.
+
+```
+innodb_buffer_pool_size = 64M
+performance_schema = off
+```
