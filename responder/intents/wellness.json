@@ -1,15 +1,15 @@
 {
     "name": "wellness",
     "examples": [
-        "How are you?",
-        "Are you well?",
-        "How you doing?",
-        "How are you doing?"
+        "How are you",
+        "Are you well",
+        "How you doing",
+        "How are you doing"
     ],
     "selection": "random",
     "replies": [
         "I'm fine thanks. How are you?",
         "I'm fine thanks",
-        "Not great actually"
+        "not great actually"
     ]
 }

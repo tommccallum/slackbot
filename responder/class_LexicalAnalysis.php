@@ -4,6 +4,12 @@
 class LexicalAnalysis
 {
     private $lexemes = array();
+    private $antonym_neg_to_pos_map = [];
+
+    public function __construct() {
+        $this->antonym_neg_to_pos_map = loadAntonyms();
+    }
+
     public function intent() {
         $verbs = array();
         foreach( $this->lexemes as $w => $item ) {
@@ -39,15 +45,14 @@ class LexicalAnalysis
     }
 
     public function removeNegations() {
-        global $antonym_neg_to_pos_map;
         $words = [];
         foreach($this->lexemes as $w => $item ) {
             $keep = true;
             $s = new Stemmer();
             $stemmedWord = $s->stem($w);
             print("STEMMED: $w => $stemmedWord\n");
-            if ( isset($antonym_neg_to_pos_map[$stemmedWord]) ) {
-                $w = $antonym_neg_to_pos_map[$stemmedWord];
+            if ( isset($this->antonym_neg_to_pos_map[$stemmedWord]) ) {
+                $w = $this->antonym_neg_to_pos_map[$stemmedWord];
             } else if (strpos($item['top'], "*") !== false) {
                 if ( $w === "not" ) {
                     // remove completely
@@ -63,7 +68,7 @@ class LexicalAnalysis
                 array_push($words, $w);
             }
         }
-        $this->lexemes = inferPartsOfSpeechArray($words);
+        $this->lexemes = $this->inferPartsOfSpeechArray($words);
     }
 
     public function set($lexemes) {
@@ -77,50 +82,68 @@ class LexicalAnalysis
     public function words() {
         return array_keys($this->lexemes);
     }
-}
 
-function inferPartsOfSpeechArray($words)
-{
-    global $conn;
-    $lexemes = array();
-
-    foreach ($words as $word) {
-        // TODO this may be quicker to search for all words at the same time rather than one by one and taking the first entry.
-        $sql = "SELECT * FROM `Words` WHERE `Word` = ? LIMIT 1";
-        $statement = $conn->prepare($sql);
-        $statement->bind_param("s", $word);
-        $statement->execute();
-        $result = $statement->get_result();
-
-        if (@$result->num_rows > 0) {// We know this Uni-gram
-            // Collect the tags for the Uni-gram
-            while ($row = mysqli_fetch_assoc($result)) {
-            
-                // Decode Uni-gram tags from json into associtive array
-                $tags = json_decode($row["Tags"], 1);
-            
-                // if there are known tags for the Uni-gram
-                if (!empty($tags)) {
-                    // Sort the tags and compute %
-                    arsort($tags);
-                    $sum = array_sum($tags);
-                    foreach ($tags as $tag=>&$score) {
-                        $score = $score . ' : ' . ($score/$sum * 100) . '%';
-                    }
-                } else {
-                    $tags = array('unk'=>'1 : 100%');
-                }
-            
-                $lexemes[$word] = array('lexeme'=>$word, 'tags'=> $tags, 'top' => key($tags) );
+    public function getTaggedText() {
+        $str = "";
+        foreach($this->lexemes as $word => $lexeme){
+            if(is_array($lexeme['tags'])){
+              $tag = key($lexeme['tags']);
             }
-        } else { // We don't know this Tag
-            $lexemes[$word] = array('lexeme'=>$word, 'tags'=> array('unk'=>'1 : 100%'));
-            $lexemes[$word]['top'] = key($lexemes[$word]['tags']);
+            else{
+                $tag = $lexeme['top'];
+            }
+          
+          $str .= $word . '/' . $tag . ' ';
         }
+        return $str;
     }
 
-   
-    return $lexemes;
+    public function inferPartsOfSpeechArray($words)
+    {
+        global $conn;
+        $lexemes = array();
+
+        foreach ($words as $word) {
+            // TODO this may be quicker to search for all words at the same time rather than one by one and taking the first entry.
+            $sql = "SELECT * FROM `Words` WHERE `Word` = ? LIMIT 1";
+            $statement = $conn->prepare($sql);
+            $statement->bind_param("s", $word);
+            $statement->execute();
+            $result = $statement->get_result();
+
+            if (@$result->num_rows > 0) {// We know this Uni-gram
+                // Collect the tags for the Uni-gram
+                while ($row = mysqli_fetch_assoc($result)) {
+                
+                    // Decode Uni-gram tags from json into associtive array
+                    $tags = json_decode($row["Tags"], 1);
+                
+                    // if there are known tags for the Uni-gram
+                    if (!empty($tags)) {
+                        // Sort the tags and compute %
+                        arsort($tags);
+                        $sum = array_sum($tags);
+                        foreach ($tags as $tag=>&$score) {
+                            $score = $score . ' : ' . ($score/$sum * 100) . '%';
+                        }
+                    } else {
+                        $tags = array('unk'=>'1 : 100%');
+                    }
+                
+                    $lexemes[$word] = array('lexeme'=>$word, 'tags'=> $tags, 'top' => key($tags) );
+                }
+            } else { // We don't know this Tag
+                $lexemes[$word] = array('lexeme'=>$word, 'tags'=> array('unk'=>'1 : 100%'));
+                $lexemes[$word]['top'] = key($lexemes[$word]['tags']);
+            }
+        }
+
+        $this->lexemes = $lexemes;
+        return $lexemes;
+    }
+
+
 }
+
 
 

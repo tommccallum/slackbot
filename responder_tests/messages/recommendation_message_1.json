@@ -1,0 +1,45 @@
+{
+    "token": "YRa10rG6JrFoGpB3n8fBY3NT",
+    "team_id": "TUPQR1UBH",
+    "api_app_id": "A01CBLUJU3U",
+    "event": {
+        "client_msg_id": "86815031-a8b7-4d26-86be-e1907e6d50be",
+        "type": "message",
+        "text": "Hi <@U01CHRXLSUC>, can you recommend a resource for security?",
+        "user": "UUNQNAB24",
+        "ts": "1627117347.013800",
+        "team": "TUPQR1UBH",
+        "blocks": [{
+            "type": "rich_text",
+            "block_id": "GZ53Y",
+            "elements": [{
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "Hi "
+                }, {
+                    "type": "user",
+                    "user_id": "U01CHRXLSUC"
+                }, {
+                    "type": "text",
+                    "text": ", can you recommend a resource for security?"
+                }]
+            }]
+        }],
+        "channel": "C023JCGLMGB",
+        "event_ts": "1627117347.013800",
+        "channel_type": "channel"
+    },
+    "type": "event_callback",
+    "event_id": "Ev028VTR0V7G",
+    "event_time": 1627117347,
+    "authorizations": [{
+        "enterprise_id": null,
+        "team_id": "TUPQR1UBH",
+        "user_id": "U01CHRXLSUC",
+        "is_bot": true,
+        "is_enterprise_install": false
+    }],
+    "is_ext_shared_channel": false,
+    "event_context": "3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"
+}

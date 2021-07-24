@@ -1,0 +1,10 @@
+{
+    "name": "Recommender",
+    "examples": [
+        "what do you recommend for %%topic%%",
+        "can you recommend a resource for %%topic%%"
+    ],
+    "selection": "relevance",
+    "class": "ResourceRecommender",
+    "replies": []
+}

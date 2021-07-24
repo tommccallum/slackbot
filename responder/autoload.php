@@ -29,5 +29,17 @@ include_source("getConversation.php");
 include_source("getConversationReplies.php");
 include_source("getConversationHistory.php");
 include_source("isThisAlice.php");
+include_source("traverseMessageBlocks.php");
+include_source("splitStringIntoLexemes.php");
+include_source("loadDialogue.php");
+include_source("getDirContents.php");
 
 autoload_environment();
+
+// Create connection
+$conn = new mysqli($GLOBALS['server'], $GLOBALS['username'], $GLOBALS['password'], $GLOBALS['db']);
+
+// Check connection
+if ($conn->connect_error) {
+  die("MYSQL DB Connection failed: " . $conn->connect_error);
+}

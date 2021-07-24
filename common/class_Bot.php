@@ -2,8 +2,8 @@
 
 abstract class Bot
 {
-    private $intents = [];
-    private $partOfDay = [];
+    protected $intents = [];
+    protected $partOfDay = [];
 
     public function __construct()
     {

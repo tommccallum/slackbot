@@ -1,14 +1,14 @@
 {
     "name": "greeting",
     "examples": [
-        "Hello",
-        "Good morning",
-        "Good afternoon",
-        "Good evening",
-        "Hi",
-        "Hey",
-        "What’s up",
-        "Hiya"
+        "Hey ?user?",
+        "Hello ?user?",
+        "Good morning ?user?",
+        "Good afternoon ?user?",
+        "Good evening ?user?",
+        "Hi ?user?",
+        "What’s up ?user?",
+        "Hiya ?user?"
     ],
     "selection": "random",
     "replies": [

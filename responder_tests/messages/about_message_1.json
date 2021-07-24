@@ -1,0 +1,45 @@
+{
+    "token": "YRa10rG6JrFoGpB3n8fBY3NT",
+    "team_id": "TUPQR1UBH",
+    "api_app_id": "A01CBLUJU3U",
+    "event": {
+        "client_msg_id": "2125e4ca-b498-4bc2-bd4b-ed7cf7164a6b",
+        "type": "message",
+        "text": "Hi <@U01CHRXLSUC>, where do you live?",
+        "user": "UUNQNAB24",
+        "ts": "1627117471.014900",
+        "team": "TUPQR1UBH",
+        "blocks": [{
+            "type": "rich_text",
+            "block_id": "6NH",
+            "elements": [{
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "Hi "
+                }, {
+                    "type": "user",
+                    "user_id": "U01CHRXLSUC"
+                }, {
+                    "type": "text",
+                    "text": ", where do you live?"
+                }]
+            }]
+        }],
+        "channel": "C023JCGLMGB",
+        "event_ts": "1627117471.014900",
+        "channel_type": "channel"
+    },
+    "type": "event_callback",
+    "event_id": "Ev0298SC5SJ0",
+    "event_time": 1627117471,
+    "authorizations": [{
+        "enterprise_id": null,
+        "team_id": "TUPQR1UBH",
+        "user_id": "U01CHRXLSUC",
+        "is_bot": true,
+        "is_enterprise_install": false
+    }],
+    "is_ext_shared_channel": false,
+    "event_context": "3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"
+}

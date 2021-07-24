@@ -1,0 +1,12 @@
+{
+    "name": "about",
+    "examples": [
+        "where do you live",
+        "what is your name",
+        "How old are you",
+        "what is your age"
+    ],
+    "selection": "relevance",
+    "class": "Me",
+    "replies": []
+}

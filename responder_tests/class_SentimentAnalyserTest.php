@@ -26,6 +26,9 @@ final class class_SentimentAnalyserTest extends TestCase
 
         $test = "I'm feeling really bad today.";
         $result = $model->classify($test, true);
+
+        $this->assertSame(1,1);
+
         // print("TEXT : $test\n");
         // print("CLASS:\n");
         // var_dump($result);

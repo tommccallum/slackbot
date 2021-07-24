@@ -7,6 +7,11 @@ slack_messages.md
 /*.json
 /large_data/
 logs/
+models/
+responder/data/bookmarks
+responder/data/bookmarks*.html
+responder/data/talis*
+*.log
 
 #Allow
 !/composer.json

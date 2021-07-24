@@ -1,0 +1,163 @@
+{
+    "token": "YRa10rG6JrFoGpB3n8fBY3NT",
+    "team_id": "TUPQR1UBH",
+    "api_app_id": "A01CBLUJU3U",
+    "event": {
+        "client_msg_id": "4313f2b4-bf59-47df-ab26-187ffb686423",
+        "type": "message",
+        "text": "Hey <@U01CHRXLSUC>, parse this!\nThis is a more complex *message* with some _markup_ and some\n\n~new~ lines which make it harder to parse. :slightly_smiling_face: :leafy_green::zany_face:\n\n1. item 1\n2. item 2\n3. item 3\n\u2022 item 21\n\u2022 item 22\n\u2022 item 23\nand more\n\n&gt; this is a block quote\n```this is a code block```\nsome text goes here",
+        "user": "UUNQNAB24",
+        "ts": "1627064481.013100",
+        "team": "TUPQR1UBH",
+        "blocks": [{
+            "type": "rich_text",
+            "block_id": "Fmw",
+            "elements": [{
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "Hey "
+                }, {
+                    "type": "user",
+                    "user_id": "U01CHRXLSUC"
+                }, {
+                    "type": "text",
+                    "text": ", parse this!\nThis is a more complex "
+                }, {
+                    "type": "text",
+                    "text": "message",
+                    "style": {
+                        "bold": true
+                    }
+                }, {
+                    "type": "text",
+                    "text": " with some "
+                }, {
+                    "type": "text",
+                    "text": "markup",
+                    "style": {
+                        "italic": true
+                    }
+                }, {
+                    "type": "text",
+                    "text": " and some\n\n"
+                }, {
+                    "type": "text",
+                    "text": "new",
+                    "style": {
+                        "strike": true
+                    }
+                }, {
+                    "type": "text",
+                    "text": " lines which make it harder to parse. "
+                }, {
+                    "type": "emoji",
+                    "name": "slightly_smiling_face"
+                }, {
+                    "type": "text",
+                    "text": " "
+                }, {
+                    "type": "emoji",
+                    "name": "leafy_green"
+                }, {
+                    "type": "emoji",
+                    "name": "zany_face"
+                }, {
+                    "type": "text",
+                    "text": "\n\n"
+                }]
+            }, {
+                "type": "rich_text_list",
+                "elements": [{
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 1"
+                    }]
+                }, {
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 2"
+                    }]
+                }, {
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 3"
+                    }]
+                }],
+                "style": "ordered",
+                "indent": 0
+            }, {
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "\n"
+                }]
+            }, {
+                "type": "rich_text_list",
+                "elements": [{
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 21"
+                    }]
+                }, {
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 22"
+                    }]
+                }, {
+                    "type": "rich_text_section",
+                    "elements": [{
+                        "type": "text",
+                        "text": "item 23"
+                    }]
+                }],
+                "style": "bullet",
+                "indent": 0
+            }, {
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "\nand more\n\n"
+                }]
+            }, {
+                "type": "rich_text_quote",
+                "elements": [{
+                    "type": "text",
+                    "text": "this is a block quote"
+                }]
+            }, {
+                "type": "rich_text_preformatted",
+                "elements": [{
+                    "type": "text",
+                    "text": "this is a code block"
+                }]
+            }, {
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "some text goes here"
+                }]
+            }]
+        }],
+        "channel": "C023JCGLMGB",
+        "event_ts": "1627064481.013100",
+        "channel_type": "channel"
+    },
+    "type": "event_callback",
+    "event_id": "Ev029E3LUEQZ",
+    "event_time": 1627064481,
+    "authorizations": [{
+        "enterprise_id": null,
+        "team_id": "TUPQR1UBH",
+        "user_id": "U01CHRXLSUC",
+        "is_bot": true,
+        "is_enterprise_install": false
+    }],
+    "is_ext_shared_channel": false,
+    "event_context": "3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"
+}

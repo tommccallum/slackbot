@@ -1,7 +1,9 @@
 {
     "name":"Alice",
+    "age": 24,
     "address":null,
     "country":"Scotland",
     "studying":"software development",
-    "degree":"BSc Hons Applied Software Development"
+    "degree":"BSc Hons Applied Software Development",
+    "live":"I live somewhere in Scotland"
 }

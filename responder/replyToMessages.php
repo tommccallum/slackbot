@@ -65,11 +65,14 @@ while ($watchLoop) {
         }
         savelog("Alice should reply to this message");
         $app = new App($event);
+        $app->botSelectionName = "ResponderBot";
 
         getConversation($app);
-
+        
         $bot = createNewBot($app);
         $botResponseText = $bot->handle($app);
+        loadDialogue($bot);
+        loadIntents($bot);
         if (isset($botResponseText)) {
             savelog($botResponseText);
             $bot->printInfo();

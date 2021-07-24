@@ -7,14 +7,25 @@ function loadDialogue($bot)
     
 }
 
-function loadIntents(&$bot) {
-
+function loadIntents(&$bot) 
+{
     $intent_files = getDirContents(__DIR__."/intents");
     foreach( $intent_files as $intent_file ) {
-        $contents = file_get_contents($intent_file);
-        $intent = json_decode($contents, true);
+        $intent = new Intent();
+        $intent->loadFromFile($intent_file);
         $bot->addIntent($intent);
     }
 
     $bot->setPartOfDay(new PartOfDay());
+}
+
+function loadAntonyms() 
+{
+    $antonyms = array_map("str_getcsv", file(__DIR__ . DIRECTORY_SEPARATOR . "data/special_antonyms.txt"));
+    # maps negative -> positive
+    $antonym_neg_to_pos_map = [];
+    foreach( $antonyms as $row ) {
+        $antonym_neg_to_pos_map[$row[1]] = $row[0];
+    }
+    return $antonym_neg_to_pos_map;
 }

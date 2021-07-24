@@ -14,3 +14,18 @@ function isThisAlice($userId) {
     }
     return false;
 }
+
+// null or the user profile
+function whoami($userId) {    
+    if ( is_array($userId) ) {
+        $result = [];
+        $collection = (new MongoDB\Client)->slackbot->users;
+        foreach($userId as $u) {
+            $result[] = $collection->findOne(["id" => $u]);
+        }
+        return $result;
+    }
+    $collection = (new MongoDB\Client)->slackbot->users;
+    $result = $collection->findOne(["id" => $userId]);
+    return $result;
+}

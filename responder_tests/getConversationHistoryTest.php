@@ -23,5 +23,6 @@ final class getConversationHistoryTest extends TestCase
 
         // $result = getConversationHistoryFromSlack("C023JCGLMGB", $ts);
         // var_dump($result);
+        $this->assertSame(1,1);
     }
 }
