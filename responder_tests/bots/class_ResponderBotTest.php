@@ -45,10 +45,23 @@ final class class_ResponderBotTest extends TestCase
     //     var_dump($text);
     // }
 
+    // public function test_recommendation_message_1(): void
+    // {
+
+    //     $testCaseContents = file_get_contents(__DIR__."/../messages/recommendation_message_1.json");
+    //     $json = json_decode($testCaseContents, true);
+    //     $app = new App($json);
+    //     $app->botSelectionName = "ResponderBot";
+    //     $bot = createNewBot($app);
+    //     loadIntents($bot);
+    //     $text = $bot->handle($app);
+    //     var_dump($text);
+    // }
+
     public function test_recommendation_message_1(): void
     {
 
-        $testCaseContents = file_get_contents(__DIR__."/../messages/recommendation_message_1.json");
+        $testCaseContents = file_get_contents(__DIR__."/../messages/buggy_messages_1.json");
         $json = json_decode($testCaseContents, true);
         $app = new App($json);
         $app->botSelectionName = "ResponderBot";
