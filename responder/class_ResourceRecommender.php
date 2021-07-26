@@ -52,6 +52,7 @@ class ResourceRecommender
                 foreach ($links as $item) {
                     if ($item['url'] === $url) {
                         $item['topic'] = $topic;
+                        $item['reference_count'] = count($links);
                         $chosenItem = $item;
                         break;
                     }
@@ -61,10 +62,14 @@ class ResourceRecommender
                 }
             }
 
-            $response .= "You could try this resource that I saw in the reading list, its called <"
-                        . $chosenItem['url']."|" . $chosenItem['name'] . "> and I found it in the "
-                        . $chosenItem['topic']." section.";
-            $response .= "\n\n$str";
+            if (isset($chosenItem)) {
+                $response .= "You could try this resource that I saw in the reading list, its called <"
+                            . $chosenItem['url']."|" . $chosenItem['name'] . "> and I found it in the "
+                            . $chosenItem['topic']." section with ".$item['reference_count']." other resources you could look at.";
+                $response .= "\n\n$str";
+            } else {
+                $response .= "Sorry, I could not find anything on the reading list about that.";
+            }
         } else {
             $response .= "Sorry, I could not find anything on the reading list about that.";
         }

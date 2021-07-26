@@ -72,8 +72,8 @@ class DocumentClassifier
         // for each class we will calculate the influence of each word
         $numberOfHits = 0;
         foreach ($this->classes as $class) {
-            //$classScores[$class] = 1;
-            $classScores[$class] = 0;
+            $classScores[$class] = 1;
+            #$classScores[$class] = 0;
             foreach ($tokens as $token) {
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
@@ -82,11 +82,11 @@ class DocumentClassifier
                 // }
                 $numberOfHits += $count;
 
-                # $classScores[$class] *= ($count + 1) /
-                #                ($this->classTokCounts[$class] + $this->tokCount);
-                $classScores[$class] += $count;
+                $classScores[$class] *= ($count + 1) /
+                                ($this->classTokCounts[$class] + $this->tokCount);
+                #$classScores[$class] += $count;
             }
-            #$classScores[$class] = $this->prior[$class] * $classScores[$class];
+            $classScores[$class] = $this->prior[$class] * $classScores[$class];
             //$classScores[$class] = $count;
         }
         

@@ -2,7 +2,9 @@
     "name": "Recommender",
     "examples": [
         "what do you recommend for %%topic%%",
+        "what do you recommend on %%topic%%",
         "can you recommend a resource for %%topic%%",
+        "can you recommend a resource on %%topic%%",
         "Any %topic% resources"
     ],
     "selection": "relevance",
