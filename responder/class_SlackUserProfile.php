@@ -12,10 +12,20 @@ class SlackUserProfile
     public function get($key) {
         $key = strtolower($key);
         if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
+            if ( $key === "first_name") {
+                $value = ucfirst(strtolower($this->attributes[$key]));
+            } else {
+                $value = $this->attributes[$key];
+            }
+            return $value;
         }
         if (isset($this->attributes['profile'][$key])) {
-            return $this->attributes['profile'][$key];
+            if ( $key === "first_name") {
+                $value = ucfirst(strtolower($this->attributes['profile'][$key]));
+            } else {
+                $value = $this->attributes['profile'][$key];
+            }
+            return $value;
         }
         return null;
     }
@@ -33,7 +43,7 @@ class SlackUserProfile
         foreach( $this->attributes as $key => $value ) {
             if ( strpos(strtolower($str), strtolower($key)) !== false ) {
                 if( $key == "first_name" ) {
-                    $value = ucfirst(strtolower($key));
+                    $value = ucfirst(strtolower($value));
                 } 
                 return $value;
             }
