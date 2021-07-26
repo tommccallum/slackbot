@@ -37,7 +37,7 @@ class Alice extends Bot
         savelog("Sentiment value of emoji: ".$emojiSentimentValue);
 
         # $response .= "\n\nSentiment: ".$sentimentValue." Emoji Sentiment: ".$emojiSentimentValue;
-        if ( $emojiSentimentValue > 2 && $sentimentValue > 2 ) {
+        if ( $emojiSentimentValue > 2 || $sentimentValue > 2 ) {
             sendSlackReaction($app, "thumbsup");
         }
         if ($emojiSentimentValue < 2 && $sentimentValue < 2) {
