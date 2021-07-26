@@ -127,7 +127,7 @@ class SentimentAnalyser
         }
 
         // get the index of the highest value e.g. pos, neg
-        return key($classScores);
+        return array_search(key($classScores), $this->classes);
     }
 
     // here we break up the message into its constituent words
