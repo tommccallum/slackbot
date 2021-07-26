@@ -51,7 +51,14 @@ foreach( $meta as $topic => $links ) {
                 $dom = new DOMDocument();
                 $dom->loadHTML($contents);
                 $text = $dom->textContent;
-                $text = $item['name']." ".$text;
+                $words = explode(" ",$text);
+                $wordCount = min(count($words), 1000);
+                $chosenWords = [];
+                for($ii=0; $ii < $wordCount; $ii++ ) {
+                    $chosenWords[] = $words[$ii];
+                }
+                $selectedText = join(" ", $chosenWords);
+                $text = $item['name']." ".$selectedText;
                 $classifier->addExample($url, $text);
             } else if ( $type == "TEXT" ) {
                 $text = $item['name']." ".$contents;
