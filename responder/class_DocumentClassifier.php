@@ -90,6 +90,7 @@ class DocumentClassifier
         }
 
         // debug the top 5
+        savelog("Document Classifier: $userText");
         $keys = array_keys($classScores);
         for ($ii=0; $ii < min(count($classScores), 5); $ii++) {
             savelog($classScores[$keys[$ii]].": ".$keys[$ii]);
