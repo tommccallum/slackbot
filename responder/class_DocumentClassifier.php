@@ -77,14 +77,13 @@ class DocumentClassifier
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
                 $numberOfHits += $count;
-                
+
                 // if the word does not have a value for that class then we don't use it.
-                $classScores[$class] *= ($count + 1) /
-                                ($this->classTokCounts[$class] + $this->tokCount);
+                #$classScores[$class] *= ($count + 1) /
+                #                ($this->classTokCounts[$class] + $this->tokCount);
             }
-            if ($classScores[$class] !== 0) {
-                $classScores[$class] = $this->prior[$class] * $classScores[$class];
-            }
+            #$classScores[$class] = $this->prior[$class] * $classScores[$class];
+            $classScores[$class] = $count;
         }
         
         if ( $numberOfHits == 0 ) {
