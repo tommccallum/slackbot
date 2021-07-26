@@ -12,15 +12,15 @@
     ],
     "selection": "random",
     "replies": [
-        "Hello %you.firstname%",
-        "Good %part_of_day% %you.firstname%",
-        "It’s nice to meet you %you.firstname%",
-        "It’s a pleasure to meet you %you.firstname%",
-        "Hi %you.firstname%",
-        "Hey %you.firstname%",
-        "What’s up %you.firstname%",
-        "Nice to meet you %you.firstname%",
-        "Pleased to meet you %you.firstname%",
-        "It’s a pleasure %you.firstname%"
+        "Hello %you.first_name%",
+        "Good %part_of_day.text% %you.first_name%",
+        "It’s nice to meet you %you.first_name%",
+        "It’s a pleasure to meet you %you.first_name%",
+        "Hi %you.first_name%",
+        "Hey %you.first_name%",
+        "What’s up %you.first_name%",
+        "Nice to meet you %you.first_name%",
+        "Pleased to meet you %you.first_name%",
+        "It’s a pleasure %you.first_name%"
     ]
 }

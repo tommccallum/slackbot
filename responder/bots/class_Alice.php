@@ -78,16 +78,18 @@ class Alice extends Bot
         usort($matchingIntents, "compareIntentMatches");
 
         // var_dump($matchingIntents);
-
+        $you = createSlackUserProfile($user['id']);
+        $me = new Me();
+        $partsOfDay = new PartOfDay();
+        $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
+        
         # we will respond in the same order as the intents
         # we then generate the appropriate replies
         $response = "";
         foreach( $matchingIntents as $intent ) {
             $replyText = $intent['action']($intent);
 
-            # HACK move this out to its own function
-            $replyText = preg_replace("/%you.firstname%/", $firstname, $replyText);
-
+            $replyText = replaceTags($replyText, $replacements);
 
             # fit the pieces of sentence together
             if ( preg_match("/[.?!]\s*$/", $response ) ) {

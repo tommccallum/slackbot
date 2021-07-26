@@ -33,6 +33,8 @@ include_source("traverseMessageBlocks.php");
 include_source("splitStringIntoLexemes.php");
 include_source("loadDialogue.php");
 include_source("getDirContents.php");
+include_source("class_SlackUserProfile.php");
+include_source("replaceTags.php");
 
 autoload_environment();
 

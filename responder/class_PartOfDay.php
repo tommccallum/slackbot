@@ -17,7 +17,7 @@ class PartOfDay
     public function getText() {
         $hour = intval(date("%H"));
         foreach( $this->data as $item ) {
-            if ( intval($item['min']) <= $hour && $item < intval($item['max']) ) {
+            if ( intval($item['min']) >= $hour && $hour < intval($item['max']) ) {
                 return $item['text'];
             }
         }
@@ -27,7 +27,7 @@ class PartOfDay
     public function getMeal() {
         $hour = intval(date("%H"));
         foreach( $this->data as $item ) {
-            if ( intval($item['min']) <= $hour && $item < intval($item['max']) ) {
+            if ( intval($item['min']) >= $hour && $hour < intval($item['max']) ) {
                 return $item['meal'];
             }
         }
@@ -37,10 +37,23 @@ class PartOfDay
     public function getNextMeal() {
         $hour = intval(date("%H"));
         foreach( $this->data as $item ) {
-            if ( intval($item['min']) <= $hour && $item < intval($item['max']) ) {
+            if ( intval($item['min']) >= $hour && $hour < intval($item['max']) ) {
                 return $item['nextMeal'];
             }
         }
         return null;
+    }
+
+    public function get($text) {
+        var_dump($this->data);
+        if ( $text === "meal" ) {
+            return $this->getMeal()[0];
+        } else if ( $text === "nextMeal" ) {
+            return $this->getNextMeal()[0];
+        } else if ( $text == "text") {
+            return $this->getText()[0];
+        } else {
+            return "";
+        }
     }
 }

@@ -12,3 +12,6 @@
 
 
 * disuse or misuse, I think one is the noun and one is the verb
+
+* change of moods so consistent throughout conversation.
+* document classifer on the student help pages.

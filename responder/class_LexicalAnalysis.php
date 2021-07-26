@@ -6,6 +6,10 @@ class LexicalAnalysis
     private $lexemes = array();
     private $antonym_neg_to_pos_map = [];
 
+    public function lexemes() {
+        return $this->lexemes;
+    }
+
     public function __construct() {
         $this->antonym_neg_to_pos_map = loadAntonyms();
     }
@@ -18,6 +22,28 @@ class LexicalAnalysis
             }
         }
         return ( $verbs );
+    }
+
+    public function verbs() {
+        $verbs = array();
+        foreach( $this->lexemes as $w => $item ) {
+            if ( substr($item['top'],0,2) == "vb" ) {
+                array_push($verbs, $w);
+            }
+        }
+        return ( $verbs );
+    }
+
+    public function get($key) {
+        if ( is_numeric($key) ) {
+            $keys = array_keys($this->lexemes);
+            if ($key < count($keys)) {
+                $key = $keys[$key];
+            } else {
+                return null;
+            }
+        }
+        return $this->lexemes[$key];
     }
 
 
@@ -73,10 +99,6 @@ class LexicalAnalysis
 
     public function set($lexemes) {
         $this->lexemes = $lexemes;
-    }
-
-    public function get() {
-        return $this->lexemes;
     }
 
     public function words() {

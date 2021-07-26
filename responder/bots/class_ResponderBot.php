@@ -79,13 +79,16 @@ class ResponderBot extends Bot
 
         # we will respond in the same order as the intents
         # we then generate the appropriate replies
-
+        $you = createSlackUserProfile($user['id']);
+        $me = new Me();
+        $partsOfDay = new PartOfDay();
+        $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
         foreach( $matchingIntents as $intent ) {
             $replyText = $intent['action']($intent);
 
             # HACK move this out to its own function
-            $replyText = preg_replace("/%you.firstname%/", $firstname, $replyText);
-
+            $replyText = replaceTags($replyText, $replacements);
+            
             $response .= "\n\n".$intent['name']." generated: ".$replyText;
         }
 
