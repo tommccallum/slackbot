@@ -15,3 +15,7 @@
 
 * change of moods so consistent throughout conversation.
 * document classifer on the student help pages.
+
+* Format name so its only first letter capital
+* Check why all messages are coming up :cry:
+* 

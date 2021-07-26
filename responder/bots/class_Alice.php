@@ -34,10 +34,10 @@ class Alice extends Bot
         $emojiSentimentValue = $emojiClassifier->classify($emojis);
 
         # $response .= "\n\nSentiment: ".$sentimentValue." Emoji Sentiment: ".$emojiSentimentValue;
-        if ( $emojiSentimentValue > 2 || $sentimentValue == 4 ) {
+        if ( $emojiSentimentValue > 2 && $sentimentValue > 2 ) {
             sendSlackReaction($app, "thumbsup");
         }
-        if ($emojiSentimentValue < 2 || $sentimentValue == 0) {
+        if ($emojiSentimentValue < 2 && $sentimentValue < 2) {
             sendSlackReaction($app, "cry");
         }
         #$response .= "\n\n".$text;
@@ -82,7 +82,7 @@ class Alice extends Bot
         $me = new Me();
         $partsOfDay = new PartOfDay();
         $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
-        
+
         # we will respond in the same order as the intents
         # we then generate the appropriate replies
         $response = "";

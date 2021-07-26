@@ -32,6 +32,9 @@ class SlackUserProfile
         $str = $matchedIntent['matched_example'];
         foreach( $this->attributes as $key => $value ) {
             if ( strpos(strtolower($str), strtolower($key)) !== false ) {
+                if( $key == "first_name" ) {
+                    $value = ucfirst(strtolower($key));
+                } 
                 return $value;
             }
         }
