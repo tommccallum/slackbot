@@ -89,6 +89,12 @@ class DocumentClassifier
             return ( $classScores);
         }
 
+        // debug the top 5
+        $keys = array_keys($classScores);
+        for ($ii=0; $ii < min(count($classScores), 5); $ii++) {
+            savelog($classScores[$keys[$ii]].": ".$keys[$ii]);
+        }
+
         // get the index of the highest value e.g. pos, neg
         return key($classScores);
     }
