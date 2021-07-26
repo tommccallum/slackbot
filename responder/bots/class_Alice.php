@@ -33,6 +33,9 @@ class Alice extends Bot
         $emojiClassifier->loadModel($this->emojiSentimentModelPath);
         $emojiSentimentValue = $emojiClassifier->classify($emojis);
 
+        savelog("Sentiment value of string: ".$sentimentValue);
+        savelog("Sentiment value of emoji: ".$emojiSentimentValue);
+
         # $response .= "\n\nSentiment: ".$sentimentValue." Emoji Sentiment: ".$emojiSentimentValue;
         if ( $emojiSentimentValue > 2 && $sentimentValue > 2 ) {
             sendSlackReaction($app, "thumbsup");
