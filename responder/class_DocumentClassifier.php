@@ -77,9 +77,11 @@ class DocumentClassifier
             foreach ($tokens as $token) {
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
+                // if ($count > 0) {
+                //     print("$class $token ".$count." ".$this->classTokCounts[$class]." ".$this->tokCount."\n");
+                // }
                 $numberOfHits += $count;
 
-                // if the word does not have a value for that class then we don't use it.
                 # $classScores[$class] *= ($count + 1) /
                 #                ($this->classTokCounts[$class] + $this->tokCount);
                 $classScores[$class] += $count;

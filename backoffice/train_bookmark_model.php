@@ -61,7 +61,14 @@ foreach( $meta as $topic => $links ) {
                 $text = $item['name']." ".$selectedText;
                 $classifier->addExample($url, $text);
             } else if ( $type == "TEXT" ) {
-                $text = $item['name']." ".$contents;
+                $words = explode(" ",$contents);
+                $wordCount = min(count($words), 1000);
+                $chosenWords = [];
+                for($ii=0; $ii < $wordCount; $ii++ ) {
+                    $chosenWords[] = $words[$ii];
+                }
+                $selectedText = join(" ", $chosenWords);
+                $text = $item['name']." ".$selectedText;
                 $classifier->addExample($url, $text);
             } else {
                 throw new \Exception("Unsupported ".$path);
