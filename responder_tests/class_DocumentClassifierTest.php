@@ -11,7 +11,7 @@ final class class_DocumentClassifierTest extends TestCase
         $model = new DocumentClassifier();
         $model->loadModel(__DIR__."/../models/bookmarks.json");
 
-        $result = $model->classify("javascript");
+        $result = $model->classify("hacking");
         var_dump($result);
         $this->assertSame(1,1);
 

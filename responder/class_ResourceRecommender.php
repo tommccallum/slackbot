@@ -62,8 +62,8 @@ class ResourceRecommender
             }
 
             $response .= "You could try this resource that I saw in the reading list, its called <"
-                        . $item['url']."|" . $item['name'] . "> and I found it in the "
-                        . $item['topic']." section.";
+                        . $chosenItem['url']."|" . $chosenItem['name'] . "> and I found it in the "
+                        . $chosenItem['topic']." section.";
             $response .= "\n\n$str";
         } else {
             $response .= "Sorry, I could not find anything on the reading list about that.";
