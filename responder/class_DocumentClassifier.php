@@ -128,7 +128,7 @@ class DocumentClassifier
         }
         #$document = strtolower($document);
         #preg_match_all('/\w+/', $document, $matches);
-        
+        $document = trim($document);
         $bagOfWords = explode(' ', $document);
         array_walk($bagOfWords, array($this, "cleanWord"));
         $usefulWords = array();
