@@ -72,7 +72,8 @@ class DocumentClassifier
         // for each class we will calculate the influence of each word
         $numberOfHits = 0;
         foreach ($this->classes as $class) {
-            $classScores[$class] = 1;
+            //$classScores[$class] = 1;
+            $classScores[$class] = 0;
             foreach ($tokens as $token) {
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
@@ -99,6 +100,7 @@ class DocumentClassifier
 
         // debug the top 5
         savelog("Document Classifier: $userText");
+        savelog("Hits: $numberOfHits");
         $keys = array_keys($classScores);
         for ($ii=0; $ii < min(count($classScores), 5); $ii++) {
             savelog($classScores[$keys[$ii]].": ".$keys[$ii]);

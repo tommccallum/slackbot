@@ -45,7 +45,8 @@ class ResourceRecommender
         $str = "You can also check out <https://rl.talis.com/3/uhi/lists/40F502DF-66AD-61B2-F3B2-93D993BF638F.html?lang=en-GB&login=1|the reading list>.";
         $request = $matchedIntent['variables']['topic']['value'];
         $url = $this->documentRecommender->classify($request);
-        if ($url !== null) {
+        $response = "";
+        if ( isset($url) ) {
             $chosenItem = null;
             foreach ($this->resources as $topic => $links) {
                 foreach ($links as $item) {
@@ -60,7 +61,7 @@ class ResourceRecommender
                 }
             }
 
-            $response = "You could try this resource that I saw in the reading list, its called <"
+            $response .= "You could try this resource that I saw in the reading list, its called <"
                         . $item['url']."|" . $item['name'] . "> and I found it in the "
                         . $item['topic']." section.";
             $response .= "\n\n$str";
