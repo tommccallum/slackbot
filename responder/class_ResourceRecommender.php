@@ -45,24 +45,29 @@ class ResourceRecommender
         $str = "You can also check out <https://rl.talis.com/3/uhi/lists/40F502DF-66AD-61B2-F3B2-93D993BF638F.html?lang=en-GB&login=1|the reading list>.";
         $request = $matchedIntent['variables']['topic']['value'];
         $url = $this->documentRecommender->classify($request);
-        $chosenItem = null;
-        foreach($this->resources as $topic => $links) {
-            foreach($links as $item ) {
-                if ( $item['url'] === $url ) {
-                    $item['topic'] = $topic;
-                    $chosenItem = $item;
+        if ($url === null) {
+            $chosenItem = null;
+            foreach ($this->resources as $topic => $links) {
+                foreach ($links as $item) {
+                    if ($item['url'] === $url) {
+                        $item['topic'] = $topic;
+                        $chosenItem = $item;
+                        break;
+                    }
+                }
+                if (isset($chosenItem)) {
                     break;
                 }
             }
-            if ( isset($chosenItem) ) {
-                break;
-            }
+
+            $response = "You could try this resource that I saw in the reading list, its called <"
+                        . $item['url']."|" . $item['name'] . "> and I found it in the "
+                        . $item['topic']." section.";
+            $response .= "\n\n$str";
+        } else {
+            $response .= "Sorry, I could not find anything on the reading list about that.";
         }
 
-        $response = "You could try this resource that I saw in the reading list, its called <"
-                    . $item['url']."|" . $item['name'] . "> and I found it in the " 
-                    . $item['topic']." section.";
-        $response .= "\n\n$str";
         $response .= "\n\nI suppose you could always try IBM Academic Initiative resources, Google or LinkedIn Learning :smiley:.";
         return $response;
     }

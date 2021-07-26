@@ -70,21 +70,27 @@ class DocumentClassifier
         $classScores = array();
 
         // for each class we will calculate the influence of each word
+        $numberOfHits = 0;
         foreach ($this->classes as $class) {
             $classScores[$class] = 1;
             foreach ($tokens as $token) {
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
+                $numberOfHits += $count;
                 
                 // if the word does not have a value for that class then we don't use it.
-                if ($count != 0) {
-                    $classScores[$class] *= ($count + 1) /
-                                    ($this->classTokCounts[$class] + $this->tokCount);
-                }
+                $classScores[$class] *= ($count + 1) /
+                                ($this->classTokCounts[$class] + $this->tokCount);
             }
-            $classScores[$class] = $this->prior[$class] * $classScores[$class];
+            if ($classScores[$class] !== 0) {
+                $classScores[$class] = $this->prior[$class] * $classScores[$class];
+            }
         }
         
+        if ( $numberOfHits == 0 ) {
+            return null;
+        }
+
         // sort in descending order maintain index association
         arsort($classScores);
 
