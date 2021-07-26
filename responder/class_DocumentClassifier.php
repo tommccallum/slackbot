@@ -80,11 +80,12 @@ class DocumentClassifier
                 $numberOfHits += $count;
 
                 // if the word does not have a value for that class then we don't use it.
-                #$classScores[$class] *= ($count + 1) /
+                # $classScores[$class] *= ($count + 1) /
                 #                ($this->classTokCounts[$class] + $this->tokCount);
+                $classScores[$class] += $count;
             }
             #$classScores[$class] = $this->prior[$class] * $classScores[$class];
-            $classScores[$class] = $count;
+            //$classScores[$class] = $count;
         }
         
         if ( $numberOfHits == 0 ) {
