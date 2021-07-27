@@ -1,14 +1,22 @@
 <?php
 
-function compareMatchedExamplesByQuality($a, $b) {
-    if ( $a['quality'] == $b['quality'] ) {
+// used by intent to decide which example was the best quality match
+function compareMatchedExamplesByQuality($a, $b)
+{
+    if ($a['quality'] == $b['quality']) {
         return 0;
     }
-    if ( $a['quality'] > $b['quality'] ) {
+    if ($a['quality'] > $b['quality']) {
         return -1;
     } else {
         return 1;
     }
+}
+
+// called by bots to decide which intent was found first in the message
+function compareIntentMatches($a, $b)
+{
+    return $a['match'][0]['start_index']  - $b['match'][0]['start_index'];
 }
 
 class Intent
@@ -89,7 +97,7 @@ class Intent
                 $required = false;
                 if ($item[0] == "*") {
                     $required = true;
-                    $text = substr($item,1);
+                    $text = substr($item, 1);
                 } else {
                     $text = $item;
                 }
@@ -190,54 +198,65 @@ class Intent
                     if ($exampleAst[$ii]['length'] == 0) {
                         // match up to the end of the clause
                         $nextNode = null;
-                        if ( $ii < count($exampleAst)-1 ) {
+                        if ($ii < count($exampleAst)-1) {
                             $nextNode = $exampleAst[$ii+1];
                         }
                         $bag = [];
                         for (; $jj < count($clause); $jj++) {
-                            if ( isset($nextNode) ) {
-                                if ( $nextNode['type'] == "BASIC" ) {
-                                    if ( $nextNode['text'] == $clause[$jj]['text'] ) {
+                            if (isset($nextNode)) {
+                                if ($nextNode['type'] == "BASIC") {
+                                    if ($nextNode['text'] == $clause[$jj]['text']) {
                                         break;
                                     }
                                 } else {
-                                    if ( $nextNode['type'] == $clause[$jj]['type'] ) {
+                                    if ($nextNode['type'] == $clause[$jj]['type']) {
                                         break;
                                     }
                                 }
                             }
                             $bag[] = $clause[$jj];
                         }
-                        $match[] = [ 
-                            'exampleNode' => $exampleAst[$ii],
-                            'matchedNodes' => $bag,
-                            'index' => $jj
-                        ];
-                        $matchCount++;
+                        if (count($bag) > 0) {
+                            $match[] = [
+                                'exampleNode' => $exampleAst[$ii],
+                                'matchedNodes' => $bag,
+                                'index' => $jj
+                            ];
+                            $matchCount++;
+                        } else {
+                            // we did not manage to complete this variable
+                            return false;
+                        }
                     } else {
                         $bag = [];
                         for ($kk=0; $kk < $exampleAst[$ii]['length']; $kk) {
                             $bag[] = $clause[$jj];
                             $jj++;
                         }
-                        $match[] = [ 
-                            'exampleNode' => $exampleAst[$ii],
-                            'matchedNodes' => $bag,
-                            'index' => $jj
-                        ];
-                        $matchCount++;
+                        if (count($bag) > 0) {
+                            $match[] = [
+                                'exampleNode' => $exampleAst[$ii],
+                                'matchedNodes' => $bag,
+                                'index' => $jj
+                            ];
+                            $matchCount++;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
             $ii++;
         }
-        if ( count($match) === 0 ) {        // we should not need this but you never know!
+        if (count($match) === 0) {        // we should not need this but you never know!
             return false;
         }
         $matchResult = [
             'quality' => $matchCount / $totalCount,
             'matches' => $match,
-            'start_index' => $match[0]['index']
+            'start_index' => $match[0]['index'],
+            'match_count' => $matchCount,
+            'total_count' => $totalCount
         ];
         return $matchResult;
     }
@@ -257,12 +276,18 @@ class Intent
                 $matchedExamples[] = $result;
             }
         }
-        if ( count($matchedExamples) == 0 ) {
+        if (count($matchedExamples) == 0) {
             return null;
         }
-        # sort by the quality of the match, this should allow us to 
+        # sort by the quality of the match, this should allow us to
         # ensure the best formula wins
-        usort($matchedExamples, "compareMatchedExamplesByQuality");            
+        usort($matchedExamples, "compareMatchedExamplesByQuality");
+        
+        foreach ($matchedExamples as $match) {
+            savelog("Intent match: ".$match['example']." ".$match['quality']." ".$match['match_count']." ".$match['total_count']);
+            // var_dump("Intent match: ".$match['example']." ".$match['quality']." ".$match['match_count']." ".$match['total_count']);
+        }
+
         $intents = ['name' => $this->name(),
                     'action' => array( $this, "getReply"),
                     'match' => $matchedExamples

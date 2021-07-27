@@ -1,9 +1,6 @@
 <?php
 
-// TODO Shift this to separate file and deduplicate with Alice bot.
-function compareIntentMatches($a, $b) {
-    return $a['match'][0]['start_index']  - $b['match'][0]['start_index'];
-}
+
 
 # Just sends back a test response when used
 class ResponderBot extends Bot

@@ -1,10 +1,5 @@
 <?php
 
-// TODO shift this to separate file
-function compareIntentMatches($a, $b) {
-    return $a['match'][0]['start_index']  - $b['match'][0]['start_index'];
-}
-
 # Just sends back a test response when used
 class Alice extends Bot
 {
