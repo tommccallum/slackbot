@@ -64,7 +64,9 @@ function shouldAliceReplyToEvent($event) {
         if ($message['channel_type'] == "im")  {
             return true;
         }
-
+        if ( $message['subtype'] == "channel_join" ) {
+            return true;
+        }
         # IF this is a channel conversation if its not an im then we don't normally reply to this unless
         #   they tag is (@Alice).
         $conversation = getConversationRepliesFromSlack($message['channel'], $message['ts']);
