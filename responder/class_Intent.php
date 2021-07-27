@@ -27,6 +27,7 @@ class Intent
     private $replies = [];
     private $className = null;
     private $threshold = 0.5;
+    private $ignoreIfContains = [];
 
     public function name()
     {
@@ -298,6 +299,51 @@ class Intent
     public function isLike($clause)
     {
         # generate an array of { name, action, start_position, end_position }
+        if (isset($this->ignoreIfContains) && count($this->ignoreIfContains) > 0) {
+            // look for matching expressions in clause and if found then short circuit as this is not meant for us.
+            foreach ($this->ignoreIfContains as $expr) {
+                if (substr($expr, 0, 1) == "?") {
+                    $bits = explode(":", $expr);
+                    $key = substr($bits[0], 1);
+                    $value = $bits[1];
+                    
+                    foreach ($clause as $lexeme) {
+                        if (isset($lexeme[$key])) {
+                            if (strtolower($lexeme[$key]) == strtolower($value)) {
+                                return null;
+                            }
+                        }
+                    }
+                } else {
+                    // must match all words next to each other
+                    $normalisedExpr = strtolower($expr);
+                    $words = splitStringIntoLexemes($normalisedExpr);
+                    foreach ($clause['lexemes'] as $clii => $lexeme) {
+                        foreach ($words as $wii => $w) {
+                            if ($lexeme['text'] == $w) {
+
+                                // we now roll ahead to see if our phrase holds
+                                $ww = $wii+1;
+                                $cc = $clii+1;
+                                $localMatch = true;
+                                while ($ww < count($words) && $cc < count($clause)) {
+                                    if ($clause['lexemes'][$cc]['text'] != $words[$ww]) {
+                                        $localMatch = false;
+                                    }
+                                    $ww++;
+                                    $cc++;
+                                }
+                                if ($localMatch) {
+                                    return null;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $matchedExamples = [];
         foreach ($this->examples as $index => $example) {
             // does our example match the clause we have been handed
@@ -350,6 +396,9 @@ class Intent
             }
             if (isset($json['threshold'])) {
                 $this->threshold = $json['threshold'];
+            }
+            if (isset($json['ignore_if_contains'])) {
+                $this->ignoreIfContains = $json['ignore_if_contains'];
             }
         }
     }

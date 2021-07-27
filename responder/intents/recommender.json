@@ -12,6 +12,10 @@
         "Any *suggestions on ?topic:any:*",
         "Any *suggestions for ?topic:any:*"
     ],
+    "ignore_if_contains": [
+        "learning outcome",
+        "?type:LEARNING_OUTCOME"
+    ],
     "selection": "relevance",
     "class": "ResourceRecommender",
     "replies": [],
