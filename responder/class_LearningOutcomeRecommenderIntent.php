@@ -73,7 +73,7 @@ class LearningOutcomeRecommenderIntent
 
             if (isset($chosenItem)) {
                 $response = "The best learning outcome I found that matched your topic was $loID.  This is in the category of '".$chosenItem[3]
-                            ."' for module '".$chosenItem[2]."'";
+                            ."' for module '".$chosenItem[2]."'. ";
                 $response  .= "If this if for the wrong year then just let me know and I will look again.\n\n";
 
                 $loFormattedText = formatLearningOutcome($chosenItem[7]);
