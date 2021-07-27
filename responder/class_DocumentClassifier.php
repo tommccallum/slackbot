@@ -63,6 +63,9 @@ class DocumentClassifier
 
     public function classify($userText, $details=false)
     {
+        if ( strlen(trim($userText)) == 0 ) {
+            return null;
+        }
         $this->calcPriors();
 
         // tokenise the latest message
