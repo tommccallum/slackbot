@@ -1,0 +1,11 @@
+{
+    "name": "Learning Outcome",
+    "examples": [
+        "*what is ?lo:LEARNING_OUTCOME::required",
+        "can you tell me *what learning outcome ?lo:LEARNING_OUTCOME::required is"
+    ],
+    "selection": "relevance",
+    "class": "LearningOutcomeIntent",
+    "replies": [],
+    "threshold": 0.5
+}

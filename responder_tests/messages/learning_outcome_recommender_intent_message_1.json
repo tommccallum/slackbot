@@ -1,0 +1,45 @@
+{
+    "token": "YRa10rG6JrFoGpB3n8fBY3NT",
+    "team_id": "TUPQR1UBH",
+    "api_app_id": "A01CBLUJU3U",
+    "event": {
+        "client_msg_id": "ac0d4af6-49dd-48d3-aa90-d53344ac35ae",
+        "type": "message",
+        "text": "Hi <@U01CHRXLSUC>, what learning outcome is for agile project management in first year?",
+        "user": "UUNQNAB24",
+        "ts": "1627117405.014400",
+        "team": "TUPQR1UBH",
+        "blocks": [{
+            "type": "rich_text",
+            "block_id": "lZyIL",
+            "elements": [{
+                "type": "rich_text_section",
+                "elements": [{
+                    "type": "text",
+                    "text": "Hi "
+                }, {
+                    "type": "user",
+                    "user_id": "U01CHRXLSUC"
+                }, {
+                    "type": "text",
+                    "text": ", what learning outcome is for agile project management in first year?"
+                }]
+            }]
+        }],
+        "channel": "C023JCGLMGB",
+        "event_ts": "1627117405.014400",
+        "channel_type": "channel"
+    },
+    "type": "event_callback",
+    "event_id": "Ev0292LB4ELS",
+    "event_time": 1627117405,
+    "authorizations": [{
+        "enterprise_id": null,
+        "team_id": "TUPQR1UBH",
+        "user_id": "U01CHRXLSUC",
+        "is_bot": true,
+        "is_enterprise_install": false
+    }],
+    "is_ext_shared_channel": false,
+    "event_context": "3-message-TUPQR1UBH-A01CBLUJU3U-C023JCGLMGB"
+}

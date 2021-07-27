@@ -1,0 +1,10 @@
+{
+    "name": "Learning Outcome Recommender",
+    "examples": [
+        "*what *learning *outcome is about ?topic:any:*:required"
+    ],
+    "selection": "relevance",
+    "class": "LearningOutcomeRecommenderIntent",
+    "replies": [],
+    "threshold": 0.5
+}

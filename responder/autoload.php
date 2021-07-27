@@ -9,9 +9,9 @@ spl_autoload_register(function ($className) {
         __DIR__."/../common/bots",
     ];
 
-    foreach( $locations as $location ) {
+    foreach ($locations as $location) {
         $phpFilePath = $location . "/class_" . $className . '.php';
-        if ( !class_exists($className) && file_exists($phpFilePath) ) {
+        if (!class_exists($className) && file_exists($phpFilePath)) {
             require($phpFilePath);
             return;
         }
@@ -36,6 +36,7 @@ include_source("loadDialogue.php");
 include_source("getDirContents.php");
 include_source("class_SlackUserProfile.php");
 include_source("replaceTags.php");
+include_source("isLearningOutcome.php");
 
 autoload_environment();
 
@@ -44,5 +45,5 @@ $conn = new mysqli($GLOBALS['server'], $GLOBALS['username'], $GLOBALS['password'
 
 // Check connection
 if ($conn->connect_error) {
-  die("MYSQL DB Connection failed: " . $conn->connect_error);
+    die("MYSQL DB Connection failed: " . $conn->connect_error);
 }

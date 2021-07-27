@@ -15,25 +15,25 @@ $classifier = new DocumentClassifier();
 $contents = file_get_contents($metafile);
 $meta = json_decode($contents, true);
 
-foreach( $meta as $topic => $links ) {
-    foreach( $links as $item ) {
-        if ( $item['path'] ) {
+foreach ($meta as $topic => $links) {
+    foreach ($links as $item) {
+        if ($item['path']) {
             $path = $item['path'];
             $url = $item['url'];
             $info = pathinfo($path);
-            if ( !isset($path) ) {
+            if (!isset($path)) {
                 throw new \Exception("failed to find path ".$item['path']);
             }
             $type = null;
             $temporaryFile = null;
-            if ( isset($info['extension']) ) {
-                if ( $info['extension'] == "html") {
+            if (isset($info['extension'])) {
+                if ($info['extension'] == "html") {
                     $type = "HTML";
                 } else {
                     $type = "pdf";
                 }
-            } 
-            if ( $type == "pdf" ) {
+            }
+            if ($type == "pdf") {
                 $pathToContent = tempnam("/tmp", "slackbot_");
                 $temporaryFile = true;
                 print("EXEC: pdftotext $path $pathToContent\n");
@@ -43,28 +43,28 @@ foreach( $meta as $topic => $links ) {
                 $pathToContent = $path;
             }
             $contents = file_get_contents($pathToContent);
-            if ( isset($temporaryFile) ) {
+            if (isset($temporaryFile)) {
                 unlink($pathToContent);
                 $temporaryFile = null;
             }
-            if ( $type == "HTML" ) {
+            if ($type == "HTML") {
                 $dom = new DOMDocument();
                 $dom->loadHTML($contents);
                 $text = $dom->textContent;
-                $words = explode(" ",$text);
+                $words = explode(" ", $text);
                 $wordCount = min(count($words), 1000);
                 $chosenWords = [];
-                for($ii=0; $ii < $wordCount; $ii++ ) {
+                for ($ii=0; $ii < $wordCount; $ii++) {
                     $chosenWords[] = $words[$ii];
                 }
                 $selectedText = join(" ", $chosenWords);
                 $text = $item['name']." ".$selectedText;
                 $classifier->addExample($url, $text);
-            } else if ( $type == "TEXT" ) {
-                $words = explode(" ",$contents);
+            } elseif ($type == "TEXT") {
+                $words = explode(" ", $contents);
                 $wordCount = min(count($words), 1000);
                 $chosenWords = [];
-                for($ii=0; $ii < $wordCount; $ii++ ) {
+                for ($ii=0; $ii < $wordCount; $ii++) {
                     $chosenWords[] = $words[$ii];
                 }
                 $selectedText = join(" ", $chosenWords);
@@ -73,11 +73,8 @@ foreach( $meta as $topic => $links ) {
             } else {
                 throw new \Exception("Unsupported ".$path);
             }
-
         }
     }
 }
 
 $classifier->saveModel($saveModelPath);
-
-

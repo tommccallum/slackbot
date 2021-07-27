@@ -67,7 +67,7 @@ class Intent
                 }
                 $value = null;
                 if ($type == "USER") {
-                    $type = "SLACK USER"; // make it match the lexical analyser
+                    $type = "SLACK_USER"; // make it match the lexical analyser
                     $value = strtoupper($varDefParts[0]);
                 }
                 $length = 1;
@@ -162,11 +162,43 @@ class Intent
                     }
                 }
             } else {
-                if ($exampleAst[$ii]['type'] == "SLACK USER") {
+                if ($exampleAst[$ii]['type'] == "SLACK_USER") {
                     if ($exampleAst[$ii]['required']) {
                         $found = false;
                         while ($jj < count($clause)) {
-                            if ($clause[$jj]['type'] == "SLACK USER") {
+                            if ($clause[$jj]['type'] == "SLACK_USER") {
+                                $found = true;
+                                break;
+                            } else {
+                                $jj++;
+                            }
+                        }
+                        if (!$found) {
+                            return false;
+                        }
+                        $matchCount++;
+                        $match[] = [
+                            'exampleNode' => $exampleAst[$ii],
+                            'matchedNodes' => [ $clause[$jj] ],
+                            'index' => $jj
+                        ];
+                    } else {
+                        // we try to match if we can
+                        if ($clause[$jj]['type'] == $exampleAst[$ii]['type']) {
+                            $matchCount++;
+                            $match[] = [
+                                'exampleNode' => $exampleAst[$ii],
+                                'matchedNodes' => [ $clause[$jj] ],
+                                'index' => $jj
+                            ];
+                            $jj++;
+                        }
+                    }
+                } elseif ($exampleAst[$ii]['type'] == "LEARNING_OUTCOME") {
+                    if ($exampleAst[$ii]['required']) {
+                        $found = false;
+                        while ($jj < count($clause)) {
+                            if ($clause[$jj]['type'] == "LEARNING_OUTCOME") {
                                 $found = true;
                                 break;
                             } else {

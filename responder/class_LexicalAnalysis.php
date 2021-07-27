@@ -7,45 +7,50 @@ class LexicalAnalysis
     private $antonym_neg_to_pos_map = [];
     private $personNames = [];
 
-    public function lexemes() {
+    public function lexemes()
+    {
         return $this->lexemes;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->antonym_neg_to_pos_map = loadAntonyms();
         $this->personNames = loadPersonNames();
     }
 
-    public function intent() {
+    public function intent()
+    {
         $verbs = array();
-        foreach( $this->lexemes as $w => $item ) {
-            if ( substr($item['top'],0,2) == "vb" ) {
+        foreach ($this->lexemes as $w => $item) {
+            if (substr($item['top'], 0, 2) == "vb") {
                 array_push($verbs, $w);
             }
         }
-        return ( $verbs );
+        return ($verbs);
     }
 
-    public function verbs() {
+    public function verbs()
+    {
         $verbs = array();
-        foreach( $this->lexemes as $w => $item ) {
-            if ( substr($item['top'],0,2) == "vb" ) {
+        foreach ($this->lexemes as $w => $item) {
+            if (substr($item['top'], 0, 2) == "vb") {
                 array_push($verbs, $w);
             }
         }
-        return ( $verbs );
+        return ($verbs);
     }
 
-    public function get($key) {
-        if ( is_numeric($key) ) {
-            if ( $key < count($this->lexemes) ) {
+    public function get($key)
+    {
+        if (is_numeric($key)) {
+            if ($key < count($this->lexemes)) {
                 return $this->lexemes[$key];
             } else {
                 return null;
             }
         }
-        foreach( $this->lexemes as $lexeme ) {
-            if ( $lexeme['text'] == $key ) {
+        foreach ($this->lexemes as $lexeme) {
+            if ($lexeme['text'] == $key) {
                 return $lexeme;
             }
         }
@@ -53,22 +58,24 @@ class LexicalAnalysis
     }
 
 
-    public function nouns() {
+    public function nouns()
+    {
         $nouns = array();
-        foreach( $this->lexemes as $w => $item ) {
-            if ( $item['top'] == "nn" ) {
+        foreach ($this->lexemes as $w => $item) {
+            if ($item['top'] == "nn") {
                 array_push($nouns, $w);
             }
         }
-        return ( $nouns );
+        return ($nouns);
     }
 
 
-    public function isNegated() {
+    public function isNegated()
+    {
         // we could the number of negations if even then its not negated
         // if its odd then it is.
         $count = 0;
-        foreach($this->lexemes as $w => $item ) {
+        foreach ($this->lexemes as $w => $item) {
             if (strpos($item['top'], "*") !== false) {
                 $count++;
             }
@@ -76,52 +83,54 @@ class LexicalAnalysis
         return $count % 2 == 1;
     }
 
-    public function removeNegations() {
+    public function removeNegations()
+    {
         $words = [];
-        foreach($this->lexemes as $w => $item ) {
+        foreach ($this->lexemes as $w => $item) {
             $keep = true;
             $s = new Stemmer();
             $stemmedWord = $s->stem($w);
             print("STEMMED: $w => $stemmedWord\n");
-            if ( isset($this->antonym_neg_to_pos_map[$stemmedWord]) ) {
+            if (isset($this->antonym_neg_to_pos_map[$stemmedWord])) {
                 $w = $this->antonym_neg_to_pos_map[$stemmedWord];
-            } else if (strpos($item['top'], "*") !== false) {
-                if ( $w === "not" ) {
+            } elseif (strpos($item['top'], "*") !== false) {
+                if ($w === "not") {
                     // remove completely
                     $keep = false;
-                } else if ( $w === "won't" ) {
+                } elseif ($w === "won't") {
                     $w = "will";
-                    
                 } else {
                     $w = preg_replace("/n\'t/", "", $w);
                 }
             }
-            if ( $keep ) {
+            if ($keep) {
                 array_push($words, $w);
             }
         }
         $this->lexemes = $this->inferPartsOfSpeechArray($words);
     }
 
-    public function set($lexemes) {
+    public function set($lexemes)
+    {
         $this->lexemes = $lexemes;
     }
 
-    public function words() {
+    public function words()
+    {
         return array_keys($this->lexemes);
     }
 
-    public function getTaggedText() {
+    public function getTaggedText()
+    {
         $str = "";
-        foreach($this->lexemes as $word => $lexeme){
-            if(is_array($lexeme['tags'])){
-              $tag = key($lexeme['tags']);
-            }
-            else{
+        foreach ($this->lexemes as $word => $lexeme) {
+            if (is_array($lexeme['tags'])) {
+                $tag = key($lexeme['tags']);
+            } else {
                 $tag = $lexeme['top'];
             }
           
-          $str .= $word . '/' . $tag . ' ';
+            $str .= $word . '/' . $tag . ' ';
         }
         return $str;
     }
@@ -138,7 +147,7 @@ class LexicalAnalysis
                 "text" => strtolower($word)
             ];
 
-            if ( preg_match("/^\d+$/", $word) ) {
+            if (preg_match("/^\d+$/", $word)) {
                 $meta['value'] = intval($word);
                 $meta['type'] = "NUMBER";
                 $meta['top'] = "_NUMBER";
@@ -147,7 +156,7 @@ class LexicalAnalysis
                 continue;
             }
 
-            if ( preg_match("/^-?(?:\d+|\d*\.\d+)$/", $word) ) {
+            if (preg_match("/^-?(?:\d+|\d*\.\d+)$/", $word)) {
                 $meta['value'] = doubleval($word);
                 $meta['type'] = "NUMBER";
                 $meta['top'] = "_NUMBER";
@@ -156,8 +165,8 @@ class LexicalAnalysis
                 continue;
             }
 
-            if ( substr($word,0,2) == "::" && substr($word,-2,2) == "::" ) {
-                $meta['value'] = substr($word,2,strlen($word)-4);
+            if (substr($word, 0, 2) == "::" && substr($word, -2, 2) == "::") {
+                $meta['value'] = substr($word, 2, strlen($word)-4);
                 $meta['type'] = "EMOJI";
                 $meta['top'] = "_EMOJI";
                 $meta['tags'] = [ '_EMOJI' => ['score' => 1, 'percent' => 100]];
@@ -166,7 +175,7 @@ class LexicalAnalysis
             }
 
             # categorise known names
-            if ( in_array($meta['text'], $this->personNames) ) {
+            if (in_array($meta['text'], $this->personNames)) {
                 $meta['tags'] = [ 'NP' => [ 'score' => 1, 'percent' => 100 ]];
                 $meta['type'] = "PERSON";
                 $meta['top'] = "NP";
@@ -174,22 +183,22 @@ class LexicalAnalysis
                 continue;
             }
 
-            if ( preg_match("/(\d\.\d\.\d\.\d)$/", $word, $matches ) ) {
+            if (preg_match("/(\d\.\d\.\d\.\d)$/", $word, $matches)) {
                 $learningOutcome = $matches[1];
                 $meta['value'] = "LO".$learningOutcome;
                 $meta['tags'] = ['NP' => 1];
                 $meta['top'] = "NP";
                 $meta['valid'] = null;
-                $meta['type'] = "LEARNING OUTCOME";
+                $meta['type'] = "LEARNING_OUTCOME";
                 $lexemes[] = $meta;
                 continue;
             }
 
-            if ( preg_match("/^U\w{10}$/", $word, $matches ) ) {
+            if (preg_match("/^U\w{10}$/", $word, $matches)) {
                 $meta['value'] = $word;
                 $meta['tags'] = ['NP' => 1];
                 $meta['top'] = "NP";
-                $meta['type'] = "SLACK USER";
+                $meta['type'] = "SLACK_USER";
                 $lexemes[] = $meta;
                 continue;
             }
@@ -228,15 +237,15 @@ class LexicalAnalysis
                     }
                     $meta['tags'] = $tags;
                 }
-            } else { 
+            } else {
                 // If we don't know this tag, we will take a guess and think its a technical term
                 // in which case its most likely a name of something - hence a noun of somesort.
                 // If its been used in all caps or first letter is capital then we say its a proper
                 // noun.
-                if ( ctype_upper($meta['original']) ) {
+                if (ctype_upper($meta['original'])) {
                     // if in all capitals like HTML
                     $meta['tags'] = [ 'NP' => [ 'score' => 1, 'percent' => 100 ] ];
-                } else if ( $meta['index'] !== 1 && ctype_upper($meta['original'][0]) ) {
+                } elseif ($meta['index'] !== 1 && ctype_upper($meta['original'][0])) {
                     // is not start of sentence and has capital e.g. Python
                     $meta['tags'] = [ 'NP' => [ 'score' => 0.8, 'percent' => 80 ],
                                         'NN' => [ 'score' => 0.2, 'percent' => 40 ],
@@ -253,9 +262,4 @@ class LexicalAnalysis
         $this->lexemes = $lexemes;
         return $lexemes;
     }
-
-
 }
-
-
-
