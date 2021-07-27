@@ -9,10 +9,11 @@
         "*Any ?topic:any:* *suggestions",
         "can you *recommend anything for ?topic:any:*",
         "can you *recommend anything on ?topic:any:*",
-        "Any suggestions on ?topic:any:*",
-        "Any suggestions for ?topic:any:*"
+        "Any *suggestions on ?topic:any:*",
+        "Any *suggestions for ?topic:any:*"
     ],
     "selection": "relevance",
     "class": "ResourceRecommender",
-    "replies": []
+    "replies": [],
+    "threshold": 0.5
 }

@@ -26,6 +26,7 @@ class Intent
     private $selectionMethod = "";
     private $replies = [];
     private $className = null;
+    private $threshold = 0.5;
 
     public function name()
     {
@@ -270,7 +271,7 @@ class Intent
             // does our example match the clause we have been handed
             $exampleAst = $this->parseExample($example);
             $result = $this->matchExampleToClause($exampleAst, $clause);
-            if ($result !== false) {
+            if ($result !== false && $result['quality'] >= $this->threshold) {
                 $result['example'] = $example;
                 $result['example_index'] = $index;
                 $matchedExamples[] = $result;
@@ -314,6 +315,9 @@ class Intent
             }
             if (isset($json['class'])) {
                 $this->className = $json['class'];
+            }
+            if (isset($json['threshold'])) {
+                $this->threshold = $json['threshold'];
             }
         }
     }
