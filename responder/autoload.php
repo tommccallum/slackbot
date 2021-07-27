@@ -31,6 +31,7 @@ include_source("getConversationHistory.php");
 include_source("isThisAlice.php");
 include_source("traverseMessageBlocks.php");
 include_source("splitStringIntoLexemes.php");
+include_source("splitStringIntoClauses.php");
 include_source("loadDialogue.php");
 include_source("getDirContents.php");
 include_source("class_SlackUserProfile.php");
