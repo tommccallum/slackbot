@@ -1,6 +1,6 @@
 <?php
 
-// This simple document classifier works the same as the Sentiment Analyser to 
+// This simple document classifier works the same as the Sentiment Analyser to
 // get a best fit of all the documents.
 // Each document is a CLASS
 
@@ -30,13 +30,13 @@ class DocumentClassifier
     private $stopWordList = array();
     private $stopWordFile = __DIR__."/data/stopwords.txt";
 
-    public function addExample( $url, $document )
+    public function addExample($url, $document)
     {
         $this->classes[] = $url;
-        if ( !isset($this->classDocCounts[$url]) ) {
+        if (!isset($this->classDocCounts[$url])) {
             $this->classDocCounts[$url] = 0;
-        } 
-        if ( !isset($this->classTokCounts[$url]) ) {
+        }
+        if (!isset($this->classTokCounts[$url])) {
             $this->classTokCounts[$url] = 0;
         }
 
@@ -56,14 +56,14 @@ class DocumentClassifier
     public function calcPriors()
     {
         // change our priors to match the proportions in our initial data.
-        foreach( $this->classes as $class) {
+        foreach ($this->classes as $class) {
             $this->prior[$class] = $this->classDocCounts[$class] / $this->docCount;
         }
     }
 
     public function classify($userText, $details=false)
     {
-        if ( strlen(trim($userText)) == 0 ) {
+        if (strlen(trim($userText)) == 0) {
             return null;
         }
         $this->calcPriors();
@@ -93,15 +93,15 @@ class DocumentClassifier
             //$classScores[$class] = $count;
         }
         
-        if ( $numberOfHits == 0 ) {
+        if ($numberOfHits == 0) {
             return null;
         }
 
         // sort in descending order maintain index association
         arsort($classScores);
 
-        if ( $details ) {
-            return ( $classScores);
+        if ($details) {
+            return ($classScores);
         }
 
         // debug the top 5
@@ -122,11 +122,11 @@ class DocumentClassifier
     // TODO remove the words like 'a', 'the' etc
     private function tokenise($document)
     {
-        if ( count($this->stopWordList) == 0 && file_exists($this->stopWordFile) ) {
+        if (count($this->stopWordList) == 0 && file_exists($this->stopWordFile)) {
             print("Reading stop word list from file\n");
             $this->stopWordList = file($this->stopWordFile);
             $this->stopWordList = array_map("strtolower", $this->stopWordList);
-            $this->stopWordList = array_map("chop",$this->stopWordList);
+            $this->stopWordList = array_map("chop", $this->stopWordList);
             print("Read in ".count($this->stopWordList)." stop words\n");
         }
         #$document = strtolower($document);
@@ -135,28 +135,31 @@ class DocumentClassifier
         $bagOfWords = explode(' ', $document);
         array_walk($bagOfWords, array($this, "cleanWord"));
         $usefulWords = array();
-        foreach( $bagOfWords as $w ) {
-            if ( in_array($w, $this->stopWordList) ) {
+        foreach ($bagOfWords as $w) {
+            if (in_array($w, $this->stopWordList)) {
                 # ignore
-            } else {
+            } elseif (strlen(trim($w)) > 0) {
                 $usefulWords[count($usefulWords)] = $w;
             }
         }
         return $usefulWords;
     }
 
-    private function cleanWord(&$w) {
+    private function cleanWord(&$w)
+    {
         $w = strtolower($w);
         $w = preg_replace('/\W/', '', $w);
     }
 
-    public function report() {
+    public function report()
+    {
         var_dump($this->classDocCounts);
     }
 
-    public function saveModel($path) {
-        $saveObject = array( 
-                                'stopWordList' => $this->stopWordList, 
+    public function saveModel($path)
+    {
+        $saveObject = array(
+                                'stopWordList' => $this->stopWordList,
                                 'stopWordFile' => $this->stopWordFile,
                                 'index' => $this->index,
                                 'classes' => $this->classes,
@@ -170,7 +173,8 @@ class DocumentClassifier
         file_put_contents($path, $json);
     }
 
-    public function loadModel($path) {
+    public function loadModel($path)
+    {
         $contents = file_get_contents($path);
         $json = json_decode($contents, true);
         $this->stopWordList = $json['stopWordList'];
@@ -184,6 +188,3 @@ class DocumentClassifier
         $this->prior = $json['prior'];
     }
 }
-
-
-
