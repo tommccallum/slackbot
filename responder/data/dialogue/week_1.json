@@ -1,5 +1,6 @@
 [
     {
+        "who_asked_the_question": "human",
         "question": [
             "how do I structure my week",
             "plan for the week",
@@ -10,6 +11,7 @@
         ]
     },
     {
+        "who_asked_the_question": "human",
         "question": [
             "why did you join the course",
             "why are you here"
@@ -19,6 +21,7 @@
         ]
     },
     {
+        "who_asked_the_question": "human",
         "question": [
             "where do I start",
             "where do I begin"
@@ -28,6 +31,7 @@
         ]
     },
     {
+        "who_asked_the_question": "human",
         "question": [
             "who created you"
         ],
@@ -36,6 +40,7 @@
         ]
     },
     {
+        "who_asked_the_question": "bot",
         "question": [
             "what is the tag for a paragraph of text?"
         ],

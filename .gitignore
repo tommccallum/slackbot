@@ -12,6 +12,7 @@ responder/data/bookmarks
 responder/data/bookmarks*.html
 responder/data/talis*
 *.log
+.~*
 
 #Allow
 !/composer.json
