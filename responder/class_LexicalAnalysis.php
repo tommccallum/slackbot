@@ -5,6 +5,7 @@ class LexicalAnalysis
 {
     private $lexemes = array();
     private $antonym_neg_to_pos_map = [];
+    private $personNames = [];
 
     public function lexemes() {
         return $this->lexemes;
@@ -12,6 +13,7 @@ class LexicalAnalysis
 
     public function __construct() {
         $this->antonym_neg_to_pos_map = loadAntonyms();
+        $this->personNames = loadPersonNames();
     }
 
     public function intent() {
@@ -36,14 +38,18 @@ class LexicalAnalysis
 
     public function get($key) {
         if ( is_numeric($key) ) {
-            $keys = array_keys($this->lexemes);
-            if ($key < count($keys)) {
-                $key = $keys[$key];
+            if ( $key < count($this->lexemes) ) {
+                return $this->lexemes[$key];
             } else {
                 return null;
             }
         }
-        return $this->lexemes[$key];
+        foreach( $this->lexemes as $lexeme ) {
+            if ( $lexeme['text'] == $key ) {
+                return $lexeme;
+            }
+        }
+        return null;
     }
 
 
@@ -125,8 +131,71 @@ class LexicalAnalysis
         global $conn;
         $lexemes = array();
 
-        foreach ($words as $word) {
-            // TODO this may be quicker to search for all words at the same time rather than one by one and taking the first entry.
+        foreach ($words as $index => $word) {
+            $meta = [
+                "index" => $index,
+                "original" => $word,
+                "text" => strtolower($word)
+            ];
+
+            if ( preg_match("/^\d+$/", $word) ) {
+                $meta['value'] = intval($word);
+                $meta['type'] = "NUMBER";
+                $meta['top'] = "_NUMBER";
+                $meta['tags'] = [ '_NUMBER' => ['score' => 1, 'percent' => 100]];
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            if ( preg_match("/^-?(?:\d+|\d*\.\d+)$/", $word) ) {
+                $meta['value'] = doubleval($word);
+                $meta['type'] = "NUMBER";
+                $meta['top'] = "_NUMBER";
+                $meta['tags'] = [ '_NUMBER' => ['score' => 1, 'percent' => 100]];
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            if ( substr($word,0,2) == "::" && substr($word,-2,2) == "::" ) {
+                $meta['value'] = substr($word,2,strlen($word)-4);
+                $meta['type'] = "EMOJI";
+                $meta['top'] = "_EMOJI";
+                $meta['tags'] = [ '_EMOJI' => ['score' => 1, 'percent' => 100]];
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            # categorise known names
+            if ( in_array($meta['text'], $this->personNames) ) {
+                $meta['tags'] = [ 'NP' => [ 'score' => 1, 'percent' => 100 ]];
+                $meta['type'] = "PERSON";
+                $meta['top'] = "NP";
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            if ( preg_match("/(\d\.\d\.\d\.\d)$/", $word, $matches ) ) {
+                $learningOutcome = $matches[1];
+                $meta['value'] = "LO".$learningOutcome;
+                $meta['tags'] = ['NP' => 1];
+                $meta['top'] = "NP";
+                $meta['valid'] = null;
+                $meta['type'] = "LEARNING OUTCOME";
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            if ( preg_match("/^U\w{10}$/", $word, $matches ) ) {
+                $meta['value'] = $word;
+                $meta['tags'] = ['NP' => 1];
+                $meta['top'] = "NP";
+                $meta['type'] = "SLACK USER";
+                $lexemes[] = $meta;
+                continue;
+            }
+            
+            $meta['type'] = "WORD";
+            
             $sql = "SELECT * FROM `Words` WHERE `Word` = ? LIMIT 1";
             $statement = $conn->prepare($sql);
             $statement->bind_param("s", $word);
@@ -137,29 +206,50 @@ class LexicalAnalysis
                 // Collect the tags for the Uni-gram
                 while ($row = mysqli_fetch_assoc($result)) {
                 
-                    // Decode Uni-gram tags from json into associtive array
+                    // Decode Uni-gram tags from json into associative array
                     $tags = json_decode($row["Tags"], 1);
                 
                     // if there are known tags for the Uni-gram
                     if (!empty($tags)) {
                         // Sort the tags and compute %
-                        arsort($tags);
+                        
+                        arsort($tags); // arranges them by value from largest to smallest
                         $sum = array_sum($tags);
                         foreach ($tags as $tag=>&$score) {
-                            $score = $score . ' : ' . ($score/$sum * 100) . '%';
+                            #$score = $score . ' : ' . ($score/$sum * 100) . '%';
+
+                            $score = [
+                                'score' => $score,
+                                'percent' => $score/$sum * 100
+                            ];
                         }
                     } else {
-                        $tags = array('unk'=>'1 : 100%');
+                        $tags = [ 'unk' => [ 'score' => 1, 'percent' => 100 ] ];
                     }
-                
-                    $lexemes[$word] = array('lexeme'=>$word, 'tags'=> $tags, 'top' => key($tags) );
+                    $meta['tags'] = $tags;
                 }
-            } else { // We don't know this Tag
-                $lexemes[$word] = array('lexeme'=>$word, 'tags'=> array('unk'=>'1 : 100%'));
-                $lexemes[$word]['top'] = key($lexemes[$word]['tags']);
+            } else { 
+                // If we don't know this tag, we will take a guess and think its a technical term
+                // in which case its most likely a name of something - hence a noun of somesort.
+                // If its been used in all caps or first letter is capital then we say its a proper
+                // noun.
+                if ( ctype_upper($meta['original']) ) {
+                    // if in all capitals like HTML
+                    $meta['tags'] = [ 'NP' => [ 'score' => 1, 'percent' => 100 ] ];
+                } else if ( $meta['index'] !== 1 && ctype_upper($meta['original'][0]) ) {
+                    // is not start of sentence and has capital e.g. Python
+                    $meta['tags'] = [ 'NP' => [ 'score' => 0.8, 'percent' => 80 ],
+                                        'NN' => [ 'score' => 0.2, 'percent' => 40 ],
+                                     ];
+                } else {
+                    $meta['tags'] = [ 'NN' => [ 'score' => 0.6, 'percent' => 60 ],
+                                        'NP' => [ 'score' => 0.4, 'percent' => 40 ],
+                                     ];
+                }
             }
+            $meta['top'] = strtoupper(key($meta['tags']));
+            $lexemes[] = $meta;
         }
-
         $this->lexemes = $lexemes;
         return $lexemes;
     }

@@ -38,6 +38,34 @@ class EmojiSentimentAnalyser
         return $averageSentiment;
     }
 
+    public function classifyLexemes($lexemes) {
+        $totalSentiment = 0.0;
+        $numberOfEmojis = 0.0;
+
+        $emojis = [];
+        foreach( $lexemes as $l ) {
+            if ( $l['type'] === "EMOJI" ) {
+                $emojis[] = $l['value'];
+            }
+        }
+
+
+        $numberOfEmojis = count($emojis);
+        foreach( $emojis as $emoji ) {
+            if ( isset($this->emojiSentimentMap[$emoji]) ) {
+                $totalSentiment += $this->emojiSentimentMap[$emoji];
+            } else {
+                $totalSentiment += $this->defaultEmojiValue;
+            }
+        }
+        if ( $numberOfEmojis === 0 ) {
+            $averageSentiment = 2.0;
+        } else {
+            $averageSentiment = $totalSentiment / $numberOfEmojis;
+        }
+        return $averageSentiment;
+    }
+
     public function loadModel($path) {
         $contents = array_map("str_getcsv",file($path));
         foreach( $contents as $row ) {

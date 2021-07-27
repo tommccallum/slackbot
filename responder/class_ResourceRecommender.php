@@ -43,7 +43,17 @@ class ResourceRecommender
         # its a a bit simple and we can improve it later on to look
         # for synonyms.
         $str = "You can also check out <https://rl.talis.com/3/uhi/lists/40F502DF-66AD-61B2-F3B2-93D993BF638F.html?lang=en-GB&login=1|the reading list>.";
-        $request = $matchedIntent['variables']['topic']['value'];
+        
+        // at the moment we only return one match but this could be more maybe?
+        foreach( $matchedIntent['match'][0]['matches'] as $item ) {
+            if ( $item['exampleNode']['text'] == "topic") {
+                foreach ($item['matchedNodes'] as $node) {
+                    $topicTextArray[] = $node['text'];
+                }
+            }
+        }
+        $request = join(" ", $topicTextArray);
+        var_dump($request);
         $url = $this->documentRecommender->classify($request);
         $response = "";
         if ( isset($url) ) {

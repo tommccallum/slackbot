@@ -2,11 +2,11 @@
 
 function splitStringIntoLexemes($message)
 {
-    // for the most part this is by space but we want also split off
-    // punctuation.
+    // EMOJI are ::[A-Za-z0-9_]::
+    // Learning outcomes
+    // Slack users U\w{10}
 
-    // lexemes
-    //$words = array('The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog', '.', 'A', 'long-term', 'contract', 'with', '``', 'zero-liability', "''", 'protection', '!', "Let's", 'think', 'it', 'over', '.');
-    preg_match_all('/([Uu]\w{10}|\p{L}+\'t|\p{L}+|\p{P}+|[\p{N}\.]+|\S)/', $message, $words);
+    // TODO add in variables so we can use this with internal strings as well
+    preg_match_all('/(::[A-Za-z0-9_]+::|[Ll][Oo]\s*\d\.\d\.\d\.\d|\d.\d.\d.\d|[Uu]\w{10}|\p{L}+\'t|\p{L}+|\p{N}[\.\p{N}]+|\.\p{N}+|\p{P}+|\S)/', $message, $words);
     return ( $words[1] );
 }

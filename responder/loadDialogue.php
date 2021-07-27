@@ -29,3 +29,14 @@ function loadAntonyms()
     }
     return $antonym_neg_to_pos_map;
 }
+
+function loadPersonNames() 
+{
+    $data = array_map("str_getcsv", file(__DIR__ . DIRECTORY_SEPARATOR . "data/person_names.txt"));
+    # maps negative -> positive
+    $names = [];
+    foreach( $data as $row ) {
+        $names[$row[0]] = strtolower($row[0]);
+    }
+    return $names;
+}

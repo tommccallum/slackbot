@@ -98,6 +98,38 @@ class SentimentAnalyser
         }
     }
 
+    public function classifyLexemes($lexemes, $details=false)
+    {
+        $this->calcPriors();
+
+        // tokenise the latest message
+        $classScores = array();
+
+        // for each class we will calculate the influence of each word
+        foreach ($this->classes as $class) {
+            $classScores[$class] = 1;
+            foreach ($lexemes as $lexeme) {
+                $token = $lexeme['text'];
+                $count = isset($this->index[$token][$class]) ?
+                                    $this->index[$token][$class] : 0;
+
+                $classScores[$class] *= ($count + 1) /
+                                    ($this->classTokCounts[$class] + $this->tokCount);
+            }
+            $classScores[$class] = $this->prior[$class] * $classScores[$class];
+        }
+        
+        // sort in descending order maintain index association
+        arsort($classScores);
+
+        if ( $details ) {
+            return ( $classScores);
+        }
+
+        // get the index of the highest value e.g. pos, neg
+        return array_search(key($classScores), $this->classes);
+    }
+
     public function classify($document, $details=false)
     {
         $this->calcPriors();

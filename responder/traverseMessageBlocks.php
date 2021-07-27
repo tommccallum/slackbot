@@ -47,6 +47,39 @@ function collapseEmojiBlocksIntoArray($blocks) {
     return $result;
 }
 
+function getTextAndEmojiBlocks($element) {
+    if ( $element['type'] == "text" ) {
+        return $element;
+    }
+    if ( $element['type'] == "user" ) {
+        return $element;
+    }
+    if ( $element['type'] == "emoji" ) {
+        return $element;
+    }
+    return null;
+}
+
+function collapseTextAndEmojiBlocksIntoString($blocks) {
+    $str = "";
+    foreach($blocks as $block) {
+        if ( isset($block['text']) ) {
+            $text = $block['text'];
+            $str .= " ".$text;
+        } else if ( isset($block['user_id']) ) {
+            $text = $block['user_id'];
+            $str .= " ".$text;
+        } elseif ( isset($block['name']) ) {
+            $text = $block['name'];
+            $str .= " ::".$text."::";
+        }
+    }
+    #$str = preg_replace("/\s+/"," ", $str);             # remove multiple spaces
+    #$str = preg_replace("/\.\s*\./", ".", $str);        # full stops with nothing in between
+    return $str;
+}
+
+
 function getUserBlocks($element) {
     if ( $element['type'] == "user" ) {
         return $element;

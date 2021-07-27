@@ -34,16 +34,22 @@ class Me
     }
 
     public function match($matchedIntent) {
-        # here we are just going to look for the key in the question
-        # its a a bit simple and we can improve it later on to look
-        # for synonyms.
-        $str = $matchedIntent['matched_example'];
-        foreach( $this->attributes as $key => $value ) {
-            if ( strpos(strtolower($str), strtolower($key)) !== false ) {
-                return $value;
-            }
+        # here because we changed the matching method
+        # we don't have anything to select so we have hand matched.
+        # ideally we would match the examples to the answer.
+        $index = $matchedIntent['match'][0]['example_index'];
+        switch($index) {
+            case 0:
+                return $this->get("live");
+            case 1:
+                return $this->get("name");
+            case 2:
+                return $this->get("age");
+            case 3:
+                return $this->get("age");
+            default:
+                return "Sorry, thats too personal!";
         }
-        return "Sorry, thats too personal!";
     }
 
 }

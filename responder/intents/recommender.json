@@ -1,11 +1,14 @@
 {
     "name": "Recommender",
     "examples": [
-        "what do you recommend for %%topic%%",
-        "what do you recommend on %%topic%%",
-        "can you recommend a resource for %%topic%%",
-        "can you recommend a resource on %%topic%%",
-        "Any %topic% resources"
+        "what do you *recommend for ?topic:any:*",
+        "what do you *recommend on ?topic:any:*",
+        "can you *recommend a *resource for ?topic:any:*",
+        "can you *recommend a *resource on ?topic:any:*",
+        "*Any ?topic:any:* *resources",
+        "*Any ?topic:any:* *suggestions",
+        "can you *recommend anything for ?topic:any:*",
+        "can you *recommend anything on ?topic:any:*"
     ],
     "selection": "relevance",
     "class": "ResourceRecommender",

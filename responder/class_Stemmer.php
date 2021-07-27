@@ -330,6 +330,8 @@ class Stemmer
         return $str;
     }
 
+
+    // TODO add in extra logic for be,have,do,got verbs which we don't want a full blown lexical analyser for
     public function stem($str) {
         $str = strtolower($str);
         if ( in_array($str, $this->exceptions) ) {

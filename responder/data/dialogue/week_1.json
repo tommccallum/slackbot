@@ -34,6 +34,20 @@
         "answer": [
             "That's a bit personal. If you must know, I was created by Tom to help you with this course. Looking forward to working with you %you.first_name%."
         ]
+    },
+    {
+        "question": [
+            "what is the tag for a paragraph of text?"
+        ],
+        "answer": [
+            "<p>"
+        ],
+        "if_correct": [
+            "Thanks, thats a big help."
+        ],
+        "if_wrong": [
+            "Are you sure its '%answer%', that doesn't seem right to me."
+        ]
     }
 
 ]
