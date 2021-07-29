@@ -28,7 +28,7 @@ $GLOBALS['DEBUG'] = 0;
 $LOG_PATH = __DIR__ . "/../logs/replyToMessages.log";
 
 $options = ["typeMap" => ['root' => 'array', 'document' => 'array']];
-$collection = (new MongoDB\Client())->slackbot->events;
+$collection = (new MongoDB\Client(null, [], options]))->slackbot->events;
 
 
 while ($watchLoop) {
