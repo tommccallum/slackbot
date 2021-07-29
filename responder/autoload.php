@@ -25,7 +25,6 @@ include_source("autoload_environment.php");
 include_source("helloworld.php");
 include_source("createNewBot.php");
 include_source("SlackIO.php");
-include_source("getConversation.php");
 include_source("getConversationReplies.php");
 include_source("getConversationHistory.php");
 include_source("isThisAlice.php");
@@ -37,7 +36,7 @@ include_source("getDirContents.php");
 include_source("class_SlackUserProfile.php");
 include_source("replaceTags.php");
 include_source("isLearningOutcome.php");
-
+include_source("getBotInfo.php");
 autoload_environment();
 
 // Create connection

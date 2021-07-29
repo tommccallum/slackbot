@@ -34,7 +34,7 @@ class Intent
         return $this->name;
     }
 
-    public function getReply($matchedIntent=null)
+    public function getReply(&$matchedIntent=null)
     {
         if (isset($this->className)) {
             $cls = new $this->className();
@@ -367,8 +367,7 @@ class Intent
             // var_dump("Intent match: ".$match['example']." ".$match['quality']." ".$match['match_count']." ".$match['total_count']);
         }
 
-        $intents = ['name' => $this->name(),
-                    'action' => array( $this, "getReply"),
+        $intents = ['intent_name' => $this->name(),
                     'match' => $matchedExamples
                     ];
         return $intents;

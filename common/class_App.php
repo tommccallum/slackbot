@@ -6,7 +6,7 @@ DEFINE("TYPE_COMMAND", 2);
 DEFINE("TYPE_EVENT", 3);
 DEFINE("TYPE_SELF", 4);
 
-class App 
+class App
 {
     public $sendToSlack = false;					// flag for if we are being called from slack or from command line
     public $command = null;
@@ -30,77 +30,80 @@ class App
     public $event = null;
     public $authorizations = null;
     public $eventContext = null;
-    private $conversation = null;
 
 
-    function __construct($inputArguments) {
+    public function __construct($inputArguments)
+    {
         try {
             $this->fromInternet($inputArguments);
-        } catch( Exception $ex) {
+        } catch (Exception $ex) {
             $this->fromConsole($inputArguments);
         }
     }
 
-    public function setConversation($conversation) {
-        $this->conversation = $conversation;
-
-        # TODO if we are not replying to the latest message then we should move to that.
-    }
-
-    function getChannelId() {
-        if ( isset($this->event['channel']) ) {
+    public function getChannelId()
+    {
+        if (isset($this->event['channel'])) {
             return ($this->event['channel']);
         }
         return $this->channelId;
     }
 
-    private function type() {
-        if ( isset($this->command) ) {
+    private function type()
+    {
+        if (isset($this->command)) {
             return TYPE_COMMAND;
-        } else if ( isset($this->event) ) {
+        } elseif (isset($this->event)) {
             return TYPE_EVENT;
-        } else if ( isset($this->challenge) ) {
+        } elseif (isset($this->challenge)) {
             return TYPE_CHALLENGE;
         }
         return TYPE_UNKNOWN;
     }
 
-    public function isChallenge() {
+    public function isChallenge()
+    {
         return $this->type() == TYPE_CHALLENGE;
     }
 
-    public function isCommand() {
+    public function isCommand()
+    {
         return $this->type() == TYPE_COMMAND;
     }
 
-    public function isEvent() {
+    public function isEvent()
+    {
         return $this->type() == TYPE_EVENT;
     }
 
-    public function isSelf() {
-        return $this->type() == TYPE_EVENT  
+    public function isSelf()
+    {
+        return $this->type() == TYPE_EVENT
                 && (
-                    ( 
-                        $this->event['subtype'] === "bot_message" && $this->event['bot_id'] === BOT_ID ) 
-                    || 
-                    ( 
+                    (
+                        $this->event['subtype'] === "bot_message" && $this->event['bot_id'] === BOT_ID
+                    )
+                    ||
+                    (
                         isset($this->event['bot_profile']) && $this->event['bot_profile']['app_id'] == SLACK_APP_ID
                     )
                 );
     }
 
-    public function isReplyToThread() {
-        if ( !isset($this->event) ) {
+    public function isReplyToThread()
+    {
+        if (!isset($this->event)) {
             return false;
         }
         return isset($this->event['thread_ts']);
     }
 
-    public function isParentMessageOfThread() {
-        if ( !isset($this->event) ) {
+    public function isParentMessageOfThread()
+    {
+        if (!isset($this->event)) {
             return false; // not a thread at all
         }
-        if ( isset($this->event['thread_ts']) ) {
+        if (isset($this->event['thread_ts'])) {
             $thread_ts = $this->event['thread_ts'];
         } else {
             // if no thread_ts is present then this is a parent thread.
@@ -110,11 +113,12 @@ class App
         return isset($this->jsonRequest['ts']) && $this->jsonRequest['ts'] === $thread_ts;
     }
 
-    public function isChildMessageOfThread() {
-        if ( !isset($this->event) ) {
+    public function isChildMessageOfThread()
+    {
+        if (!isset($this->event)) {
             return false;
         }
-        if ( isset($this->event['thread_ts']) ) {
+        if (isset($this->event['thread_ts'])) {
             $thread_ts = $this->event['thread_ts'];
         } else {
             return false;
@@ -122,16 +126,18 @@ class App
         return isset($this->jsonRequest['ts']) && $this->jsonRequest['ts'] != $thread_ts;
     }
 
-    public function getThreadId() {
-        if ( isset($this->event) ) {
+    public function getThreadId()
+    {
+        if (isset($this->event)) {
             return $this->event['ts'];
         }
         return null;
     }
 
-    public function getParentThread() {
-        if ( isset($this->event) ) {
-            if( isset($this->event['thread_ts'])) {
+    public function getParentThread()
+    {
+        if (isset($this->event)) {
+            if (isset($this->event['thread_ts'])) {
                 return $this->event['thread_ts'];
             } else {
                 return $this->event['ts'];
@@ -140,11 +146,12 @@ class App
         return null;
     }
 
-    function fromInternet($inputArguments) {
+    public function fromInternet($inputArguments)
+    {
         $this->jsonRequest = $inputArguments;
         $this->sendToSlack = true;
         
-        if ( isset($inputArguments['sendToSlack'])) {
+        if (isset($inputArguments['sendToSlack'])) {
             $this->sendToSlack = $inputArguments['sendToSlack'];
         }
         if (isset($inputArguments['token'])) {
@@ -158,13 +165,13 @@ class App
         }
         
         # command and event messages are different
-        if ( isset($inputArguments['challenge'])) {
+        if (isset($inputArguments['challenge'])) {
             # challenge message
             $this->challenge = $inputArguments['challenge'];
-            if ( isset($inputArguments['type'])) {
+            if (isset($inputArguments['type'])) {
                 $this->type = $inputArguments['type'];
             }
-        } else if (isset($inputArguments['command'])) { // slack command initiated with /alice
+        } elseif (isset($inputArguments['command'])) { // slack command initiated with /alice
             // {"token":"YRa10rG6JrFoGpB3n8fBY3NT",
             //     "team_id":"TUPQR1UBH",
             //     "team_domain":"asd-at-uhi",
@@ -185,7 +192,7 @@ class App
             if (isset($inputArguments['channel_id'])) {
                 $this->channelId = $inputArguments['channel_id'];
             }
-            if ( isset($inputArguments['channel_name'])) {
+            if (isset($inputArguments['channel_name'])) {
                 $this->channelName = $inputArguments['channel_name'];
             }
             if (isset($inputArguments['user_name'])) {
@@ -194,21 +201,19 @@ class App
             if (isset($inputArguments['user_id'])) {
                 $this->userId = $inputArguments['user_id'];
             }
-            if ( isset($inputArguments['is_enterprise_install'])) {
+            if (isset($inputArguments['is_enterprise_install'])) {
                 $this->isEnterpriseInstall = $inputArguments['is_enterprise_install'];
             }
-            if ( isset($inputArguments['response_url'])) {
+            if (isset($inputArguments['response_url'])) {
                 $this->responseUrl = $inputArguments['response_url'];
             }
-            if ( isset($inputArguments['trigger_id'])) {
+            if (isset($inputArguments['trigger_id'])) {
                 $this->triggerId = $inputArguments['trigger_id'];
             }
-            if ( isset($inputArguments['team_domain'])) {
+            if (isset($inputArguments['team_domain'])) {
                 $this->teamDomain = $inputArguments['team_domain'];
             }
-            
-            
-        } else if ( isset($inputArguments['event'])) { // slack event initiated by @alice for instance
+        } elseif (isset($inputArguments['event'])) { // slack event initiated by @alice for instance
             // {
             //     "token":"YRa10rG6JrFoGpB3n8fBY3NT",
             //     "team_id":"TUPQR1UBH",
@@ -251,7 +256,7 @@ class App
             // }
             //
             // There are also bot messages:
-            // 
+            //
             // {"token":"YRa10rG6JrFoGpB3n8fBY3NT","team_id":"TUPQR1UBH","api_app_id":"A01CBLUJU3U",
             // "event":{"type":"message","subtype":"bot_message","text":"Hello World!","ts":"1626535205.001200",
             // "bot_id":"B025930SRHP","channel":"C023JCGLMGB","event_ts":"1626535205.001200","channel_type":"channel"},
@@ -261,37 +266,38 @@ class App
 
 
 
-            if ( isset($inputArguments['event']) ) {
+            if (isset($inputArguments['event'])) {
                 $this->event = $inputArguments['event'];
                 $this->channelId = $this->event['channel'];
             }
-            if ( isset($inputArguments['is_ext_shared_channel'])) {
+            if (isset($inputArguments['is_ext_shared_channel'])) {
                 $this->isExtSharedChannel = $inputArguments['is_ext_shared_channel'];
             }
-            if ( isset($inputArguments['event_context'])) {
+            if (isset($inputArguments['event_context'])) {
                 $this->eventContext = $inputArguments['event_context'];
             }
-            if ( isset($inputArguments['type'])) {
+            if (isset($inputArguments['type'])) {
                 $this->type = $inputArguments['type'];
             }
-            if ( isset($inputArguments['authorizations'])) {
+            if (isset($inputArguments['authorizations'])) {
                 $this->authorizations = $inputArguments['authorizations'];
             }
         }
     }
 
-    function fromConsole($inputArguments) {
+    public function fromConsole($inputArguments)
+    {
         array_shift($inputArguments); // get rid of application name
-        if ( count($inputArguments) == 0 ) {
+        if (count($inputArguments) == 0) {
             throw new Exception("No arguments or text received, nothing to do.");
         }
-        if( count($inputArguments) == 1 ) {
+        if (count($inputArguments) == 1) {
             $this->text = $inputArguments[0];
             return;
         }
         $ii = 0;
-        while ( $ii < count($inputArguments)) {
-            if ( $inputArguments[$ii] == '-t' ) {
+        while ($ii < count($inputArguments)) {
+            if ($inputArguments[$ii] == '-t') {
                 $this->text = $inputArguments[++$ii];
             }
             $ii++;

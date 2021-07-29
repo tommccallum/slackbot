@@ -9,20 +9,21 @@ class ResponderBot extends Bot
     private $sentimentModelPath = __DIR__."/../../models/sentiment_model.json";
     private $emojiSentimentModelPath = __DIR__."/../data/emoticons_sentiment.txt";
 
-    protected function respond($question) {
+    protected function respond($question)
+    {
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
 
 
-    protected function onMessage($app)
+    protected function onMessage()
     {
         savelog("TestBot::onMessage");
-        sendSlackReaction($app, "thumbsup");
+        sendSlackReaction($this->app, "thumbsup");
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
 
 
-        $message = $app->event;
+        $message = $this->app->event;
         $resultArray = walk_message_blocks($message, "getTextBlocks");
         $text = collapseTextAndEmojiBlocksIntoString($resultArray);
         $response .= "\n\n".$text;
@@ -33,8 +34,8 @@ class ResponderBot extends Bot
         $response .= "\n\n".$clausesAsString;
 
         $response .= "\n\n";
-        foreach( $clauses as $clause ) {
-            if ( $clause['type'] == "EXCLAMATION" ) {
+        foreach ($clauses as $clause) {
+            if ($clause['type'] == "EXCLAMATION") {
                 $sentiment = new SentimentAnalyser();
                 $sentiment->loadModel($this->sentimentModelPath);
                 $sentimentValue = $sentiment->classifyLexemes($clause['lexemes']);
@@ -58,11 +59,11 @@ class ResponderBot extends Bot
         $userIds = collapseUserBlocksIntoArray($resultArray);
         $userProfiles = whoami($userIds);
         $userText = "";
-        foreach( $userProfiles as $userProfile ) {
-            if ( $userText !== "" ) {
+        foreach ($userProfiles as $userProfile) {
+            if ($userText !== "") {
                 $userText .= ",";
             }
-            if ( isset($userProfile['is_bot']) ) {
+            if (isset($userProfile['is_bot'])) {
                 $userText .= "Bot (".$userProfile['profile']['real_name'].")";
             } else {
                 $userText .= $userProfile['profile']['first_name']." (".$userProfile['profile']['display_name'].")";
@@ -96,20 +97,28 @@ class ResponderBot extends Bot
             $partsOfDay = new PartOfDay();
             $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
             foreach ($matchingIntents as $intent) {
-                $replyText = $intent['action']($intent);
+                $replyText = null;
+                foreach ($this->intents as $intent) {
+                    if ($intent->name() == $match['intent_name']) {
+                        $replyText = $intent->getReply($match);
+                        break;
+                    }
+                }
 
-                # HACK move this out to its own function
-                $replyText = replaceTags($replyText, $replacements);
-                
-                $response .= "\n\n".$intent['name']." generated: ".$replyText;
+                if (isset($replyText)) {
+                    # HACK move this out to its own function
+                    $replyText = replaceTags($replyText, $replacements);
+                    
+                    $response .= "\n\n".$intent['name']." generated: ".$replyText;
+                }
             }
         }
         
         return $response;
     }
 
-    protected function onSomeoneHasJoinedTheChannel($app) {
-        return "Welcome <@".$app->event['user'].">";
+    protected function onSomeoneHasJoinedTheChannel()
+    {
+        return "Welcome <@".$this->app->event['user'].">";
     }
-
 }

@@ -5,22 +5,23 @@ class TestBot extends Bot
 {
     public $mode = "Test Bot";
 
-    protected function respond($question) {
+    protected function respond($question)
+    {
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
 
 
-    protected function onMessage($app)
+    protected function onMessage()
     {
         savelog("TestBot::onMessage");
-        sendSlackReaction($app, "thumbsup");
+        sendSlackReaction($this->app, "thumbsup");
         $response = "Hi, this is a test response at ".date("H:m")." on ".date("l jS F Y").".";
         return $response;
     }
 
-    protected function onSomeoneHasJoinedTheChannel($app) {
-        return "Welcome <@".$app->event['user'].">";
+    protected function onSomeoneHasJoinedTheChannel()
+    {
+        return "Welcome <@".$this->app->event['user'].">";
     }
-
 }

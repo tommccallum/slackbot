@@ -3,25 +3,34 @@
 #
 # We need to dig out an amount of plain text to be made into a bag.
 # We could also dig out some code and run a static analyser over it.
-# We could also check emoticons as emotional indicators. (Check out Plutchik Wheel of emotions) 
+# We could also check emoticons as emotional indicators. (Check out Plutchik Wheel of emotions)
 
-function getTextBlocks($element) {
-    if ( $element['type'] == "text" ) {
+ function checkElementsForUserID($message)
+ {
+     $resultArray = walk_message_blocks($message, "getUserBlocks");
+     $users = collapseUserBlocksIntoArray($resultArray);
+     return $users;
+ }
+
+function getTextBlocks($element)
+{
+    if ($element['type'] == "text") {
         return $element;
     }
-    if ( $element['type'] == "user" ) {
+    if ($element['type'] == "user") {
         return $element;
     }
     return null;
 }
 
-function collapseTextBlocksIntoString($blocks) {
+function collapseTextBlocksIntoString($blocks)
+{
     $str = "";
-    foreach($blocks as $block) {
-        if ( isset($block['text']) ) {
+    foreach ($blocks as $block) {
+        if (isset($block['text'])) {
             $text = $block['text'];
             $str .= " ".$text;
-        } else if ( isset($block['user_id']) ) {
+        } elseif (isset($block['user_id'])) {
             $text = $block['user_id'];
             $str .= " ".$text;
         }
@@ -31,45 +40,49 @@ function collapseTextBlocksIntoString($blocks) {
     return $str;
 }
 
-function getEmojiBlocks($element) {
-    if ( $element['type'] == "emoji" ) {
+function getEmojiBlocks($element)
+{
+    if ($element['type'] == "emoji") {
         return $element;
     }
     return null;
 }
 
-function collapseEmojiBlocksIntoArray($blocks) {
+function collapseEmojiBlocksIntoArray($blocks)
+{
     $result = [];
-    foreach($blocks as $block) {
+    foreach ($blocks as $block) {
         $text = $block['name'];
         $result[] = $text;
     }
     return $result;
 }
 
-function getTextAndEmojiBlocks($element) {
-    if ( $element['type'] == "text" ) {
+function getTextAndEmojiBlocks($element)
+{
+    if ($element['type'] == "text") {
         return $element;
     }
-    if ( $element['type'] == "user" ) {
+    if ($element['type'] == "user") {
         return $element;
     }
-    if ( $element['type'] == "emoji" ) {
+    if ($element['type'] == "emoji") {
         return $element;
     }
     return null;
 }
 
-function collapseTextAndEmojiBlocksIntoString($blocks) {
+function collapseTextAndEmojiBlocksIntoString($blocks)
+{
     $str = "";
-    foreach($blocks as $block) {
-        if ( isset($block['text']) ) {
+    foreach ($blocks as $block) {
+        if (isset($block['text'])) {
             $text = $block['text'];
             $str .= " ".$text;
-        } else if ( isset($block['user_id']) ) {
+        } elseif (isset($block['user_id'])) {
             $text = $block['user_id'];
             $str .= " ".$text;
-        } elseif ( isset($block['name']) ) {
+        } elseif (isset($block['name'])) {
             $text = $block['name'];
             $str .= " ::".$text."::";
         }
@@ -80,16 +93,18 @@ function collapseTextAndEmojiBlocksIntoString($blocks) {
 }
 
 
-function getUserBlocks($element) {
-    if ( $element['type'] == "user" ) {
+function getUserBlocks($element)
+{
+    if ($element['type'] == "user") {
         return $element;
     }
     return null;
 }
 
-function collapseUserBlocksIntoArray($blocks) {
+function collapseUserBlocksIntoArray($blocks)
+{
     $result = [];
-    foreach($blocks as $block) {
+    foreach ($blocks as $block) {
         $text = $block['user_id'];
         $result[] = $text;
     }
@@ -97,8 +112,9 @@ function collapseUserBlocksIntoArray($blocks) {
 }
 
 
-function traverseMessageBlock($parent, $callback) {
-    if ( !isset($parent['elements']) ) {
+function traverseMessageBlock($parent, $callback)
+{
+    if (!isset($parent['elements'])) {
         return [];
     }
     if (isset($parent['type'])) {
@@ -112,7 +128,7 @@ function traverseMessageBlock($parent, $callback) {
     foreach ($parent['elements'] as $element) {
         $resultArray = array_merge($resultArray, traverseMessageBlock($element, $callback));
         $something = $callback($element);
-        if ( $something !== null ) {
+        if ($something !== null) {
             $resultArray[] = $something;
         }
     }
@@ -126,27 +142,28 @@ function traverseMessageBlock($parent, $callback) {
  * @param [type] $conversation
  * @return void
  */
-function walk_message_blocks($message, $callback) 
+function walk_message_blocks($message, $callback)
 {
-    if ( isset($message['event'] ) ) {
+    if (isset($message['event'])) {
         $message = $message['event'];
     }
     // var_dump($message);
     $resultArray = [];
-    if ( isset($message['blocks']) ) {
+    if (isset($message['blocks'])) {
         // we have been passed a single event block from say an App class
         $blocks = $message['blocks'];
         foreach ($blocks as $block) {
-            $resultArray = array_merge($resultArray, traverseMessageBlock($block, $callback) );
+            $resultArray = array_merge($resultArray, traverseMessageBlock($block, $callback));
         }
     }
     return $resultArray;
 }
 
-function walk_over_conversation($conversation, $callback) {
+function walk_over_conversation($conversation, $callback)
+{
     $resultArray = [];
-    if ( isset($conversation['messages']) ) {
-        foreach( $conversation['messages'] as $message ) {
+    if (isset($conversation['messages'])) {
+        foreach ($conversation['messages'] as $message) {
             $messageBlockElementsArray = walk_message_blocks($message, $callback);
             $resultArray[] = $messageBlockElementsArray;
         }

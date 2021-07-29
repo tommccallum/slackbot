@@ -2,7 +2,7 @@
 
 #
 # Replies to messages in the database
-# This is NOT the same as postMessages which posts scheduled messages. 
+# This is NOT the same as postMessages which posts scheduled messages.
 #
 
 $watchLoop = false;
@@ -10,8 +10,8 @@ $outputLogToScreen = false;
 $secondsBetweenSessions = 20;
 $ii=1;
 $argc = count($argv);
-while ( $ii < $argc ) {
-    if ( $argv[$ii] == "--loop" ) {
+while ($ii < $argc) {
+    if ($argv[$ii] == "--loop") {
         $watchLoop = true;
         $outputLogToScreen = true;
     }
@@ -27,7 +27,8 @@ $GLOBALS['DEBUG'] = 0;
 ## this line MUST be after the autoload.php
 $LOG_PATH = __DIR__ . "/../logs/replyToMessages.log";
 
-$collection = (new MongoDB\Client)->slackbot->events;
+$options = ["typeMap" => ['root' => 'array', 'document' => 'array']];
+$collection = (new MongoDB\Client())->slackbot->events;
 
 
 while ($watchLoop) {
@@ -46,14 +47,18 @@ while ($watchLoop) {
         savelog("Handling queued message");
         savelog(json_encode($event));
 
-        if (shouldAliceReplyToEvent($event) === false) {
+        $app = new App($event);
+        $app->botSelectionName = "Alice";
+        $bot = createNewBot($app);
+
+        if ($bot->shouldBotReplyToEvent() === false) {
             savelog("Ignoring event as not one which Alice will reply to.");
 
             # update current message as replied to
             $updatedResult = $collection->updateOne([ "_id" => $event['_id']], ['$set' => [
-            'slackbot.replied_to' => true,
-            'slackbot.action' => "ignored, failed 'shouldAliceReplyToEvent' check"
-            ]]);
+                    'slackbot.replied_to' => true,
+                    'slackbot.action' => "ignored, failed 'shouldAliceReplyToEvent' check"
+                    ]]);
 
             if ($updatedResult->getMatchedCount() == 1 && $updatedResult->getModifiedCount() == 1) {
                 # success
@@ -63,21 +68,20 @@ while ($watchLoop) {
             }
             continue;
         }
-        savelog("Alice should reply to this message");
-        $app = new App($event);
-        $app->botSelectionName = "Alice";
 
-        getConversation($app);
-        
-        $bot = createNewBot($app);
+        savelog("Alice should reply to this message");
         loadDialogue($bot);
         loadIntents($bot);
-        $botResponseText = $bot->handle($app);
+        $botResponseText = $bot->handle();
         if (isset($botResponseText)) {
-            savelog($botResponseText);
-            $bot->printInfo();
-            sendMessage($app, $botResponseText);
-        
+            if (!is_array($botResponseText)) {
+                $botReponseText = [ $botResponseText ];
+            }
+            foreach ($botResponseText as $text) {
+                savelog($text);
+                $bot->printInfo();
+                sendMessage($app, $text);
+            }
             # Update current message as replied to
             # TODO Do we want to also mark any messages in the chain BEFORE this one as having been replied to?
             #       We could restrict ourselves to replying to only those with a @Alice in but that seems undesirable.
@@ -100,7 +104,7 @@ while ($watchLoop) {
 
     savelog("End of replyToMessages session");
 
-    if ( $watchLoop ) {
-        sleep( $secondsBetweenSessions );
+    if ($watchLoop) {
+        sleep($secondsBetweenSessions);
     }
 }

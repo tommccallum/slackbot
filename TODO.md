@@ -22,3 +22,4 @@
 [DONE] on clauses test and fix "Tom went to the park and played" should be 1 clause with the "and played" joining with the previous clause.
 [DONE] learning outcome recommendations and what is "LOXXXXX"
 [DONE] Added capability to ignore certain phrases or sentences with certain types.
+* Need to test sentiment to get trigger levels right e.g. @Alice this comment is sad! :disappointed: does not trigger a sad face.

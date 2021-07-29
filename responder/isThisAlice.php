@@ -2,12 +2,21 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-function isThisAlice($userId) {    
+function getAliceId()
+{
+    $collection = (new MongoDB\Client)->slackbot->users;
+    $result = $collection->findOne(["is_bot" => true, "profile.first_name" => "Alice"]);
+    return $result['id'];
+}
+
+
+function isThisAlice($userId)
+{
     $collection = (new MongoDB\Client)->slackbot->users;
     $result = $collection->findOne(["id" => $userId]);
-    if ( isset($result) ) {
-        if ( $result['is_bot'] ) {
-            if ( $result['profile']['first_name'] === "Alice" ) {
+    if (isset($result)) {
+        if ($result['is_bot']) {
+            if ($result['profile']['first_name'] === "Alice") {
                 return true;
             }
         }
@@ -16,11 +25,12 @@ function isThisAlice($userId) {
 }
 
 // null or the user profile
-function whoami($userId) {    
-    if ( is_array($userId) ) {
+function whoami($userId)
+{
+    if (is_array($userId)) {
         $result = [];
         $collection = (new MongoDB\Client)->slackbot->users;
-        foreach($userId as $u) {
+        foreach ($userId as $u) {
             $result[] = $collection->findOne(["id" => $u]);
         }
         return $result;
