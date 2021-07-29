@@ -52,7 +52,7 @@ class Alice extends Bot
         savelog("Replying to message: ".$message['ts']);
 
         if (isset($message['user'])) {
-            if ($this->bot_id == $message["user"]) {
+            if ($this->slackUserId == $message["user"]) {
                 ## don't reply to ourselves!
                 $responseState['text'] = null;
                 $responseState['reason'] = "Ignored, as reply to self";
