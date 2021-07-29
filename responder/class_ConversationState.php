@@ -35,6 +35,7 @@ class ConversationState
                     throw new \Exception("no channel found in message");
                 }
                 $this->data['channel'] = $threadOrEvent['channel'];
+                $channel = $this->data['channel'];
 
                 // we load the conversation from the database if it exists
                 $this->load();
@@ -58,7 +59,8 @@ class ConversationState
             }
         }
         $this->updateFromSlackIfRequired();
-        savelog("ConversationState Thread: ".$this->data['thread_id']." Channel: ".$this->data['channel']." history: ".$this->length());
+        var_dump($this->data);
+        savelog("ConversationState Thread: ".$this->id()." Channel: ".$this->channel()." history: ".$this->length());
     }
 
     // should store all the bot data.
