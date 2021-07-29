@@ -58,6 +58,7 @@ class ConversationState
             }
         }
         $this->updateFromSlackIfRequired();
+        savelog("ConversationState Thread: ".$this->data['thread_id']." Channel: ".$this->data['channel']." history: ".$this->length());
     }
 
     // should store all the bot data.
@@ -188,6 +189,9 @@ class ConversationState
 
     public function hasMessagesWithoutReply()
     {
+        if (!isset($this->data['history'])) {
+            return false;
+        }
         foreach ($this->data['history'] as $m) {
             if (!isset($m['slackbot_reply'])) {
                 return true;
