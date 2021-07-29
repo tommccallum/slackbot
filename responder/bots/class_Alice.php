@@ -29,10 +29,8 @@ class Alice extends Bot
             # This should be loaded by now as the first function should have called
             # shouldBotReplyToEvent.
             # This does happen during testing though.
-            if (!isset($this->conversationState)) {
-                # load the existing conversation either from database or Slack
-                $this->conversationState = new ConversationState($this->app->event, $this->slackUserId);
-            }
+            savelog("onMessage::Loading conversation state");
+            $this->conversationState = new ConversationState($this->app->event, $this->slackUserId);
         }
 
         $replies = [];
