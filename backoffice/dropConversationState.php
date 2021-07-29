@@ -2,5 +2,5 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$collection = (new MongoDB\Client)->slackbot->state;
+$collection = (new MongoDB\Client)->slackbot->conversation_state;
 $collection->drop();

@@ -266,7 +266,7 @@ class ConversationState
         $forcedBreak = 0;
         while ($hasMore) {
             $response = getConversationRepliesFromSlack($channel, $threadId, $cursor);
-            var_dump($response);
+            # var_dump($response);
             $hasMore = false;
             if (isset($response['has_more'])) {
                 $hasMore = $response['has_more'];

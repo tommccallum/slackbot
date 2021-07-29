@@ -54,6 +54,13 @@ class Alice extends Bot
         $responseState = [];
         $resultArray = walk_message_blocks($message, "getTextBlocks");
         $text = collapseTextAndEmojiBlocksIntoString($resultArray);
+        if (strlen($text) === 0) {
+            # this happens if we are parsing a message a bot posted, these do not seem to have the same
+            # structure of message.
+            if (isset($message['text'])) {
+                $text = $message['text'];
+            }
+        }
         savelog("Text: ".$text);
         $clauses = splitStringIntoClauses($text);
         $responseState['clauses'] = $clauses;
