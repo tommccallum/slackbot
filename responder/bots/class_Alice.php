@@ -36,7 +36,7 @@ class Alice extends Bot
         $replies = [];
         while ($this->conversationState->hasMessagesWithoutReply()) {
             $reply = $this->replyToMessage();
-            if (isset($reply)) {
+            if (isset($reply) && strlen($reply) > 0) {
                 $replies[] = $reply;
             }
         }
@@ -49,10 +49,12 @@ class Alice extends Bot
         if (!isset($message)) {
             return null;
         }
+        savelog("Replying to message: ".$message['ts']);
 
         $responseState = [];
         $resultArray = walk_message_blocks($message, "getTextBlocks");
         $text = collapseTextAndEmojiBlocksIntoString($resultArray);
+        savelog("Text: ".$text);
         $clauses = splitStringIntoClauses($text);
         $responseState['clauses'] = $clauses;
 
