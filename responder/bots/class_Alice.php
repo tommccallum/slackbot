@@ -160,6 +160,9 @@ class Alice extends Bot
         $responseState['text'] = $response;
         $this->conversationState->addReply($responseState, $message);
 
+        if (strlen($response) == 0) {
+            return null;
+        }
         return $response;
     }
 

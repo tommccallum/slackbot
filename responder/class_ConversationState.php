@@ -59,7 +59,6 @@ class ConversationState
             }
         }
         $this->updateFromSlackIfRequired();
-        var_dump($this->data);
         savelog("ConversationState Thread: ".$this->id()." Channel: ".$this->channel()." history: ".$this->length());
     }
 
