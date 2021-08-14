@@ -26,6 +26,7 @@ class Dialogue
         savelog("Dialogue::match");
         savelog(json_encode($slackMessage));
         # we can restrict this dialogue to only direct messages by using 'im' as the message_type
+        # the first message posted by bot will not show up as an im message.
         // if (isset($this->data['message_type'])) {
         //     if (isset($slackMessage['channel_type'])) {
         //         if ($slackMessage['channel_type'] != $this->data['message_type']) {
@@ -102,6 +103,7 @@ class Dialogue
     }
 
     # @param responseState      is the array from the bot that has the clauses and sentiment in
+    # @return mixed             null means continue with intent, false means don't reply, string if to reply to human
     public function nextResponse($conversationState, $responseState)
     {
         // once we know the dialogue matches the first item in this conversation we then need to work out which index we are on.
@@ -117,6 +119,11 @@ class Dialogue
             savelog("[ERROR] Awaiting human reply to last message - this should not trigger.");
         } else {
             $dialogIndex = $msgCount - 1;
+            if ($dialogIndex > count($this->data['dialog'])) {
+                # if for whatever reason the user tries to prompt Alice afterwards then
+                # she should not reply as the last message will be a goodbye one.
+                return false;
+            }
             if ($dialogIndex <= 0) {
                 savelog("[ERROR] The dialog index is ".$dialogIndex.", this should not occurs.");
             } else {
@@ -136,6 +143,7 @@ class Dialogue
                 return ($replyText);
             }
         }
+        return false;
     }
 
     private function getJoinText($joinOption, $lastMessage, $textSentiment, $emojiSentiment)

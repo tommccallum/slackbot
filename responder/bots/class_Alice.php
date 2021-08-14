@@ -128,13 +128,22 @@ class Alice extends Bot
             } else {
                 savelog("Found matching dialogs (".count($selectedDialog)." dialog objects)");
                 $replyText = $selectedDialog[0]->nextResponse($this->conversationState, $responseState);
-
-                $you = createSlackUserProfile($user['id']);
-                $me = new Me();
-                $partsOfDay = new PartOfDay();
-                $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
-                $response = replaceTags($replyText, $replacements);
-                $generateResponseUsingIntentions = false;
+                if (isset($replyText) && is_string($replyText)) {
+                    $you = createSlackUserProfile($user['id']);
+                    $me = new Me();
+                    $partsOfDay = new PartOfDay();
+                    $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
+                    $response = replaceTags($replyText, $replacements);
+                    $generateResponseUsingIntentions = false;
+                } elseif (isset($replyText) && $replyText === false) {
+                    # we don't want to give the user a reply
+                    # so we turn off intent based replies and set
+                    # the response to empty.
+                    $response = "";
+                    $generateResponseUsingIntentions = false;
+                } else {
+                    savelog("Dialog exited with null, so going to intent based response");
+                }
             }
         }
 
