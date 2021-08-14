@@ -271,18 +271,18 @@ class Alice extends Bot
      */
     public function didThisBotGetMentionedInTheConversation()
     {
-        if (!isset($this->conversation)) {
+        if (!isset($this->conversationState)) {
             return false;
         }
-        return $this->conversation->wasUserMentioned($this->slackUserId);
+        return $this->conversationState->wasUserMentioned($this->slackUserId);
     }
 
     public function didThisBotStartTheConversation()
     {
-        if (!isset($this->conversation)) {
+        if (!isset($this->conversationState)) {
             return false;
         }
-        $firstMessage = $this->conversation->getMessage(0);
+        $firstMessage = $this->conversationState->getMessage(0);
         if (!isset($firstMessage)) {
             return false;
         }
