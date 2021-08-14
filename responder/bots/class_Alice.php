@@ -227,16 +227,16 @@ class Alice extends Bot
             return false;
         }
         $message = $event['event'];
-        if ($message['channel_type'] == "im") {
+        if (isset($message['channel_type']) && $message['channel_type'] == "im") {
             # IF this is a private IM conversation then we reply to everything as we are the only other
             #   user in the chat.
             return true;
         }
-        if ($message['subtype'] == "channel_join") {
+        if (isset($message['subtype']) && $message['subtype'] == "channel_join") {
             # Always say welcome to anyone joining the public groups we are in
             return true;
         }
-        if ($message['subtype'] == "message_changed") {
+        if (isset($message['subtype']) && $message['subtype'] == "message_changed") {
             # never respond if someone updates their message
             # we are not even going to update our history as otherwise all our responses will be wrong
             # and not sure of a use case where we care.
