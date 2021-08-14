@@ -122,11 +122,11 @@ class Alice extends Bot
             $dialogCollection = new DialogueCollection();
             $dialogCollection->loadFromDirectory();
             $selectedDialog = $dialogCollection->matchConversation($this->conversationState);
-            if (!isset($selectedDialog)) {
+            if (count($selectedDialog) == 0) {
                 // continue as if no dialog existed.
                 savelog("No matching dialogue found.");
             } else {
-                savelog("Found matching dialogs.");
+                savelog("Found matching dialogs (".count($selectedDialog)." dialog objects)");
                 $replyText = $selectedDialog[0]->nextResponse($this->conversationState, $responseState);
 
                 $you = createSlackUserProfile($user['id']);

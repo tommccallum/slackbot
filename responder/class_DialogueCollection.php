@@ -35,12 +35,13 @@ class DialogueCollection
 
     public function matchSlackMessage($message)
     {
+        $dialogs = [];
         foreach ($this->dialogues as $dialogue) {
             if ($dialogue->match($message)) {
-                return true;
+                $dialogs[] = $dialogue;
             }
         }
-        return false;
+        return $dialogs;
     }
 
     public function getMatchingDateTime($dateAsString, $timeAsString)
