@@ -73,7 +73,7 @@ class Alice extends Bot
                 $text = $message['text'];
             }
         }
-        savelog("Text: ".$text);
+        savelog("User provided text: ".$text);
         $clauses = splitStringIntoClauses($text);
         $responseState['clauses'] = $clauses;
 
@@ -114,7 +114,7 @@ class Alice extends Bot
         $resultArray = walk_message_blocks($message, "getUserBlocks");
         #$userIds = collapseUserBlocksIntoArray($resultArray);
 
-        $skipResponseCreation = false;
+        $generateResponseUsingIntentions = true;
         $response = "";
         if ($isBotInitiatedThread) {
             savelog("Detected bot initiated thread");
@@ -134,11 +134,11 @@ class Alice extends Bot
                 $partsOfDay = new PartOfDay();
                 $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
                 $response = replaceTags($replyText, $replacements);
-                $skipResponseCreation = true;
+                $generateResponseUsingIntentions = false;
             }
         }
 
-        if ($skipResponseCreation) {
+        if ($generateResponseUsingIntentions) {
             # a piece of text can have multiple intents e.g. a greeting and a request
             # we check if they match and then if they do we add the match to our array
             # we can then sort the array by the starting location of the match.
