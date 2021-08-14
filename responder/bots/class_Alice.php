@@ -271,7 +271,9 @@ class Alice extends Bot
      */
     public function didThisBotGetMentionedInTheConversation()
     {
+        savelog("Checking for slack user id: ".$this->slackUserId)
         if (!isset($this->conversationState)) {
+            savelog("exiting early due to no conversationState being set");
             return false;
         }
         return $this->conversationState->wasUserMentioned($this->slackUserId);
