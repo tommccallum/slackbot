@@ -203,6 +203,7 @@ class Alice extends Bot
             }
         }
 
+        savelog("Generated response (if empty user won't see this): ".$response);
         $responseState['text'] = $response;
         $this->conversationState->addReply($responseState, $message);
 

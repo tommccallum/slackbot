@@ -23,13 +23,19 @@ class Dialogue
     // any variables should have been filled in by now so we are just string matching
     public function match($slackMessage)
     {
+        savelog("Dialogue::match");
+        savelog(json_encode($slackMessage));
         # we can restrict this dialogue to only direct messages by using 'im' as the message_type
         if (isset($this->data['message_type'])) {
             if (isset($slackMessage['channel_type'])) {
                 if ($slackMessage['channel_type'] != $this->data['message_type']) {
+                    savelog("Dialogue::match::failed channel_type check");
+
                     return false;
                 }
             } else {
+                savelog("Dialogue::match::failed channel_type is null");
+
                 return false;
             }
         }
@@ -40,6 +46,8 @@ class Dialogue
         // ok.
         $plainText = $slackMessage['text'];
         $timepoint = date("Y-m-d", $slackMessage['ts']/1000);
+        savelog("Dialogue::match::check date ".$timepoint);
+
         if ($this->matchDate($timepoint)) {
             return true;
             # in fact for the experiment we are just sending 1 per day so
