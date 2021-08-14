@@ -29,7 +29,7 @@ class DialogueCollection
     
     public function matchConversation($conversationState)
     {
-        $firstMessage = $this->conversationState->getMessage(0);
+        $firstMessage = $conversationState->getMessage(0);
         return $this->matchSlackMessage($firstMessage);
     }
 

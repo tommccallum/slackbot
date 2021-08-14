@@ -53,13 +53,13 @@ class Dialogue
 
     public function getInitialText()
     {
-        if (isset($this->data['dialog'])) {
+        if (!isset($this->data['dialog'])) {
             return null;
         }
-        if (isset($this->data['dialog'][0])) {
+        if (!isset($this->data['dialog'][0])) {
             return null;
         }
-        if (isset($this->data['dialog'][0]['text'])) {
+        if (!isset($this->data['dialog'][0]['text'])) {
             return null;
         }
         return $this->data['dialog'][0]['text'];

@@ -6,11 +6,29 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once(__DIR__."/include_source.php");
+spl_autoload_register(function ($className) {
+    $locations = [
+        __DIR__,
+        __DIR__."/bots",
+        __DIR__."/../common",
+        __DIR__."/../common/bots",
+    ];
+
+    foreach ($locations as $location) {
+        $phpFilePath = $location . "/class_" . $className . '.php';
+        if (!class_exists($className) && file_exists($phpFilePath)) {
+            require($phpFilePath);
+            return;
+        }
+    }
+});
+
 include_source("autoload_environment.php");
 include_source("getDirContents.php");
 include_source("sendMessage.php");
 include_source("replaceTags.php");
 include_source("parseCsvIntoJson.php");
+
 autoload_environment();
 
 # Set this to a number which you do not expect to ever reach. If it reached we die.
@@ -91,13 +109,18 @@ foreach ($result as $f) {
 }
 
 # we also need to send dialogue initiating messages which are stored in "dialogues" directory
-$dialogueManager = new DialogueManager();
-$dialogueManager->loadAllDialogues();
+$dialogueManager = new DialogueCollection();
+$dialogueManager->loadFromDirectory(__DIR__."/data/dialogues");
 $dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow);
+printf("Found %d dialogues that might be ready to send\n", count($dialogues));
 foreach ($dialogues as $dialogue) {
     $text = $dialogue->getInitialText();
     if (isset($text)) {
-        array_push($messagesToSend, $text);
+        $msg = [
+            "channel_name" => "*",
+            "message" => $text
+        ];
+        array_push($messagesToSend, $msg);
     }
 }
 
