@@ -26,19 +26,19 @@ class Dialogue
         savelog("Dialogue::match");
         savelog(json_encode($slackMessage));
         # we can restrict this dialogue to only direct messages by using 'im' as the message_type
-        if (isset($this->data['message_type'])) {
-            if (isset($slackMessage['channel_type'])) {
-                if ($slackMessage['channel_type'] != $this->data['message_type']) {
-                    savelog("Dialogue::match::failed channel_type check");
+        // if (isset($this->data['message_type'])) {
+        //     if (isset($slackMessage['channel_type'])) {
+        //         if ($slackMessage['channel_type'] != $this->data['message_type']) {
+        //             savelog("Dialogue::match::failed channel_type check");
 
-                    return false;
-                }
-            } else {
-                savelog("Dialogue::match::failed channel_type is null");
+        //             return false;
+        //         }
+        //     } else {
+        //         savelog("Dialogue::match::failed channel_type is null");
 
-                return false;
-            }
-        }
+        //         return false;
+        //     }
+        // }
 
 
         // need to match both the string AND the date it was sent on.
