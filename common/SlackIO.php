@@ -1,7 +1,8 @@
 <?php
 
-function sendMessage($app, $message) {
-    if ( $app->sendToSlack ) {
+function sendMessage($app, $message)
+{
+    if ($app->sendToSlack) {
         sendSlackMessage($app, $message);
     } else {
         if (isset($response)) {
@@ -11,8 +12,9 @@ function sendMessage($app, $message) {
     }
 }
 
-function sendSlackChallengeResponse($app) {
-    if ( !isset($app->challenge) ) {
+function sendSlackChallengeResponse($app)
+{
+    if (!isset($app->challenge)) {
         throw new Exception("challenge code not found");
     }
     print($app->challenge);
@@ -20,30 +22,30 @@ function sendSlackChallengeResponse($app) {
 
 function sendSlackReaction($app, $emoji)
 {
-    if ( !defined("SLACK_WEBHOOK_URL") ) {
+    if (!defined("SLACK_WEBHOOK_URL")) {
         autoload_environment();
     }
     savelog("Sending reaction to Slack (".$app->channelId.")");
 
     $data = array(
         "channel" => $app->channelId,
-	    "name" => $emoji,
+        "name" => $emoji,
         "timestamp" => $app->getThreadId()
-	);
+    );
 
     savelog($data);
 
     $json = json_encode($data);
     $slack_call = null;
     $apiUrl = "https://slack.com/api/reactions.add";
-    if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "im" ) {
+    if (isset($app->event['channel_type']) && $app->event['channel_type'] == "im") {
         savelog("Sending message to im (".$app->channelId.")");
         $slack_call = curl_init($apiUrl);
-    } else if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "channel" ) {
+    } elseif (isset($app->event['channel_type']) && $app->event['channel_type'] == "channel") {
         savelog("Sending message to channel (".$app->channelId.")");
         $slack_call = curl_init($apiUrl);
     } else {
-        savelog("Unrecognised message, not sure where to respond to. (channel:".$app->channelId.", type:".( isset($app->event) ? $app->event['channel_type'] : null).")");
+        savelog("Unrecognised message, not sure where to respond to. (channel:".$app->channelId.", type:".(isset($app->event) ? $app->event['channel_type'] : null).")");
         return (null);
     }
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
@@ -63,30 +65,31 @@ function sendSlackReaction($app, $emoji)
     curl_close($slack_call);
 
     savelog($result);
-    if ( $result == "no_active_hooks" ) {
+    if ($result == "no_active_hooks") {
         throw new Exception("Slack reported 'No active hooks'");
     }
     return ($result);
 }
 
-function sendSlackMessage($app, $message) {
-    if ( !defined("SLACK_WEBHOOK_URL") ) {
+function sendSlackMessage($app, $message)
+{
+    if (!defined("SLACK_WEBHOOK_URL")) {
         autoload_environment();
     }
     savelog("Sending response back to Slack (".$app->channelId.")");
 
     $data = array(
         "username" => "alice",
-		"channel" => $app->channelId,
-		"text" => $message,
-		"mrkdwn" => true,
-		"icon_url" => SLACK_ICON_URL,
-		"attachments" => null
-	);
+        "channel" => $app->channelId,
+        "text" => $message,
+        "mrkdwn" => true,
+        "icon_url" => SLACK_ICON_URL,
+        "attachments" => null
+    );
 
-    if ( $app->isReplyToThread() ) {
+    if ($app->isReplyToThread()) {
         $data['thread_ts'] = $app->getThreadId();
-    } else if ( $app->isEvent() ) {
+    } elseif ($app->isEvent()) {
         $data['thread_ts'] = $app->getThreadId();
     }
 
@@ -97,14 +100,14 @@ function sendSlackMessage($app, $message) {
     if (isset($app->responseUrl)) {
         savelog("Sending message to reponseUrl (".$app->responseUrl.")");
         $slack_call = curl_init($app->responseUrl);
-    } else if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "im" ) {
+    } elseif (isset($app->event['channel_type']) && $app->event['channel_type'] == "im") {
         savelog("Sending message to im (".$app->channelId.")");
         $slack_call = curl_init(SLACK_DM_URL);
-    } else if ( isset($app->event['channel_type']) && $app->event['channel_type'] == "channel" ) {
+    } elseif (isset($app->event['channel_type']) && $app->event['channel_type'] == "channel") {
         savelog("Sending message to channel (".$app->channelId.")");
         $slack_call = curl_init(SLACK_WEBHOOK_URL);
     } else {
-        savelog("Unrecognised message, not sure where to respond to. (channel:".$app->channelId.", type:".( isset($app->event) ? $app->event['channel_type'] : null).")");
+        savelog("Unrecognised message, not sure where to respond to. (channel:".$app->channelId.", type:".(isset($app->event) ? $app->event['channel_type'] : null).")");
         return (null);
     }
     curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
@@ -124,7 +127,7 @@ function sendSlackMessage($app, $message) {
     curl_close($slack_call);
 
     savelog($result);
-    if ( $result == "no_active_hooks" ) {
+    if ($result == "no_active_hooks") {
         throw new Exception("Slack reported 'No active hooks'");
     }
     return ($result);

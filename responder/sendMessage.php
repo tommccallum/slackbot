@@ -1,13 +1,13 @@
 <?php
 
-
-function sendMessage($msg) {
+function sendMessage($msg)
+{
     print("Sending message:\n");
     var_dump($msg);
 
     $url="https://slack.com/api/chat.postMessage";
     $method="POST";
-    $contentType="application/json";    
+    $contentType="application/json";
 
     $json = json_encode($msg);
     $slack_call = curl_init($url);
@@ -19,17 +19,17 @@ function sendMessage($msg) {
         $slack_call,
         CURLOPT_HTTPHEADER,
         array(
-            "Content-Type: " . $contentType . "; charset=utf-8",
-            "Content-Length: " . strlen($json),
-            "Authorization: Bearer " . SLACK_OAUTH_TOKEN
-        )
+        "Content-Type: " . $contentType . "; charset=utf-8",
+        "Content-Length: " . strlen($json),
+        "Authorization: Bearer " . SLACK_OAUTH_TOKEN
+    )
     );
     $result = curl_exec($slack_call);
     curl_close($slack_call);
     print("Server response:\n");
     var_dump($result);
-    if ( substr($result,0,2) == "no") {
-        return ( false );
+    if (substr($result, 0, 2) == "no") {
+        return (false);
     }
-    return ( true );
+    return (true);
 }

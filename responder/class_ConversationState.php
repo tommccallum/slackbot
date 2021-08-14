@@ -376,16 +376,12 @@ class ConversationState
         if (isset($this->data['history'])) {
             foreach ($this->data['history'] as $message) {
                 if (isset($message['blocks'])) {
-                    $blocks = $message['blocks'];
-                    foreach ($blocks as $block) {
-                        $usersArray = checkElementsForUserID($block);
-                        $usersArray = array_unique($usersArray);
-                        savelog("::wasUseMentioned::");
-                        savelog(json_encode($usersArray));
-                        foreach ($usersArray as $userId) {
-                            if (isThisAlice($userId)) {
-                                return true;
-                            }
+                    $usersArray = checkElementsForUserID($message);
+                    savelog("::wasUseMentioned::");
+                    savelog(json_encode($usersArray));
+                    foreach ($usersArray as $userId) {
+                        if (isThisAlice($userId)) {
+                            return true;
                         }
                     }
                 }

@@ -8,7 +8,7 @@
  function checkElementsForUserID($message)
  {
      $resultArray = walk_message_blocks($message, "getUserBlocks");
-     $users = collapseUserBlocksIntoArray($resultArray);
+     $users = array_unique(collapseUserBlocksIntoArray($resultArray));
      return $users;
  }
 

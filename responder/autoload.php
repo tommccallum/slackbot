@@ -37,6 +37,7 @@ include_source("class_SlackUserProfile.php");
 include_source("replaceTags.php");
 include_source("isLearningOutcome.php");
 include_source("getBotInfo.php");
+include_source("onSlackEvent.php");
 autoload_environment();
 
 // Create connection
