@@ -221,9 +221,12 @@ class Alice extends Bot
     {
         $event = $this->app->jsonRequest;
         if (!isset($event['event'])) {
+            savelog("shouldBotReplyToEvent::no event item in array");
+
             return false;
         }
         if ($event['event']['type'] != "message") {
+            savelog("shouldBotReplyToEvent::event type is not message");
             return false;
         }
         $message = $event['event'];
@@ -240,6 +243,7 @@ class Alice extends Bot
             # never respond if someone updates their message
             # we are not even going to update our history as otherwise all our responses will be wrong
             # and not sure of a use case where we care.
+            savelog("shouldBotReplyToEvent::event subtype is message_changed");
             return false;
         }
         if (!isset($this->conversationState)) {
@@ -252,6 +256,7 @@ class Alice extends Bot
         if ($this->didThisBotGetMentionedInTheConversation()) {
             return true;
         }
+        savelog("shouldBotReplyToEvent::exiting at end of function");
         return false;
     }
 
