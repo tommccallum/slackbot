@@ -118,13 +118,13 @@ class Dialogue
             // we are waiting for a human reply so there should not be anything to do.
             savelog("[ERROR] Awaiting human reply to last message - this should not trigger.");
         } else {
-            $dialogIndex = $msgCount - 1;
-            if ($dialogIndex > count($this->data['dialog'])) {
+            if ($msgCount >= count($this->data['dialog'])) {
                 # if for whatever reason the user tries to prompt Alice afterwards then
                 # she should not reply as the last message will be a goodbye one.
                 savelog("user responded for longer than dialog, ignoring user input");
                 return false;
             }
+            $dialogIndex = $msgCount - 1;
             if ($dialogIndex <= 0) {
                 savelog("[ERROR] The dialog index is ".$dialogIndex.", this should not occurs.");
             } else {
