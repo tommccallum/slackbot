@@ -1,0 +1,82 @@
+{
+    "name": "ghost world",
+    "description": "this world has plain objects and relationships showing what properties they might have so the user can ask",
+    "types": {
+        "shade": {
+            "match": [ "light", "dark" ],
+            "questions": [
+                "are they light or dark",
+                "are they light",
+                "are they dark"
+            ]
+        },
+        "dog_colour": {
+            "match": [ "black", "white", "golden", "yellow", "red", "brown" ],
+            "questions": [
+                "what is your favourite colour"
+            ]
+        },
+        "colour": {
+            "match": [ "black", "white", "red", "yellow", "green", "blue", "pink", "orange", "indigo", "violet", "brown" ],
+            "questions": [
+                "what is your favourite colour"
+            ]
+        },
+        "gender": {
+            "match": [ "boy", "girl", "male", "female" ],
+            "questions": [
+                "what gender are you",
+                "are you a male or female"
+            ]
+        }
+    },
+    "objects": [
+        {
+            "name": "country",
+            "type": "place",
+            "questions": [
+                "where do you live",
+                "what country are you from",
+                "where are you from",
+                "where do you hail"
+            ]
+        },
+        {
+            "name": "Scotland",
+            "type": "country"
+        },
+        {
+            "name": "dimension",
+            "property": {
+                "width": "?number",
+                "height": "?number",
+                "length": "?number"
+            }
+        },
+        {
+            "name": "dog",
+            "property": {
+                "colour": "?dog_colour",
+                "shade": "?shade",
+                "size": "?size/dimension"
+            }
+        },
+        {
+            "name": "person",
+            "property": {
+                "name": "?name",
+                "height": "?number",
+                "gender": "?gender",
+                "live": "?place"
+            }
+        }
+    ],
+    "relationships": [
+        {
+            "objectA": "@dog",
+            "objectB": "@person",
+            "rel": "own",
+            "count": "?number"
+        }
+    ]
+}

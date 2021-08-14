@@ -14,7 +14,7 @@ include_source("parseCsvIntoJson.php");
 autoload_environment();
 
 # Set this to a number which you do not expect to ever reach. If it reached we die.
-$MAX_LIMIT_ON_POSTS = 20;      
+$MAX_LIMIT_ON_POSTS = 20;
 
 $cwd = __DIR__;
 $dataDir = $cwd . DIRECTORY_SEPARATOR . "posts";
@@ -28,18 +28,18 @@ print("Data Directory: ".$dataDir."\n");
 $channels = (new MongoDB\Client)->slackbot->channels;
 $n = $channels->count();
 print("Found $n channels in database\n");
-if ( $n == 0 ) {
+if ($n == 0) {
     die("[FATAL] No channels uploaded to database 'slackbot'.");
 }
 $users = (new MongoDB\Client)->slackbot->users;
 $n = $users->count();
 print("Found $n users in database\n");
-if ( $n == 0 ) {
+if ($n == 0) {
     die("[FATAL] No users uploaded to database 'slackbot'.");
 }
 
 $usersInResearchPath = $cwd."/../users_in_research.json";
-if ( file_exists($usersInResearchPath) ) {
+if (file_exists($usersInResearchPath)) {
     $contents = file_get_contents($usersInResearchPath);
     $usersInResearchArray = json_decode($contents, true);
 } else {
@@ -48,7 +48,7 @@ if ( file_exists($usersInResearchPath) ) {
 
 
 #
-# Get all files in the 'posts' directory
+# Get all files in the 'posts' directory, these are just flat messages that have no further structure
 #
 $result = getDirContents($dataDir);
 
@@ -62,33 +62,46 @@ $bits = explode(' ', $oneMinuteFromNow);
 $dateFromNow = $bits[0];
 $timeFromNow = $bits[1];
 
-foreach( $result as $f ) {
+foreach ($result as $f) {
     print("Processing ".$f."\n");
     $info = pathinfo($f);
     $ext = $info['extension'];
-    if ( $ext == "json" ) {
+    if ($ext == "json") {
         $contents = file_get_contents($f);
         $jsonContents = json_decode($contents, true);
-    } else if ( $ext == "csv" ) {
+    } elseif ($ext == "csv") {
         $jsonContents = parseCsvIntoJson($f);
     } else {
         print("Ignoring $f\n");
     }
     
-    foreach( $jsonContents as $item ) {
-        if ( $item['time'] == "*" ) {
+    foreach ($jsonContents as $item) {
+        if ($item['time'] == "*") {
             $item['time'] = $timeFromNow;
         }
-        if ( $item['date'] == "*" ) {
+        if ($item['date'] == "*") {
             $item['date'] = $dateFromNow;
         }
         $requestedDateTime = $item['date'] . " " . $item['time'];
         print("[Date comparison] requested: $requestedDateTime actual: $oneMinuteFromNow\n");
-        if ( $requestedDateTime === $oneMinuteFromNow ) {
+        if ($requestedDateTime === $oneMinuteFromNow) {
             array_push($messagesToSend, $item);
         }
     }
 }
+
+# we also need to send dialogue initiating messages which are stored in "dialogues" directory
+$dialogueManager = new DialogueManager();
+$dialogueManager->loadAllDialogues();
+$dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow);
+foreach ($dialogues as $dialogue) {
+    $text = $dialogue->getInitialText();
+    if (isset($text)) {
+        array_push($messagesToSend, $text);
+    }
+}
+
+
 
 printf("Found %d messages to send\n", count($messagesToSend));
 
@@ -100,11 +113,11 @@ $msgCount = count($messagesToSend);
 #
 $msgSentCounter = 0;
 $msgFailCounter = 0;
-foreach( $messagesToSend as $message ) {
-    if ( $message['channel_name'] === "*" ) {
+foreach ($messagesToSend as $message) {
+    if ($message['channel_name'] === "*") {
         print("Posting to all members of users in research file.\n");
 
-        foreach( $usersInResearchArray as $user ) {
+        foreach ($usersInResearchArray as $user) {
             $document = $users->findOne(['name' => $user]);
             if (isset($document)) {
                 $args = [
@@ -116,7 +129,7 @@ foreach( $messagesToSend as $message ) {
                 $msgToSend['text'] = replaceTags($message['message'], $args);
                 $msgToSend['mrkdwn'] = true;
                 $ok = sendMessage($msgToSend);
-                if ( $ok ) {
+                if ($ok) {
                     $msgSentCounter++;
                 } else {
                     $msgFailCounter++;
@@ -129,7 +142,7 @@ foreach( $messagesToSend as $message ) {
         print("Looking up channel ".$message['channel_name']."\n");
         $document = $channels->findOne(['name' => $message['channel_name']]);
 
-        if ( isset($document) ) {
+        if (isset($document)) {
             $channelId = $document['id'];
             print("Mapped ".$message['channel_name']." to ".$channelId."\n");
         } else {
@@ -145,19 +158,17 @@ foreach( $messagesToSend as $message ) {
         $msgToSend['text'] = replaceTags($message['message'], $args);
         $msgToSend['mrkdwn'] = true;
         $ok = sendMessage($msgToSend);
-        if ( $ok ) {
+        if ($ok) {
             $msgSentCounter++;
         } else {
             $msgFailCounter++;
         }
     }
 
-    if ( $msgSentCounter + $msgFailCounter > $MAX_LIMIT_ON_POSTS ) {
+    if ($msgSentCounter + $msgFailCounter > $MAX_LIMIT_ON_POSTS) {
         die("Something has gone wrong, we should not have more than at most 20 messages to send per session.\n");
     }
 }
 
 printf("Sent   Messages: %d\n", $msgSentCounter);
 printf("Failed Messages: %d\n", $msgFailCounter);
-
-

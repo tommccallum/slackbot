@@ -1,0 +1,33 @@
+{
+    "message_type": "im",
+    "send_date": "today",
+    "send_time": "now",
+    "dialog": [
+        {
+            "text": "Hi this is a test message.  Could you please reply to me?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad..."
+                }
+            ]
+        },
+        {
+            "text": "This is a second statement about which I know nothing ::smiley::",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you again!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad again..."
+                }
+            ]
+        }
+    ]
+}

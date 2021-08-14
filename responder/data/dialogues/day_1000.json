@@ -1,0 +1,33 @@
+{
+    "message_type": "im",
+    "send_date": "2045-01-01",
+    "send_time": "now",
+    "dialog": [
+        {
+            "text": "This future message should never be sent. Used for testing purposes only.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad..."
+                }
+            ]
+        },
+        {
+            "text": "This is a second statement about which I know nothing ::smiley::",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you again!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad again..."
+                }
+            ]
+        }
+    ]
+}

@@ -178,7 +178,7 @@ final class class_ConversationStateTest extends TestCase
         // var_dump($botId);
         $state = new MockConversationState($message, $botId);
         // var_dump($state->getData());
-        $this->assertSame($state->length(), 2);
+        $this->assertSame($state->length(), 6);
         $this->assertTrue($state->hasMessagesWithoutReply());
     }
 }

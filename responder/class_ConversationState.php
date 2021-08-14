@@ -84,6 +84,16 @@ class ConversationState
         return false;
     }
 
+    public function isBotInitiatedThread()
+    {
+        if (count($this->data['history']) == 0) {
+            return false;
+        }
+        if ($this->data['history'][0]['user'] == $this->botId) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Add a message OR replace existing message in the queue

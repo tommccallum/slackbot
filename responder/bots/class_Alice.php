@@ -45,6 +45,7 @@ class Alice extends Bot
 
     private function replyToMessage()
     {
+        $isBotInitiatedThread = $this->conversationState->isBotInitiatedThread();
         $message = $this->conversationState->getNextMessageWithoutReply();
         if (!isset($message)) {
             return null;
@@ -57,6 +58,7 @@ class Alice extends Bot
                 $responseState['text'] = null;
                 $responseState['reason'] = "Ignored, as reply to self";
                 $this->conversationState->addReply($responseState, $message);
+                savelog("Ignoring own bot message");
                 return null;
             }
         }
@@ -112,68 +114,93 @@ class Alice extends Bot
         $resultArray = walk_message_blocks($message, "getUserBlocks");
         #$userIds = collapseUserBlocksIntoArray($resultArray);
 
-        # a piece of text can have multiple intents e.g. a greeting and a request
-        # we check if they match and then if they do we add the match to our array
-        # we can then sort the array by the starting location of the match.
+        $skipResponseCreation = false;
         $response = "";
-        foreach ($clauses as $index => $clause) { // we want to respond to each part of the users message
+        if ($isBotInitiatedThread) {
+            savelog("Detected bot initiated thread");
+            // in this case there may be an expected dialog going on.
+            $dialogCollection = new DialogueCollection();
+            $dialogCollection->loadFromDirectory();
+            $selectedDialog = $dialogCollection->matchConversation($this->conversationState);
+            if (!isset($selectedDialog)) {
+                // continue as if no dialog existed.
+                savelog("No matching dialogue found.");
+            } else {
+                savelog("Found matching dialogs.");
+                $replyText = $selectedDialog[0]->nextResponse($this->conversationState, $responseState);
 
-            // We split forming a reply into 2 parts:
-            // 1. generating a set of specification which say what we have available to reply with
-            // 2. the second does the actual replying.  This means we have the option to go back and try the "2nd"
-            //      option if we get asked to "try again" or something similar.
-            $matchingIntents = array();
-            foreach ($this->intents as $intent) {
-                $match = $intent->isLike($clause);
-                if (isset($match)) {
-                    $matchingIntents[] = $match;
-                }
-            }
-            // var_dump($matchingIntents);
-            usort($matchingIntents, "compareIntentMatches");
-            
-            // save out intents so if need be we could write a proc to retry and then take a different option.
-            $responseState['clauses'][$index]['matchingIntents'] = $matchingIntents;
-
-            // var_dump($matchingIntents);
-
-            # we will respond in the same order as the intents
-            # we then generate the appropriate replies
-            $you = createSlackUserProfile($user['id']);
-            $me = new Me();
-            $partsOfDay = new PartOfDay();
-            $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
-            foreach ($matchingIntents as &$match) {
-                $replyText = null;
-                foreach ($this->intents as $intent) {
-                    if ($intent->name() == $match['intent_name']) {
-                        $replyText = $intent->getReply($match);
-                        break;
-                    }
-                }
-                if (isset($replyText)) {
-                    $replyText = replaceTags($replyText, $replacements);
-
-                    # fit the pieces of sentence together
-                    if (preg_match("/[.?!]\s*$/", $response)) {
-                        // we need to start a new sentence.
-                        if ($response == "") {
-                            $response .= ucFirst($replyText);
-                        } else {
-                            $response .= " ".$replyText;
-                        }
-                    } else {
-                        if ($response == "") {
-                            $response = ucFirst($replyText);
-                        } else {
-                            $response .= ", ".$replyText;
-                        }
-                    }
-                }
+                $you = createSlackUserProfile($user['id']);
+                $me = new Me();
+                $partsOfDay = new PartOfDay();
+                $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
+                $response = replaceTags($replyText, $replacements);
+                $skipResponseCreation = true;
             }
         }
-        if (preg_match("/[.?!]\s*$/", $response) === false) {
-            $response .= ".";
+
+        if ($skipResponseCreation) {
+            # a piece of text can have multiple intents e.g. a greeting and a request
+            # we check if they match and then if they do we add the match to our array
+            # we can then sort the array by the starting location of the match.
+            foreach ($clauses as $index => $clause) { // we want to respond to each part of the users message
+
+                // We split forming a reply into 2 parts:
+                // 1. generating a set of specification which say what we have available to reply with
+                // 2. the second does the actual replying.  This means we have the option to go back and try the "2nd"
+                //      option if we get asked to "try again" or something similar.
+                $matchingIntents = array();
+                foreach ($this->intents as $intent) {
+                    $match = $intent->isLike($clause);
+                    if (isset($match)) {
+                        $matchingIntents[] = $match;
+                    }
+                }
+                // var_dump($matchingIntents);
+                usort($matchingIntents, "compareIntentMatches");
+                
+                // save out intents so if need be we could write a proc to retry and then take a different option.
+                $responseState['clauses'][$index]['matchingIntents'] = $matchingIntents;
+
+                // var_dump($matchingIntents);
+
+                # we will respond in the same order as the intents
+                # we then generate the appropriate replies
+                $you = createSlackUserProfile($user['id']);
+                $me = new Me();
+                $partsOfDay = new PartOfDay();
+                $replacements = [ "you" => $you, "me" => $me, "part_of_day" => $partsOfDay ];
+                foreach ($matchingIntents as &$match) {
+                    $replyText = null;
+                    foreach ($this->intents as $intent) {
+                        if ($intent->name() == $match['intent_name']) {
+                            $replyText = $intent->getReply($match);
+                            break;
+                        }
+                    }
+                    if (isset($replyText)) {
+                        $replyText = replaceTags($replyText, $replacements);
+
+                        # fit the pieces of sentence together
+                        if (preg_match("/[.?!]\s*$/", $response)) {
+                            // we need to start a new sentence.
+                            if ($response == "") {
+                                $response .= ucFirst($replyText);
+                            } else {
+                                $response .= " ".$replyText;
+                            }
+                        } else {
+                            if ($response == "") {
+                                $response = ucFirst($replyText);
+                            } else {
+                                $response .= ", ".$replyText;
+                            }
+                        }
+                    }
+                }
+            }
+            if (preg_match("/[.?!]\s*$/", $response) === false) {
+                $response .= ".";
+            }
         }
 
         $responseState['text'] = $response;

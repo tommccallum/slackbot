@@ -1,0 +1,33 @@
+{
+    "message_type": "im",
+    "send_date": "1970-01-01",
+    "send_time": "now",
+    "dialog": [
+        {
+            "text": "This message should never be sent.  If it is then please inform the author.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad..."
+                }
+            ]
+        },
+        {
+            "text": "This is a second statement about which I know nothing ::smiley::",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yay, go you again!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that made me sad again..."
+                }
+            ]
+        }
+    ]
+}

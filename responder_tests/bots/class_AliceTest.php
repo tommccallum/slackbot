@@ -106,17 +106,17 @@ final class class_AliceTest extends TestCase
     //     var_dump($text);
     // }
 
-    public function test_learning_outcome_recommender_intent_message_2(): void
-    {
-        $testCaseContents = file_get_contents(__DIR__."/../messages/learning_outcome_recommender_intent_message_2.json");
-        $json = json_decode($testCaseContents, true);
-        $app = new App($json);
-        $app->botSelectionName = "Alice";
-        $bot = createNewBot($app);
-        loadIntents($bot);
-        $text = $bot->handle($app);
-        var_dump($text);
-    }
+    // public function test_learning_outcome_recommender_intent_message_2(): void
+    // {
+    //     $testCaseContents = file_get_contents(__DIR__."/../messages/learning_outcome_recommender_intent_message_2.json");
+    //     $json = json_decode($testCaseContents, true);
+    //     $app = new App($json);
+    //     $app->botSelectionName = "Alice";
+    //     $bot = createNewBot($app);
+    //     loadIntents($bot);
+    //     $text = $bot->handle($app);
+    //     var_dump($text);
+    // }
 
     public function test_stop_warnings(): void
     {
