@@ -88,7 +88,7 @@ function sendSlackMessage($app, $message)
     );
 
     if ($app->isReplyToThread()) {
-        $data['thread_ts'] = $app->getThreadId();
+        $data['thread_ts'] = $app->getParentThread();
     } elseif ($app->isEvent()) {
         $data['thread_ts'] = $app->getThreadId();
     }
