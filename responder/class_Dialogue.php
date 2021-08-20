@@ -88,12 +88,12 @@ class Dialogue
         return false;
     }
 
-    public function matchTime($timeAsHHMMSS)
+    public function matchTime($timeAsHHMMSS, $allowMatchingTimeOfValueNow=false)
     {
         if (!isset($this->data['send_time'])) {
             return false;
         }
-        if ($this->data['send_time'] == "now") {
+        if ($this->data['send_time'] == "now" && $allowMatchingTimeOfValueNow) {
             return true;
         }
         if ($this->data['send_time'].":00" == $timeAsHHMMSS) {

@@ -31,6 +31,14 @@ include_source("parseCsvIntoJson.php");
 
 autoload_environment();
 
+$isTestModeActive = false;
+foreach ($argv as $a) {
+    if ($a == "--test") {
+        $isTestModeActive = true;
+        print("[WARNING] Test mode is activated, allowing messages with * as time to be sent.\n");
+    }
+}
+
 # Set this to a number which you do not expect to ever reach. If it reached we die.
 $MAX_LIMIT_ON_POSTS = 20;
 
@@ -94,7 +102,7 @@ foreach ($result as $f) {
     }
     
     foreach ($jsonContents as $item) {
-        if ($item['time'] == "*") {
+        if ($isTestModeActive && $item['time'] == "*") {
             $item['time'] = $timeFromNow;
         }
         if ($item['date'] == "*") {
@@ -111,7 +119,7 @@ foreach ($result as $f) {
 # we also need to send dialogue initiating messages which are stored in "dialogues" directory
 $dialogueManager = new DialogueCollection();
 $dialogueManager->loadFromDirectory(__DIR__."/data/dialogues");
-$dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow);
+$dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow, $isTestModeActive);
 printf("Found %d dialogues that might be ready to send\n", count($dialogues));
 foreach ($dialogues as $dialogue) {
     $text = $dialogue->getInitialText();

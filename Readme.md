@@ -54,6 +54,18 @@ cd slackbot
 cp -R dist/* /var/www/html/slackbot
 ```
 
+### Posting Messages
+
+Posting messages on a scheduled basis allows the Slack bot to initiate conversations rather than always waiting on a human.  We can post to both a channel and directly to a user.
+
+```
+cd responder
+# use --test to allow immediate posts otherwise posts must be scheduled.
+php postMessages.php --test
+# to run in a cron job
+php postMessages.php
+```
+
 ## Securing on your server
 
 * Add .htaccess to logs directory

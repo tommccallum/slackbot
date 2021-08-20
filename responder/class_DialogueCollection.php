@@ -44,11 +44,11 @@ class DialogueCollection
         return $dialogs;
     }
 
-    public function getMatchingDateTime($dateAsString, $timeAsString)
+    public function getMatchingDateTime($dateAsString, $timeAsString, $allowMatchingTimeOfValueNow=false)
     {
         $matches = [];
         foreach ($this->dialogues as $dialog) {
-            if ($dialog->matchDate($dateAsString) && $dialog->matchTime($timeAsString)) {
+            if ($dialog->matchDate($dateAsString) && $dialog->matchTime($timeAsString, $allowMatchingTimeOfValueNow)) {
                 $matches[] = $dialog;
             }
         }
