@@ -139,7 +139,7 @@ class SentimentAnalyser
         $topClass = array_search(key($classScores), $this->classes);
         $bag = [];
         foreach ($lexemes as $lex) {
-            $bag[] = $lexemes['text'];
+            $bag[] = $lex['text'];
         }
         $remarkClass = $this->classifyRemarks($bag);
         #var_dump([$tokens, $topClass, $remarkClass]);
