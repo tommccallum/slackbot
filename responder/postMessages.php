@@ -132,7 +132,7 @@ foreach ($result as $f) {
 $dialogueManager = new DialogueCollection();
 $dialogueManager->loadFromDirectory(__DIR__."/data/dialogues");
 $dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow, $isTestModeActive);
-debugPostMsg("Found %d dialogues that might be ready to send\n", count($dialogues));
+debugPostMsg("Found ".count($dialogues)." dialogues that might be ready to send\n");
 foreach ($dialogues as $dialogue) {
     $text = $dialogue->getInitialText();
     if (isset($text)) {
@@ -145,7 +145,7 @@ foreach ($dialogues as $dialogue) {
 }
 
 
-debugPostMsg("Found %d messages to send\n", count($messagesToSend));
+debugPostMsg("Found ".count($messagesToSend)." messages to send\n");
 $msgCount = count($messagesToSend);
 
 
