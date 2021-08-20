@@ -311,11 +311,12 @@ class ConversationState
 
     public function load()
     {
+        global $mongodb;
         if (!isset($this->data) || !isset($this->data['thread_id'])) {
             return;
         }
         $options = ["typeMap" => ['root' => 'array', 'document' => 'array']];
-        $collection = (new MongoDB\Client(null, [], $options))->slackbot->conversation_state;
+        $collection = $mongodb->slackbot->conversation_state;
         $conversationThread = $collection->findOne(["thread_id" => $this->id(), "channel" => $this->channel() ]);
         if (isset($conversationThread)) {
             $this->data = $conversationThread;
@@ -324,13 +325,14 @@ class ConversationState
 
     public function save()
     {
+        global $mongodb;
         if (!isset($this->data['thread_id'])) {
             return false;
         }
         if (!isset($this->data['channel'])) {
             return false;
         }
-        $collection = (new MongoDB\Client)->slackbot->conversation_state;
+        $collection = $mongodb->slackbot->conversation_state;
         $collection->replaceOne([ "thread_id" => $this->id(), "channel" => $this->channel() ], $this->data, [ "upsert" => true]);
         return true;
     }

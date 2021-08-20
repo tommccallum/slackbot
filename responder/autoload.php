@@ -49,3 +49,6 @@ $conn = new mysqli($GLOBALS['server'], $GLOBALS['username'], $GLOBALS['password'
 if ($conn->connect_error) {
     die("MYSQL DB Connection failed: " . $conn->connect_error);
 }
+
+$options = ["typeMap" => ['root' => 'array', 'document' => 'array']];
+$mongodb = new MongoDB\Client(null, [], $options);

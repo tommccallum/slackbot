@@ -12,13 +12,15 @@ function getBotInfo($botId)
 
 function saveBotInfo($botId, $botInfo)
 {
-    $collection = (new MongoDB\Client)->slackbot->bots;
+    global $mongodb;
+    $collection = $mongodb->slackbot->bots;
     $collection->replaceOne(["id" => $botId], $botInfo, [ "upsert" => true]);
 }
 
 function getBotInfoFromMongo($botId)
 {
-    $collection = (new MongoDB\Client)->slackbot->bots;
+    global $mongodb;
+    $collection = $mongodb->slackbot->bots;
     $result = $collection->findOne(["id" => $botId]);
     if (isset($result)) {
         return $result;
