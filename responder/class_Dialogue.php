@@ -15,6 +15,7 @@ class Dialogue
 
     public function loadFromFile($file)
     {
+        $this->filePath = $file;
         $contents = file_get_contents($file);
         $jsondata = json_decode($contents, true);
         $this->data = $jsondata;
@@ -46,7 +47,7 @@ class Dialogue
         // as we are only expecting to initiate 1 message per day, then that should be
         // ok.
         $plainText = $slackMessage['text'];
-        $timepoint = date("Y-m-d", $slackMessage['ts']/1000);
+        $timepoint = date("Y-m-d", $slackMessage['ts']);
         savelog("Dialogue::match::check date ".$timepoint);
 
         if ($this->matchDate($timepoint)) {
@@ -76,6 +77,9 @@ class Dialogue
 
     public function matchDate($dateAsYYYYMMDD)
     {
+        // var_dump($dateAsYYYYMMDD);
+        // var_dump($this->data['send_date']);
+
         if (!isset($this->data['send_date'])) {
             return false;
         }
@@ -90,6 +94,8 @@ class Dialogue
 
     public function matchTime($timeAsHHMMSS, $allowMatchingTimeOfValueNow=false)
     {
+        // var_dump($timeAsHHMMSS);
+        // var_dump($this->data['send_time'].":00");
         if (!isset($this->data['send_time'])) {
             return false;
         }

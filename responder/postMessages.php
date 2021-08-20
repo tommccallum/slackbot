@@ -84,6 +84,7 @@ if (file_exists($usersInResearchPath)) {
     die("[FATAL] You need to create 'users_in_research.json' file.");
 }
 
+date_default_timezone_set("Europe/London");
 
 #
 # Get all files in the 'posts' directory, these are just flat messages that have no further structure
@@ -95,6 +96,9 @@ $result = getDirContents($dataDir);
 #
 $messagesToSend = array();
 $datetime = strtotime("+1 minute");
+
+debugPostMsg("Current Datetime: ".date("d/m/Y H:i:s")."\n");
+
 $oneMinuteFromNow = date("d/m/y H:i:00", $datetime);
 $bits = explode(' ', $oneMinuteFromNow);
 $dateFromNow = $bits[0];
@@ -129,9 +133,14 @@ foreach ($result as $f) {
 }
 
 # we also need to send dialogue initiating messages which are stored in "dialogues" directory
+# realised my dates were in a different format - quick hack to reget them in YYYY-MM-DD format.
+$oneMinuteFromNowFormat = date("Y-m-d H:i:00", $datetime);
+$bits2 = explode(' ', $oneMinuteFromNowFormat);
+$dateFromNow2 = $bits2[0];
+$timeFromNow2 = $bits2[1];
 $dialogueManager = new DialogueCollection();
 $dialogueManager->loadFromDirectory(__DIR__."/data/dialogues");
-$dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow, $isTestModeActive);
+$dialogues = $dialogueManager->getMatchingDateTime($dateFromNow2, $timeFromNow2, $isTestModeActive);
 debugPostMsg("Found ".count($dialogues)." dialogues that might be ready to send\n");
 foreach ($dialogues as $dialogue) {
     $text = $dialogue->getInitialText();

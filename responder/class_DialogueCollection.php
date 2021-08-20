@@ -49,6 +49,7 @@ class DialogueCollection
         $matches = [];
         foreach ($this->dialogues as $dialog) {
             if ($dialog->matchDate($dateAsString) && $dialog->matchTime($timeAsString, $allowMatchingTimeOfValueNow)) {
+                var_dump($dialog->filePath);
                 $matches[] = $dialog;
             }
         }
