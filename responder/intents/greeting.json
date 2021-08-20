@@ -1,26 +1,32 @@
 {
-    "name": "greeting",
+    "name": "thankyou",
     "examples": [
-        "Hey ?user?",
-        "Hello ?user?",
-        "Good morning ?user?",
-        "Good afternoon ?user?",
-        "Good evening ?user?",
-        "Hi ?user?",
-        "What’s up ?user?",
-        "Hiya ?user?"
+        "thank you",
+        "thankyou",
+        "ty",
+        "cheers",
+        "thanks",
+        "thanks so much",
+        "I really appreciate it",
+        "You shouldn't have",
+        "That's very kind",
+        "Your the best",
+        "I owe you one",
+        "You rock"
     ],
     "selection": "random",
     "replies": [
-        "Hello %you.first_name%",
-        "Good %part_of_day.text% %you.first_name%",
-        "It’s nice to meet you %you.first_name%",
-        "It’s a pleasure to meet you %you.first_name%",
-        "Hi %you.first_name%",
-        "Hey %you.first_name%",
-        "What’s up %you.first_name%",
-        "Nice to meet you %you.first_name%",
-        "Pleased to meet you %you.first_name%",
-        "It’s a pleasure %you.first_name%"
+        "No problem",
+        "np",
+        "you're welcome!",
+        "no problemo",
+        "don't mention it",
+        "No worries",
+        "my pleasure",
+        "it was nothing",
+        "I'm happy I could help",
+        "not at all",
+        "anytime",
+        "sure thing"
     ]
 }

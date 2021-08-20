@@ -4,13 +4,12 @@
 
 function loadDialogue($bot)
 {
-    
 }
 
-function loadIntents(&$bot) 
+function loadIntents(&$bot)
 {
     $intent_files = getDirContents(__DIR__."/intents");
-    foreach( $intent_files as $intent_file ) {
+    foreach ($intent_files as $intent_file) {
         $intent = new Intent();
         $intent->loadFromFile($intent_file);
         $bot->addIntent($intent);
@@ -19,23 +18,23 @@ function loadIntents(&$bot)
     $bot->setPartOfDay(new PartOfDay());
 }
 
-function loadAntonyms() 
+function loadAntonyms()
 {
     $antonyms = array_map("str_getcsv", file(__DIR__ . DIRECTORY_SEPARATOR . "data/special_antonyms.txt"));
     # maps negative -> positive
     $antonym_neg_to_pos_map = [];
-    foreach( $antonyms as $row ) {
+    foreach ($antonyms as $row) {
         $antonym_neg_to_pos_map[$row[1]] = $row[0];
     }
     return $antonym_neg_to_pos_map;
 }
 
-function loadPersonNames() 
+function loadPersonNames()
 {
     $data = array_map("str_getcsv", file(__DIR__ . DIRECTORY_SEPARATOR . "data/person_names.txt"));
     # maps negative -> positive
     $names = [];
-    foreach( $data as $row ) {
+    foreach ($data as $row) {
         $names[$row[0]] = strtolower($row[0]);
     }
     return $names;
