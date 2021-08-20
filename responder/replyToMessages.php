@@ -7,13 +7,20 @@
 
 $watchLoop = false;
 $outputLogToScreen = false;
+$forceQuiet = true;
 $secondsBetweenSessions = 20;
 $ii=1;
 $argc = count($argv);
 while ($ii < $argc) {
     if ($argv[$ii] == "--loop") {
         $watchLoop = true;
-        $outputLogToScreen = true;
+        if (!$forceQuiet) {
+            $outputLogToScreen = true;
+        }
+    }
+    if ($argv[$ii] == "--quiet") {
+        $outputLogToScreen = false;
+        $forceQuiet = true;
     }
     $ii++;
 }
