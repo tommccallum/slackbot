@@ -32,10 +32,21 @@ include_source("parseCsvIntoJson.php");
 autoload_environment();
 
 $isTestModeActive = false;
+$debugMode = false;
 foreach ($argv as $a) {
     if ($a == "--test") {
         $isTestModeActive = true;
         print("[WARNING] Test mode is activated, allowing messages with * as time to be sent.\n");
+    } elseif ($a == "--debug") {
+        $debugMode = true;
+    }
+}
+
+function debugPostMsg($msg)
+{
+    global $debugMode;
+    if ($debugMode) {
+        print($msg);
     }
 }
 
@@ -45,7 +56,8 @@ $MAX_LIMIT_ON_POSTS = 20;
 $cwd = __DIR__;
 $dataDir = $cwd . DIRECTORY_SEPARATOR . "posts";
 
-print("Data Directory: ".$dataDir."\n");
+debugPostMsg("Data Directory: ".$dataDir."\n");
+
 
 #
 # Attempt to load channels, users and research subjects first
@@ -53,13 +65,13 @@ print("Data Directory: ".$dataDir."\n");
 
 $channels = (new MongoDB\Client)->slackbot->channels;
 $n = $channels->count();
-print("Found $n channels in database\n");
+debugPostMsg("Found $n channels in database\n");
 if ($n == 0) {
     die("[FATAL] No channels uploaded to database 'slackbot'.");
 }
 $users = (new MongoDB\Client)->slackbot->users;
 $n = $users->count();
-print("Found $n users in database\n");
+debugPostMsg("Found $n users in database\n");
 if ($n == 0) {
     die("[FATAL] No users uploaded to database 'slackbot'.");
 }
@@ -89,7 +101,7 @@ $dateFromNow = $bits[0];
 $timeFromNow = $bits[1];
 
 foreach ($result as $f) {
-    print("Processing ".$f."\n");
+    debugPostMsg("Processing ".$f."\n");
     $info = pathinfo($f);
     $ext = $info['extension'];
     if ($ext == "json") {
@@ -98,7 +110,7 @@ foreach ($result as $f) {
     } elseif ($ext == "csv") {
         $jsonContents = parseCsvIntoJson($f);
     } else {
-        print("Ignoring $f\n");
+        debugPostMsg("Ignoring $f\n");
     }
     
     foreach ($jsonContents as $item) {
@@ -109,7 +121,7 @@ foreach ($result as $f) {
             $item['date'] = $dateFromNow;
         }
         $requestedDateTime = $item['date'] . " " . $item['time'];
-        print("[Date comparison] requested: $requestedDateTime actual: $oneMinuteFromNow\n");
+        debugPostMsg("[Date comparison] requested: $requestedDateTime actual: $oneMinuteFromNow\n");
         if ($requestedDateTime === $oneMinuteFromNow) {
             array_push($messagesToSend, $item);
         }
@@ -120,7 +132,7 @@ foreach ($result as $f) {
 $dialogueManager = new DialogueCollection();
 $dialogueManager->loadFromDirectory(__DIR__."/data/dialogues");
 $dialogues = $dialogueManager->getMatchingDateTime($dateFromNow, $timeFromNow, $isTestModeActive);
-printf("Found %d dialogues that might be ready to send\n", count($dialogues));
+debugPostMsg("Found %d dialogues that might be ready to send\n", count($dialogues));
 foreach ($dialogues as $dialogue) {
     $text = $dialogue->getInitialText();
     if (isset($text)) {
@@ -133,9 +145,7 @@ foreach ($dialogues as $dialogue) {
 }
 
 
-
-printf("Found %d messages to send\n", count($messagesToSend));
-
+debugPostMsg("Found %d messages to send\n", count($messagesToSend));
 $msgCount = count($messagesToSend);
 
 
@@ -146,7 +156,7 @@ $msgSentCounter = 0;
 $msgFailCounter = 0;
 foreach ($messagesToSend as $message) {
     if ($message['channel_name'] === "*") {
-        print("Posting to all members of users in research file.\n");
+        debugPostMsg("Posting to all members of users in research file.\n");
 
         foreach ($usersInResearchArray as $user) {
             $document = $users->findOne(['name' => $user]);
@@ -166,18 +176,18 @@ foreach ($messagesToSend as $message) {
                     $msgFailCounter++;
                 }
             } else {
-                print("User ".$user." not found in database.\n");
+                print("[ERROR] User ".$user." not found in database.\n");
             }
         }
     } else {
-        print("Looking up channel ".$message['channel_name']."\n");
+        debugPostMsg("Looking up channel ".$message['channel_name']."\n");
         $document = $channels->findOne(['name' => $message['channel_name']]);
 
         if (isset($document)) {
             $channelId = $document['id'];
-            print("Mapped ".$message['channel_name']." to ".$channelId."\n");
+            debugPostMsg("Mapped ".$message['channel_name']." to ".$channelId."\n");
         } else {
-            print("Failed to find channel_name ".$message['channel_name']."\n");
+            print("[ERROR] Failed to find channel_name ".$message['channel_name']."\n");
             continue;
         }
         $args = [
@@ -201,5 +211,9 @@ foreach ($messagesToSend as $message) {
     }
 }
 
-printf("Sent   Messages: %d\n", $msgSentCounter);
-printf("Failed Messages: %d\n", $msgFailCounter);
+if ($msgSentCounter > 0 || $debugMode) {
+    printf("Sent   Messages: %d\n", $msgSentCounter);
+}
+if ($msgFailCounter > 0 || $debugMode) {
+    printf("Failed Messages: %d\n", $msgFailCounter);
+}

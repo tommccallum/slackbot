@@ -3,7 +3,7 @@
 # Adds a file lock around the post messages script so it does not get run multiple times.
 
 PHP=$(which php)
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 SCRIPT="$SCRIPT_DIR/responder/postMessages.php"
 LOCKFILE="/tmp/slackbot_postmessages"
 
@@ -13,6 +13,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-$PHP "$SCRIPT"
+$PHP "$SCRIPT" "$@"
 
 lockfile-remove $LOCKFILE
