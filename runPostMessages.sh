@@ -12,6 +12,7 @@ LOCKFILE="/tmp/slackbot_postmessages"
 if [ -e "$LOCKFILE" ]; then
     read lastPID <"$LOCKFILE"
     [ ! -z "$lastPID" -a -d /proc/$lastPID ] && exit
+    echo "$(date) Lock file ${LOCKFILE} is still in place but associated process is dead, removing lockfile."
     lockfile-remove "$LOCKFILE"
 fi
 
