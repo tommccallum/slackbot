@@ -100,16 +100,16 @@ class DocumentClassifier
         // sort in descending order maintain index association
         arsort($classScores);
 
-        if ($details) {
-            return ($classScores);
-        }
-
         // debug the top 5
         savelog("Document Classifier: $userText");
         savelog("Hits: $numberOfHits");
         $keys = array_keys($classScores);
         for ($ii=0; $ii < min(count($classScores), 5); $ii++) {
             savelog($classScores[$keys[$ii]].": ".$keys[$ii]);
+        }
+
+        if ($details) {
+            return ($classScores);
         }
 
         // get the index of the highest value e.g. pos, neg

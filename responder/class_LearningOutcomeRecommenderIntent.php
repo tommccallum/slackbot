@@ -60,9 +60,17 @@ class LearningOutcomeRecommenderIntent
         }
         $request = join(" ", $topicTextArray);
         savelog("Learning Outcome Recommendation for: ".$request);
-        $loID = $this->documentRecommender->classify($request);
+        $loID = $this->documentRecommender->classify($request, true);
         $response = "";
         if (isset($loID)) {
+            // try and enforce the year
+            if (preg_match("/year\s+(\d)/", $request, $match)) {
+                savelog(json_encode($match));
+            } else {
+                # just take top
+                $loID = key($loID);
+            }
+
             $chosenItem = null;
             foreach ($this->csv as $row) {
                 if ($row[6] == $loID) {
@@ -74,7 +82,7 @@ class LearningOutcomeRecommenderIntent
             if (isset($chosenItem)) {
                 $response = "The best learning outcome I found that matched your topic was $loID.  This is in the category of '".$chosenItem[3]
                             ."' for module '".$chosenItem[2]."'. ";
-                $response  .= "If this if for the wrong year then just let me know and I will look again.\n\n";
+                $response  .= "If this is for the wrong year then just let me know and I will look again.\n\n";
 
                 $loFormattedText = formatLearningOutcome($chosenItem[7]);
                 $response .= $loFormattedText;
