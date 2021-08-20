@@ -127,7 +127,7 @@ class Dialogue
             if ($msgCount >= count($this->data['dialog'])) {
                 # if for whatever reason the user tries to prompt Alice afterwards then
                 # she should not reply as the last message will be a goodbye one.
-                savelog("user responded for longer than dialog, ignoring user input");
+                savelog("user responded ".($msgCount)." for longer than dialog (".count($this->data['dialog'])."), ignoring user input");
                 return false;
             }
             $dialogIndex = $msgCount - 1;
