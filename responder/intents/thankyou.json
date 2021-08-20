@@ -1,9 +1,9 @@
 {
     "name": "help",
     "examples": [
-        "can you help me",
-        "help",
-        "I need help"
+        "can you *help me",
+        "*help",
+        "I need *help"
     ],
     "selection": "random",
     "replies": [
