@@ -65,17 +65,34 @@ class LearningOutcomeRecommenderIntent
         if (isset($loID)) {
             // try and enforce the year
             if (preg_match("/year\s+(\d)/", $request, $match)) {
-                savelog(json_encode($match));
+                $year = $match[1];
+                if (key($loID)[2] == $year) {
+                    $loID = key($loID);
+                } else {
+                    $found = false;
+                    foreach ($loID as $k => $v) {
+                        if ($k[2] == $year) {
+                            $loID = $k;
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $loID = null;
+                    }
+                }
             } else {
                 # just take top
                 $loID = key($loID);
             }
 
             $chosenItem = null;
-            foreach ($this->csv as $row) {
-                if ($row[6] == $loID) {
-                    $chosenItem = $row;
-                    break;
+            if (isset($loID)) {
+                foreach ($this->csv as $row) {
+                    if ($row[6] == $loID) {
+                        $chosenItem = $row;
+                        break;
+                    }
                 }
             }
 
