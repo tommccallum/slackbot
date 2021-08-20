@@ -21,6 +21,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-$PHP "$SCRIPT" --loop --quiet "$@"
-
-lockfile-remove $LOCKFILE
+$PHP "$SCRIPT" --loop --quiet "$@" &
