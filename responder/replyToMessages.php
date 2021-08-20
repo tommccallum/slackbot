@@ -33,8 +33,7 @@ $collection = (new MongoDB\Client(null, [], $options))->slackbot->events;
 
 while ($watchLoop) {
     # sort by latest first so that we are always replying to the latest message in a thread.
-    savelog("Starting replyToMessages session");
-
+    $anyMessages = false;
     # TODO avoid replying to an updated message if we pick an old one
 
     while (true) {
@@ -44,6 +43,11 @@ while ($watchLoop) {
             break;
         }
 
+        if (!$anyMessages) {
+            # only print starting session message when we have something to respond to, to minimise logging
+            savelog("Starting replyToMessages session");
+            $anyMessages = true;
+        }
         savelog("Handling queued message");
         savelog(json_encode($event));
 
@@ -54,7 +58,9 @@ while ($watchLoop) {
         onSlackEvent($app, $bot, $event, $collection);
     }
 
-    savelog("End of replyToMessages session");
+    if ($anyMessages) {
+        savelog("End of replyToMessages session");
+    }
 
     if ($watchLoop) {
         sleep($secondsBetweenSessions);
