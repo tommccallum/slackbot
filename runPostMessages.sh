@@ -17,7 +17,7 @@ fi
 
 lockfile-create --use-pid -r 0 "$LOCKFILE"
 if [ $? -ne 0 ]; then
-    echo "Lock file ${LOCKFILE} is in place, exiting without action."
+    echo "$(date) Lock file ${LOCKFILE} is in place, exiting without action."
     exit 0
 fi
 
