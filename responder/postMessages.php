@@ -62,14 +62,15 @@ debugPostMsg("Data Directory: ".$dataDir."\n");
 #
 # Attempt to load channels, users and research subjects first
 #
+$db = new MongoDB\Client;
 
-$channels = (new MongoDB\Client)->slackbot->channels;
+$channels = $db->slackbot->channels;
 $n = $channels->count();
 debugPostMsg("Found $n channels in database\n");
 if ($n == 0) {
     die("[FATAL] No channels uploaded to database 'slackbot'.");
 }
-$users = (new MongoDB\Client)->slackbot->users;
+$users = $db->slackbot->users;
 $n = $users->count();
 debugPostMsg("Found $n users in database\n");
 if ($n == 0) {
