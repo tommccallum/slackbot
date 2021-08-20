@@ -4,8 +4,8 @@ require_once("sentiment_analysis.php");
 
 // This was disappointing as it promised 0-4 categories but only had
 // 0 and 4, but we can still use it.
-function train_on_twitter_data(&$model) {
-
+function train_on_twitter_data(&$model)
+{
     $path = __DIR__ . "/../data/training.1600000.processed.noemoticon.csv";
     $csv = array_map('str_getcsv', file($path));
     // array_walk($csv, function(&$a) use ($csv) {
@@ -33,14 +33,15 @@ function train_on_twitter_data(&$model) {
     $model->report();
 }
 
-function getDirContents($dir, &$results = array()) {
+function getDirContents($dir, &$results = array())
+{
     $files = scandir($dir);
 
     foreach ($files as $key => $value) {
         $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
         if (!is_dir($path)) {
             $results[] = $path;
-        } else if ($value != "." && $value != "..") {
+        } elseif ($value != "." && $value != "..") {
             getDirContents($path, $results);
             $results[] = $path;
         }
@@ -89,7 +90,8 @@ function train_on_movie_directory($movieDirectory, &$model)
 }
     
 
-function train_on_movie_data(&$model) {
+function train_on_movie_data(&$model)
+{
     $path = __DIR__ . "/../data/aclImdb/train/pos";
     train_on_movie_directory($path, $model);
     $path = __DIR__ . "/../data/aclImdb/train/neg";

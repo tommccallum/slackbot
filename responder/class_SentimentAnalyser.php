@@ -35,14 +35,28 @@ class SentimentAnalyser
     private $stopWordList = array();
     private $stopWordFile = __DIR__."/data/stopwords.txt";
 
-    public function addExample($class, $line )
+    private $remarks = array();
+
+    public function __construct()
     {
-        if ( is_integer($class) ) {
+        $this->remarks["very negative"] = file(__DIR__."/data/sentiment/strong_negative_sentiment_remarks.txt");
+        $this->remarks["negative"] = file(__DIR__."/data/sentiment/weak_negative_sentiment_remarks.txt");
+        $this->remarks["positive"] = file(__DIR__."/data/sentiment/weak_positive_sentiment_remarks.txt");
+        $this->remarks["very positive"] = file(__DIR__."/data/sentiment/strong_positive_sentiment_remarks.txt");
+
+        foreach ($this->remarks as $k => $arr) {
+            $this->remarks[$k] = array_map("strtolower", array_map("chop", $arr));
+        }
+    }
+
+    public function addExample($class, $line)
+    {
+        if (is_integer($class)) {
             $classIndex = $class;
             $className = $this->classes[$classIndex];
         } else {
             $className = $class;
-            $classIndex = array_search( $class, $this->classes);
+            $classIndex = array_search($class, $this->classes);
         }
 
         $this->docCount++;
@@ -93,7 +107,7 @@ class SentimentAnalyser
     public function calcPriors()
     {
         // change our priors to match the proportions in our initial data.
-        foreach( $this->classes as $class) {
+        foreach ($this->classes as $class) {
             $this->prior[$class] = $this->classDocCounts[$class] / $this->docCount;
         }
     }
@@ -122,12 +136,57 @@ class SentimentAnalyser
         // sort in descending order maintain index association
         arsort($classScores);
 
-        if ( $details ) {
-            return ( $classScores);
+        $topClass = array_search(key($classScores), $this->classes);
+        $bag = [];
+        foreach ($lexemes as $lex) {
+            $bag[] = $lexemes['text'];
+        }
+        $remarkClass = $this->classifyRemarks($bag);
+        #var_dump([$tokens, $topClass, $remarkClass]);
+        if ($remarkClass == 2) {
+            $finalClass = $topClass;
+        } elseif ($remarkClass < 2 && $topClass <= 2) {
+            $finalClass = min($remarkClass, $topClass);
+        } elseif ($remarkClass > 2 && $topClass >= 2) {
+            $finalClass = max($remarkClass, $topClass);
+        } else {
+            $finalClass = $remarkClass;
+        }
+
+        if ($details) {
+            return ($classScores);
         }
 
         // get the index of the highest value e.g. pos, neg
         return array_search(key($classScores), $this->classes);
+    }
+
+    public function classifyRemarks($bag)
+    {
+        $class = "neutral";
+        foreach ($this->remarks as $class => $arr) {
+            foreach ($arr as $phraseToMatch) {
+                $remarkWords = explode(" ", $phraseToMatch);
+                $startWord = $remarkWords[0];
+                foreach ($bag as $index => $value) {
+                    if ($value == $startWord) {
+                        $match = true;
+                        for ($ii=1; $ii < count($remarkWords); $ii++) {
+                            if ($index + $ii < count($bag)) {
+                                if ($bag[$index +$ii] != $remarkWords[$ii]) {
+                                    $match = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($match) {
+                            return array_search($class, $this->classes);
+                        }
+                    }
+                }
+            }
+        }
+        return array_search($class, $this->classes);
     }
 
     public function classify($document, $details=false)
@@ -154,12 +213,26 @@ class SentimentAnalyser
         // sort in descending order maintain index association
         arsort($classScores);
 
-        if ( $details ) {
-            return ( $classScores);
+        $topClass = array_search(key($classScores), $this->classes);
+        $remarkClass = $this->classifyRemarks($tokens);
+        #var_dump([$tokens, $topClass, $remarkClass]);
+        if ($remarkClass == 2) {
+            $finalClass = $topClass;
+        } elseif ($remarkClass < 2 && $topClass <= 2) {
+            $finalClass = min($remarkClass, $topClass);
+        } elseif ($remarkClass > 2 && $topClass >= 2) {
+            $finalClass = max($remarkClass, $topClass);
+        } else {
+            $finalClass = $remarkClass;
+        }
+
+
+        if ($details) {
+            return ($classScores);
         }
 
         // get the index of the highest value e.g. pos, neg
-        return array_search(key($classScores), $this->classes);
+        return $finalClass;
     }
 
     // here we break up the message into its constituent words
@@ -168,11 +241,11 @@ class SentimentAnalyser
     // TODO remove the words like 'a', 'the' etc
     private function tokenise($document)
     {
-        if ( count($this->stopWordList) == 0 && file_exists($this->stopWordFile) ) {
+        if (count($this->stopWordList) == 0 && file_exists($this->stopWordFile)) {
             print("Reading stop word list from file");
             $this->stopWordList = file($this->stopWordFile);
             $this->stopWordList = array_map("strtolower", $this->stopWordList);
-            $this->stopWordList = array_map("chop",$this->stopWordList);
+            $this->stopWordList = array_map("chop", $this->stopWordList);
             print("Read in ".count($this->stopWordList)." stop words");
         }
         #$document = strtolower($document);
@@ -181,8 +254,8 @@ class SentimentAnalyser
         $bagOfWords = explode(' ', $document);
         array_walk($bagOfWords, array($this, "cleanWord"));
         $usefulWords = array();
-        foreach( $bagOfWords as $w ) {
-            if ( in_array($w, $this->stopWordList) ) {
+        foreach ($bagOfWords as $w) {
+            if (in_array($w, $this->stopWordList)) {
                 # ignore
             } else {
                 $usefulWords[count($usefulWords)] = $w;
@@ -191,18 +264,21 @@ class SentimentAnalyser
         return $usefulWords;
     }
 
-    private function cleanWord(&$w) {
+    private function cleanWord(&$w)
+    {
         $w = strtolower($w);
         $w = preg_replace('/\W/', '', $w);
     }
 
-    public function report() {
+    public function report()
+    {
         var_dump($this->classDocCounts);
     }
 
-    public function saveModel($path) {
-        $saveObject = array( 
-                                'stopWordList' => $this->stopWordList, 
+    public function saveModel($path)
+    {
+        $saveObject = array(
+                                'stopWordList' => $this->stopWordList,
                                 'stopWordFile' => $this->stopWordFile,
                                 'index' => $this->index,
                                 'classes' => $this->classes,
@@ -216,7 +292,8 @@ class SentimentAnalyser
         file_put_contents($path, $json);
     }
 
-    public function loadModel($path) {
+    public function loadModel($path)
+    {
         $contents = file_get_contents($path);
         $json = json_decode($contents, true);
         $this->stopWordList = $json['stopWordList'];
@@ -230,6 +307,3 @@ class SentimentAnalyser
         $this->prior = $json['prior'];
     }
 }
-
-
-

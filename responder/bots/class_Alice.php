@@ -145,6 +145,9 @@ class Alice extends Bot
                     savelog("Dialog exited with null, so going to intent based response");
                 }
             }
+
+            ## AM I REPLYING TO 2 MESSAGES HERE WHEN I REPLY TO A IN THREAD?
+            ## IF SO WHY?
         }
 
         if ($generateResponseUsingIntentions) {
