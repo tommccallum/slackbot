@@ -4,7 +4,7 @@
     "send_time": "13:15",
     "dialog": [
         {
-            "text": "Emoji test - no need to respond\n:angry: - angry, :blush: - blush, :cold_sweat: - cold sweat, :disappointed: - disappointed, :frowning: - frowning, :grinning: - grinning, :partying_face: - partying_face, :roll_eyes: - roll eyes, :sleeping: - sleeping, :smiley: - smiley, :smiling_face_with_3_hearts: - smiley face with 3 hearts, :thinking_face: - thinking face, :wink: - wink, :woozy_face: - woozy face, :worried: - worried",
+            "text": "Emoji test - no need to respond\n:angry: - angry, :blush: - blush, :cold_sweat: - cold sweat, :disappointed: - disappointed, :frowning: - frowning, :grinning: - grinning, :partying_face: - partying_face, :face_with_rolling_eyes: - roll eyes, :sleeping: - sleeping, :smiley: - smiley, :smiling_face_with_3_hearts: - smiley face with 3 hearts, :thinking_face: - thinking face, :wink: - wink, :woozy_face: - woozy face, :worried: - worried",
             "joins": [
                 {
                     "condition": "positive-sentiment",
