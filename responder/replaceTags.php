@@ -1,5 +1,10 @@
 <?php
 
+function standardCapitalisation($w)
+{
+    return ucfirst(strtolower($w));
+}
+
 function replaceTags($str, $keyvalues)
 {
     if (isset($keyvalues['timestamp'])) {
@@ -9,10 +14,12 @@ function replaceTags($str, $keyvalues)
     }
     if (isset($keyvalues['user'])) {
         $nameParts = explode(' ', $keyvalues['user']['real_name']);
-        $str = preg_replace("/%name%/", $nameParts[0], $str);
-        $str = preg_replace("/%firstname%/", $nameParts[0], $str);
-        $str = preg_replace("/%you.first_name%/", $nameParts[0], $str);
-        $str = preg_replace("/%surname%/", $nameParts[count($nameParts)-1], $str);
+        $firstname = standardCapitalisation($nameParts[0]);
+        $surname = standardCapitalisation($nameParts[count($nameParts)-1]);
+        $str = preg_replace("/%name%/", $firstname, $str);
+        $str = preg_replace("/%firstname%/", $firstname, $str);
+        $str = preg_replace("/%you.first_name%/", $firstname, $str);
+        $str = preg_replace("/%surname%/", $surname, $str);
     }
     if (isset($keyvalues['me'])) {
         // TODO replace %me.name% with name etc
@@ -22,6 +29,9 @@ function replaceTags($str, $keyvalues)
             $text_that_matched_array = $matches[1];
             for ($ii=0; $ii < count($full_text_that_matched_array); $ii++) {
                 $replacement = $keyvalues['me']->get($text_that_matched_array[$ii]);
+                if (ctype_upper($replacement)) {
+                    $replacement = standardCapitalisation($replacement);
+                }
                 $str = preg_replace("/".$full_text_that_matched_array[$ii]."/", $replacement, $str);
             }
         }
@@ -33,6 +43,9 @@ function replaceTags($str, $keyvalues)
             $text_that_matched_array = $matches[1];
             for ($ii=0; $ii < count($full_text_that_matched_array); $ii++) {
                 $replacement = $keyvalues['you']->get($text_that_matched_array[$ii]);
+                if (ctype_upper($replacement)) {
+                    $replacement = standardCapitalisation($replacement);
+                }
                 $str = preg_replace("/".$full_text_that_matched_array[$ii]."/", $replacement, $str);
             }
         }

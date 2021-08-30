@@ -13,6 +13,7 @@ responder/data/bookmarks*.html
 responder/data/talis*
 *.log
 .~*
+responder/data/dialogues/research_*
 
 #Allow
 !/composer.json
