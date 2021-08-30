@@ -14,6 +14,7 @@ responder/data/talis*
 *.log
 .~*
 responder/data/dialogues/research_*
+research/
 
 #Allow
 !/composer.json

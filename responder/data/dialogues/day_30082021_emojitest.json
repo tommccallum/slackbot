@@ -1,0 +1,46 @@
+{
+    "message_type": "im",
+    "send_date": "2021-08-30",
+    "send_time": "13:15",
+    "dialog": [
+        {
+            "text": "Emoji test - no need to respond\n:angry: - angry, :blush: - blush, :cold_sweat: - cold sweat, :disappointed: - disappointed, :frowning: - frowning, :grinning: - grinning, :partying_face: - partying_face, :roll_eyes: - roll eyes, :sleeping: - sleeping, :smiley: - smiley, :smiling_face_with_3_hearts: - smiley face with 3 hearts, :thinking_face: - thinking face, :wink: - wink, :woozy_face: - woozy face, :worried: - worried",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment - well done :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment - that's sad :cry:"
+                }
+            ]
+        },
+        {
+            "text": "This is a second response.  Again there is no need to respond to this message (unless you want to).",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment (2) :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment (2) :cry:"
+                }
+            ]
+        },
+        {
+            "text": "This is a third response.  Again there is no need to respond to this message. If you reply to this message there should be no response.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment (3) :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment (3) :cry:"
+                }
+            ]
+        }
+    ]
+}
