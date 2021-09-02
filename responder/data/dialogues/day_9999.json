@@ -1,6 +1,6 @@
 {
     "message_type": "im",
-    "send_date": "today",
+    "send_date": "should never match - value was today",
     "send_time": "now",
     "dialog": [
         {
@@ -17,7 +17,7 @@
             ]
         },
         {
-            "text": "This is a second statement about which I know nothing ::smiley::",
+            "text": "This is a second statement about which I know nothing :smiley:",
             "joins": [
                 {
                     "condition": "positive-sentiment",
