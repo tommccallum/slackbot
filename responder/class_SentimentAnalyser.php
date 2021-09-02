@@ -120,13 +120,18 @@ class SentimentAnalyser
         $classScores = array();
 
         // for each class we will calculate the influence of each word
+        // FIXME if no words were found then it ends up 4 which is just wrong.
+        $allZero = true;
         foreach ($this->classes as $class) {
             $classScores[$class] = 1;
             foreach ($lexemes as $lexeme) {
                 $token = $lexeme['text'];       # TODO maybe this should be value, not text
+                #var_dump($token);
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
-
+                if ($count > 0) {
+                    $allZero = false;
+                }
                 $classScores[$class] *= ($count + 1) /
                                     ($this->classTokCounts[$class] + $this->tokCount);
             }
@@ -135,14 +140,18 @@ class SentimentAnalyser
         
         // sort in descending order maintain index association
         arsort($classScores);
-
-        $topClass = array_search(key($classScores), $this->classes);
+        
+        if ($allZero) {
+            $topClass = 2;
+        } else {
+            $topClass = array_search(key($classScores), $this->classes);
+        }
         $bag = [];
         foreach ($lexemes as $lex) {
             $bag[] = $lex['text'];
         }
         $remarkClass = $this->classifyRemarks($bag);
-        #var_dump([$tokens, $topClass, $remarkClass]);
+        
         if ($remarkClass == 2) {
             $finalClass = $topClass;
         } elseif ($remarkClass < 2 && $topClass <= 2) {
@@ -158,7 +167,7 @@ class SentimentAnalyser
         }
 
         // get the index of the highest value e.g. pos, neg
-        return array_search(key($classScores), $this->classes);
+        return $finalClass;
     }
 
     public function classifyRemarks($bag)
