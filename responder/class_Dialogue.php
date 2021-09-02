@@ -24,8 +24,8 @@ class Dialogue
     // any variables should have been filled in by now so we are just string matching
     public function match($slackMessage)
     {
-        savelog("Dialogue::match");
-        savelog(json_encode($slackMessage));
+        #savelog("Dialogue::match");
+        #savelog(json_encode($slackMessage));
         # we can restrict this dialogue to only direct messages by using 'im' as the message_type
         # the first message posted by bot will not show up as an im message.
         // if (isset($this->data['message_type'])) {
@@ -48,7 +48,7 @@ class Dialogue
         // ok.
         $plainText = $slackMessage['text'];
         $timepoint = date("Y-m-d", $slackMessage['ts']);
-        savelog("Dialogue::match::check date ".$timepoint);
+        #savelog("Dialogue::match::check date ".$timepoint);
 
         if ($this->matchDate($timepoint)) {
             return true;
@@ -155,7 +155,20 @@ class Dialogue
 
     private function getJoinText($joinOption, $lastMessage, $textSentiment, $emojiSentiment)
     {
-        $sentiment = ($textSentiment + $emojiSentiment) / 2.0;
+        if ($textSentiment > 2 && $emojiSentiment > 2) {
+            $sentiment = 4; # both positive
+        } elseif ($textSentiment < 2 && $emojiSentiment < 2) {
+            $sentiment = 0; # both negative
+        } elseif ($textSentiment != 2 && $emojiSentiment == 2) {
+            $sentiment = $textSentiment; # text is emotional, no emojis
+        } elseif ($emojiSentiment != 2) {
+            $sentiment = $emojiSentiment; # emoji is given, override text
+        } else {
+            $sentiment = 2;
+        }
+
+        #$sentiment = ($textSentiment + $emojiSentiment) / 2.0;
+        
         savelog("join sentiment: ".$sentiment);
 
         $possibleJoinText = [];

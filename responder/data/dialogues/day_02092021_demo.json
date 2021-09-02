@@ -1,36 +1,36 @@
 {
     "message_type": "im",
-    "send_date": "2021-08-30",
-    "send_time": "10:55",
+    "send_date": "2021-09-02",
+    "send_time": "20:27",
     "dialog": [
         {
-            "text": "Hi %you.first_name%, this is a test message.  The research project has not begun.  This message is sent to all accounts that will receive the Digital Narrative.  There is no need to respond to this message (unless of course you want to).",
+            "text": "Hi %you.first_name%, I am doing a demo of today for the volunteers.  Would you like to help?",
             "joins": [
                 {
                     "condition": "positive-sentiment",
-                    "text": "Detected a positive sentiment - well done :smile:"
+                    "text": "Great! Then why don't you reply in thread for me?"
                 },
                 {
                     "condition": "negative-sentiment",
-                    "text": "Detected a negative sentiment - that's sad :cry:"
+                    "text": ":cry: I thought you would help me"
                 }
             ]
         },
         {
-            "text": "This is a second response.  Again there is no need to respond to this message (unless you want to).",
+            "text": "Do you think you could reply again, just to show all the students?",
             "joins": [
                 {
                     "condition": "positive-sentiment",
-                    "text": "Detected a positive sentiment (2) :smile:"
+                    "text": "You're awesome."
                 },
                 {
                     "condition": "negative-sentiment",
-                    "text": "Detected a negative sentiment (2) :cry:"
+                    "text": "You are being very uncooperative."
                 }
             ]
         },
         {
-            "text": "This is a third response.  Again there is no need to respond to this message. If you reply to this message there should be no response.",
+            "text": "I have to go.  You can try replying to me now and see if anything happens.",
             "joins": [
                 {
                     "condition": "positive-sentiment",
