@@ -165,8 +165,19 @@ class LexicalAnalysis
                 continue;
             }
 
-            if (substr($word, 0, 2) == "::" && substr($word, -2, 2) == "::") {
+            if (preg_match("/^::\w+::$/", $word)) {
                 $meta['value'] = substr($word, 2, strlen($word)-4);
+                $meta['text'] = strtolower($meta['value']);
+                $meta['type'] = "EMOJI";
+                $meta['top'] = "_EMOJI";
+                $meta['tags'] = [ '_EMOJI' => ['score' => 1, 'percent' => 100]];
+                $lexemes[] = $meta;
+                continue;
+            }
+
+            if (preg_match("/^:\w+:$/", $word)) {
+                $meta['value'] = substr($word, 1, strlen($word)-2);
+                $meta['text'] = strtolower($meta['value']);
                 $meta['type'] = "EMOJI";
                 $meta['top'] = "_EMOJI";
                 $meta['tags'] = [ '_EMOJI' => ['score' => 1, 'percent' => 100]];
@@ -204,7 +215,7 @@ class LexicalAnalysis
             }
             
             $meta['type'] = "WORD";
-            
+
             $sql = "SELECT * FROM `Words` WHERE `Word` = ? LIMIT 1";
             $statement = $conn->prepare($sql);
             $statement->bind_param("s", $word);

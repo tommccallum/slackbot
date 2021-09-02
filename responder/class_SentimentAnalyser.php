@@ -123,8 +123,7 @@ class SentimentAnalyser
         foreach ($this->classes as $class) {
             $classScores[$class] = 1;
             foreach ($lexemes as $lexeme) {
-                $token = $lexeme['text'];
-                $token = preg_replace("/:/", "", $token); # clean up emoji text
+                $token = $lexeme['text'];       # TODO maybe this should be value, not text
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
 
@@ -202,7 +201,6 @@ class SentimentAnalyser
         foreach ($this->classes as $class) {
             $classScores[$class] = 1;
             foreach ($tokens as $token) {
-                $token = preg_replace("/:/", "", $token); # clean up emoji text
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
 
