@@ -124,6 +124,7 @@ class SentimentAnalyser
             $classScores[$class] = 1;
             foreach ($lexemes as $lexeme) {
                 $token = $lexeme['text'];
+                $token = preg_replace("/:/", "", $token); # clean up emoji text
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
 
@@ -164,7 +165,7 @@ class SentimentAnalyser
     public function classifyRemarks($bag)
     {
         $class = "neutral";
-        foreach ($this->remarks as $class => $arr) {
+        foreach ($this->remarks as $classItem => $arr) {
             foreach ($arr as $phraseToMatch) {
                 $remarkWords = explode(" ", $phraseToMatch);
                 $startWord = $remarkWords[0];
@@ -180,7 +181,7 @@ class SentimentAnalyser
                             }
                         }
                         if ($match) {
-                            return array_search($class, $this->classes);
+                            return array_search($classItem, $this->classes);
                         }
                     }
                 }
@@ -201,6 +202,7 @@ class SentimentAnalyser
         foreach ($this->classes as $class) {
             $classScores[$class] = 1;
             foreach ($tokens as $token) {
+                $token = preg_replace("/:/", "", $token); # clean up emoji text
                 $count = isset($this->index[$token][$class]) ?
                                     $this->index[$token][$class] : 0;
 
@@ -211,11 +213,8 @@ class SentimentAnalyser
         }
         
         // sort in descending order maintain index association
-        arsort($classScores);
-
         $topClass = array_search(key($classScores), $this->classes);
         $remarkClass = $this->classifyRemarks($tokens);
-        #var_dump([$tokens, $topClass, $remarkClass]);
         if ($remarkClass == 2) {
             $finalClass = $topClass;
         } elseif ($remarkClass < 2 && $topClass <= 2) {

@@ -20,6 +20,7 @@ stuck_out_tongue_winking_eye,4
 stuck_out_tongue_closed_eyes,4
 grinning,4
 kissing,4
+sad_face,0
 kissing_smiling_eyes,4
 stuck_out_tongue,4
 sleeping,4

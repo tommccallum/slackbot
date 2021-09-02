@@ -103,12 +103,12 @@ class Alice extends Bot
         $responseState['overall_sentiment_value'] = $sentimentValue;
         $responseState['overall_emoji_sentiment_value'] = $emojiSentimentValue;
 
-        if ($emojiSentimentValue > 2 || $sentimentValue > 2) {
-            sendSlackReaction($this->app, "thumbsup");
-        }
-        if ($emojiSentimentValue < 2 && $sentimentValue < 2) {
-            sendSlackReaction($this->app, "cry");
-        }
+        // if ($emojiSentimentValue > 2 || $sentimentValue > 2) {
+        //     sendSlackReaction($this->app, "thumbsup");
+        // }
+        // if ($emojiSentimentValue < 2 && $sentimentValue < 2) {
+        //     sendSlackReaction($this->app, "cry");
+        // }
         
         $user = whoami($this->app->event['user']);
         $resultArray = walk_message_blocks($message, "getUserBlocks");

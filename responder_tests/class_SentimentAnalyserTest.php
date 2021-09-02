@@ -74,7 +74,7 @@ final class class_SentimentAnalyserTest extends TestCase
         $text = array_map("chop", file($dataFilePath));
         foreach ($text as $t) {
             $result = $model->classify($t);
-            #var_dump(array($result, $t));
+            // var_dump(array($result, $t)); # TODO Boo-yah fails this test
             $this->assertSame($result, 4);
         }
     }
@@ -89,6 +89,7 @@ final class class_SentimentAnalyserTest extends TestCase
         foreach ($text as $t) {
             $result = $model->classify($t);
             #var_dump(array($result, $t));
+            # TODO "I support so" fails this test
             $this->assertTrue($result >= 3);
         }
     }
@@ -121,5 +122,13 @@ final class class_SentimentAnalyserTest extends TestCase
             $this->assertTrue($result < 2);
         }
         $this->assertTrue(1==1);
+    }
+
+    public function test_disappointed(): void
+    {
+        $model = new SentimentAnalyser();
+        $model->loadModel(__DIR__."/../models/sentiment_model.json");
+        $result = $model->classify("disappointed");
+        $this->assertTrue($result == 0);
     }
 }
