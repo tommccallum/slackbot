@@ -80,23 +80,23 @@ class Alice extends Bot
         $sentimentValue = 2;
         $emojiSentimentValue = 2;
         foreach ($clauses as $index => $clause) {
-            if ($clause['type'] == "EXCLAMATION") {
-                $sentiment = new SentimentAnalyser();
-                $sentiment->loadModel($this->sentimentModelPath);
-                $sentimentValue = $sentiment->classifyLexemes($clause['lexemes']);
-                $emojiClassifier = new EmojiSentimentAnalyser();
-                $emojiClassifier->loadModel($this->emojiSentimentModelPath);
-                $emojiSentimentValue = $emojiClassifier->classifyLexemes($clause['lexemes']);
+            #if ($clause['type'] == "EXCLAMATION") {
+            $sentiment = new SentimentAnalyser();
+            $sentiment->loadModel($this->sentimentModelPath);
+            $sentimentValue = $sentiment->classifyLexemes($clause['lexemes']);
+            $emojiClassifier = new EmojiSentimentAnalyser();
+            $emojiClassifier->loadModel($this->emojiSentimentModelPath);
+            $emojiSentimentValue = $emojiClassifier->classifyLexemes($clause['lexemes']);
 
-                // save sentiment for each clause
-                $responseState['clauses'][$index]['sentiment_value'] = $sentimentValue;
-                $responseState['clauses'][$index]['emoji_sentiment_value'] = $emojiSentimentValue;
+            // save sentiment for each clause
+            $responseState['clauses'][$index]['sentiment_value'] = $sentimentValue;
+            $responseState['clauses'][$index]['emoji_sentiment_value'] = $emojiSentimentValue;
 
-                savelog("Sentiment value of string: ".$sentimentValue);
-                savelog("Sentiment value of emoji: ".$emojiSentimentValue);
-            } else {
-                savelog("Ignoring clause for sentiment.");
-            }
+            savelog("Sentiment value of string: ".$sentimentValue);
+            savelog("Sentiment value of emoji: ".$emojiSentimentValue);
+            // } else {
+            //     savelog("Ignoring clause for sentiment.");
+            // }
         }
 
         // save sentiment for overall
