@@ -162,7 +162,9 @@ class Dialogue
         $defaultJoinText = "";
         foreach ($joinOption as $join) {
             if ($join['condition'] == "positive-sentiment") {
-                if ($sentiment > 2) {
+                if ($sentiment >= 2) {
+                    # TODO we have hacked this in so that the research always
+                    #       has  a join but really we should have a neutral option.
                     $possibleJoinText[] = $join['text'];
                 }
             }
