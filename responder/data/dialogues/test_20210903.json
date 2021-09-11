@@ -1,0 +1,46 @@
+{
+    "message_type": "im",
+    "send_date": "2021-09-03",
+    "send_time": "14:00",
+    "dialog": [
+        {
+            "text": "Hi this is a test message.  The research project has not begun.  This message is sent to all accounts that will receive the Digital Narrative.  There is no need to respond to this message unless you want to practice replying in thread.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment - well done :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment - that's sad :cry:"
+                }
+            ]
+        },
+        {
+            "text": "This is a second response.  Again there is no need to respond to this message, but you can if you want.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment (2) :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment (2) :cry:"
+                }
+            ]
+        },
+        {
+            "text": "This is a third response.  Again there is no need to respond to this message. If you reply to this message there should be no further response to this thread.",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Detected a positive sentiment (3) :smile:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Detected a negative sentiment (3) :cry:"
+                }
+            ]
+        }
+    ]
+}
