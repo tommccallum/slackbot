@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "2",
+    "send_date": "2021-09-13",
+    "send_time": "09:10",
+    "dialog": [
+        {
+            "text": "I think we are starting the project today :grinning: How was your weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds fun."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That does not sound good."
+                }
+            ]
+        },
+        {
+            "text": "My boyfriend, Pete, went on a stag-do so I went home for the weekend to see my folks.  Not sure about all this team stuff.  How's your team working out for you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like you have a good team."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "I'm having problems too."
+                }
+            ]
+        },
+        {
+            "text": "Have you met Tanya yet?  She is such a pain.  She knows everything and she never gives me chance at any of the easier tasks.  Like last week, I said I needed help setting up Visual Code and she laughed at me and said what was I doing on the course if I couldn't even install an app :angry:  Is that the time!  I had better run - see ya!"
+        }
+    ]
+}

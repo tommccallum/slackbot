@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "3",
+    "send_date": "2021-09-22",
+    "send_time": "10:54",
+    "dialog": [
+        {
+            "text": "Jeff recommended this great YouTube channel all about CSS - Kevin Powell.   Watched loads in one go last night.  I still not idea how to write this stuff, but I can kinda figure my way around now.  Have you heard of him?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Yeah, I've started following him."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "He's pretty popular now."
+                }
+            ]
+        },
+        {
+            "text": "Alexander said they had him to speak last year which is really cool.   Boyfriend got really pissed at me last night for ignoring him though.  When I wouldn't watch a film with him he put his console on full blast in our tiny flat :angry:  Anyway, enough about me - how's your stuff going?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "That's good to hear."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "It's not going great for me either."
+                }
+            ]
+        },
+        {
+            "text": "I hope you are making more sense of this stuff than I am! Anyway, got to run - team meeting :smiley:"
+        }
+    ]
+}

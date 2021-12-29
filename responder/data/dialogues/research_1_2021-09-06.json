@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "1",
+    "send_date": "2021-09-06",
+    "send_time": "11:03",
+    "dialog": [
+        {
+            "text": "Hi %you.first_name%, are you a first year?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Great!  So am I."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Great to meet you, I'm in first year."
+                }
+            ]
+        },
+        {
+            "text": "I am really excited about this course, can't wait to learn how to build my own games.  Are you going to use your webcam for team meetings?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Your more confident than me."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "I am not sure yet either."
+                }
+            ]
+        },
+        {
+            "text": "Am stuck in my bedroom in my tiny flat and its a tip!  Anyway, got to go now.  Will catch up with you later in the week!"
+        }
+    ]
+}

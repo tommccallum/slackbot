@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "1",
+    "send_date": "2021-09-08",
+    "send_time": "12:55",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, how are you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like you are feeling positive today!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sorry to hear that, but its early days."
+                }
+            ]
+        },
+        {
+            "text": "Still haven't used my webcam or asked a question - tidied up my boyfriends stuff a bit so at least its presentable but hate seeing myself on screen.  The morning meetings are really nerve-racking aren't they - I don't know what to say as I don't have have much of a plan for my days yet :thinking_face:  How's it going for you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like you are off to a good start."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Early days yet."
+                }
+            ]
+        },
+        {
+            "text": "I met Jeff yesterday, he's another first year - from Dundee.  You should join in the chat on Slack, I posted some memes from Xkcd which got a few laughs - which is how I met Jeff.  Better get to work now, catch you later!"
+        }
+    ]
+}

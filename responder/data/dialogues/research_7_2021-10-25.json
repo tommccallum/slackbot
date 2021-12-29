@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "7",
+    "send_date": "2021-10-25",
+    "send_time": "13:05",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, how was your weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sound like you had a great time."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sounds boring!"
+                }
+            ]
+        },
+        {
+            "text": "",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "I'm so jealous!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Neither did I."
+                }
+            ]
+        },
+        {
+            "text": "Tried to sit down and focus but just couldn't.  Pete went out and I thought - great 2 hours of peace.  I did exactly ZERO hackerrank problems :angry:  I could not even understand the question!  I am trying - really!  Its just not going in.  Oops, got to get on the team call - catch you later!"
+        }
+    ]
+}

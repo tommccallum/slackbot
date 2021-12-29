@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "2",
+    "send_date": "2021-09-17",
+    "send_time": "11:14",
+    "dialog": [
+        {
+            "text": "Finally! Its the end of the week.  What are you up to?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds exciting!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that doesn't sound fun."
+                }
+            ]
+        },
+        {
+            "text": "I'm delivering parcels all weekend. Jeff's lucky, he doesn't have to work - why don't you see if he wants to game?  Have you looked through the learning outcomes yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Maybe you can help me then."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "No idea what is going on with them, I mean, how are we supposed to know what work goes with what outcome.  I've asked Jordan in Year 2 to see if he can help me later today.  Have a great weekend  :partying_face:"
+        }
+    ]
+}

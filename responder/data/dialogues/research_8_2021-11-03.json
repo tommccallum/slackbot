@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "8",
+    "send_date": "2021-11-03",
+    "send_time": "13:54",
+    "dialog": [
+        {
+            "text": "Ah!!!!!  Tanya was so mean to me. Do you know what she said to me?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "But I didn't tell you the whole story!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Well, you'll never guess what happened!"
+                }
+            ]
+        },
+        {
+            "text": "She said I hadn't done anything useful the entire term!  I lost my rag completely and called her a stuck up so and so - luckily the recording wasn't on! I wish we had been on a team so far instead of with Tanya, don't you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Hopefully we will be on the next one!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah, shucks, I feel so wanted \ud83d\ude03"
+                }
+            ]
+        },
+        {
+            "text": "I had to ring my Mum today and told her what Tanya said.  It was so good to hear a friendly voice.  Pete was so mean to me last night saying I was ignoring him and I never spend any time with him now - my life is so shit at the moment!  Anyway I won't bore you with my troubles, I'd better be off - catch you later!"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "4",
+    "send_date": "2021-10-01",
+    "send_time": "13:47",
+    "dialog": [
+        {
+            "text": "Finally, the weekend! :partying_face:  I am actually looking forward to going to work - this week has been rough!  You ok today?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah that doesn't sound fun."
+                }
+            ]
+        },
+        {
+            "text": "I understood almost none of the algos stuff we were supposed to read.  Luckily Jeff had time last night and we worked through some of the problems.  Thanks to Jeff, I managed to answer a question on Arrays vs HashMaps in my meeting this morning - was so chuffed!  Are you doing anything weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Hope you have fun."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Try and get out and have some fun."
+                }
+            ]
+        },
+        {
+            "text": "Pete is going to watch the Ranger's match on tv -  I can't stand football :sleeping: luckily I will be working all weekend :smiley:  Have a good one!"
+        }
+    ]
+}

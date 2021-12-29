@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "9",
+    "send_date": "2021-11-08",
+    "send_time": "13:42",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, how was your weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds amazing."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Nevermind, sorry to hear that."
+                }
+            ]
+        },
+        {
+            "text": "Ended up contacting Douglas on Slack this morning and we looked through some of my work together.  Looks like I wasn't as bad as Tanya was making out but have a lot to do if I am going to pass this semester.  Any progress with your latest project?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Going great guns \ud83d\ude03"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sounds rough."
+                }
+            ]
+        },
+        {
+            "text": "Have decided to clear the air with Tanya, wish me luck!  If that doesn't work I'm going to ask one of the lecturers for help.  Is that the time - need to go.  Sorry!"
+        }
+    ]
+}

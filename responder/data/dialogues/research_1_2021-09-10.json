@@ -1,0 +1,33 @@
+{
+    "message_type": "im",
+    "week_number": "1",
+    "send_date": "2021-09-10",
+    "send_time": "14:34",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, did you hear my question today?",
+            "joins": [
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Ah, you missed a treat!"
+                }
+            ]
+        },
+        {
+            "text": "I was shaking like a leaf!  Did you hear Douglas say it was a great question? :smiley:  Jeff said he had not known the answer, and he's done the HNC!  Have you done the HNC?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Lucky you."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "I am brand new at this and still trying to find my feet.  Most of the stuff is flying over my head at the moment.  Spent some time on LinkedIn Learning yesterday - ended up just watching videos all day.  Anyway, got to go to a team meeting now.  Take care and have a good weekend!"
+        }
+    ]
+}

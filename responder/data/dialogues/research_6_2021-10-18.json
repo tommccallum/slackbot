@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "6",
+    "send_date": "2021-10-18",
+    "send_time": "09:47",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, have a good break?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds amazing. Mine was rubbish."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Nevermind, mine was rubbish too."
+                }
+            ]
+        },
+        {
+            "text": "Last week I had a massive blowout with Pete.  He stormed off.  He says he loves his job in the factory at Baxters.  I mean, I know he pays most of the bills, but if he wanted to go to College we could make it work.   Anyway, did you get anything done over the weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "You made more progress than I did."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "I am starting to fall behind I think and not sure if I will catch up.  We're already halfway through and I don't feel like I have done anything.  Jeff said we could do some pair programming later this week so hopefully that will help me get something done.  Better go - team meeting now!"
+        }
+    ]
+}

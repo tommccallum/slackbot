@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "7",
+    "send_date": "2021-10-27",
+    "send_time": "10:03",
+    "dialog": [
+        {
+            "text": "Well, that was a non-event.  Turned up to my team meeting and everyone had already left!  I mean I was only 10 minutes late.  How you doing?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Your always so positive!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "Pete was out with his mates so I thought I would work late last night and I managed to finished off the colour theme for our webpage.  Dead swanky I thought.  Anyway, my alarm didn't go off!  Ran to get on Webex and then no one was there.  Btw are you going to the guest speaker this afternoon?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "So am I, hopefully it will be useful."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither, I can't face it."
+                }
+            ]
+        },
+        {
+            "text": "Better go - Tanya is trying to ring me on Slack ::face_with_rolling_eyes::"
+        }
+    ]
+}

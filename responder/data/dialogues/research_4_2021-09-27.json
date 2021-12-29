@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "4",
+    "send_date": "2021-09-27",
+    "send_time": "14:03",
+    "dialog": [
+        {
+            "text": "Woo-hoo new project!  Hopefully it won't be the complete mess the first one was :smiley:  How was your weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds fun."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That does not sound good."
+                }
+            ]
+        },
+        {
+            "text": "I had Sunday off, and got to do some gaming with Pete.  Got a call from Rachel, a friend who's doing a computing course in Edinburgh.  She is soooo bored! She has like 300 people in her lectures and she has to do loads of Maths.  I was looking at going to Herriot-Watt but this course seemed more industry focused and I get to do it from my bed :smiley:  What are you like at Maths?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Lucky you.  I am hopeless - hated it at school."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Same here, I am hopeless - hated it at school."
+                }
+            ]
+        },
+        {
+            "text": "I guess we will have do some later on, but really hoping its not much.  Is that the time - got to run!"
+        }
+    ]
+}

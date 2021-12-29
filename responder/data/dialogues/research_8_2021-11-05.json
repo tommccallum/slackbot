@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "8",
+    "send_date": "2021-11-05",
+    "send_time": "14:42",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, what a shit week!  Spent hours on this javascript task that was assigned to me and made like, zero progress the entire week. :frowning:  Are you ready for the weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Me too."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Well, I'm not studying."
+                }
+            ]
+        },
+        {
+            "text": "Got work tomorrow delivering parcels around Moray - at least I can sing along to Ed Sheeran and enjoy the countryside.  What you up to?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like fun!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sounds like you should get out for a walk or something."
+                }
+            ]
+        },
+        {
+            "text": "I contacted my PAT to find out my options with changing courses and stuff.  Mum said to stick at it for now and try and get through to Christmas.  Didn't even bother with Pete.  Still what more can go wrong this weekend - right?  Catch you Monday!"
+        }
+    ]
+}

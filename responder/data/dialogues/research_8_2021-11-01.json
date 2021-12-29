@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "8",
+    "send_date": "2021-11-01",
+    "send_time": "12:23",
+    "dialog": [
+        {
+            "text": "Was looking at the learning outcomes this morning and I realised I still have no idea how the work that I've done matches these.  It all seems easy when they talk about it but, I don't know, I just don't get it.  Jeff said he has already done reflections for all of the first modules learning outcomes and some of the other modules!  Tanya was getting on my nerves at the meeting today saying how well she was doing - drove me nuts :angry:  Sorry for the rant - hows things with you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "I bet you have written loads.  I know I should have been doing these diary logs all along but I spend all day on the project and I just can't concentrate when Pete gets back from work.  I wish I had a study or somewhere quiet to go in the evenings.  How are you getting on with the reflections?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well done, I'm trying but not sure how good they are."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You'd better start on them soon."
+                }
+            ]
+        },
+        {
+            "text": "They look easy but when I sat down and tried to write something my mind went blank.  I'm just hoping it clicks soon! Hopefully you have better luck than me."
+        }
+    ]
+}

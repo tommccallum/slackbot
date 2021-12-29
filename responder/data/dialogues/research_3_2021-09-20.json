@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "3",
+    "send_date": "2021-09-20",
+    "send_time": "12:05",
+    "dialog": [
+        {
+            "text": "I am knackered :sleeping:  Did a double shift at work delivering all over the Highlands over the weekend, could do with just going to bed.  How you doing?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad your doing good."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sorry your not doing good."
+                }
+            ]
+        },
+        {
+            "text": "Was chatting with Jeff earlier and he said he was getting really bored as he has done all this web stuff before.  I am completely lost!  I did catch up with Jordan and he talked me through some of the learning outcomes.  I kinda get it but I guess I will just have to figure it out.  Have you managed to do any tasks in your project yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well done, I haven't yet."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Neither have I."
+                }
+            ]
+        },
+        {
+            "text": "If you find anything good on LinkedIn Learning, let me know as I am really struggling with this web stuff.  Catch you later!"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "6",
+    "send_date": "2021-10-22",
+    "send_time": "12:59",
+    "dialog": [
+        {
+            "text": "Hey, have you seen Jeff today?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Oh okay, I haven't yet."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Neither have I."
+                }
+            ]
+        },
+        {
+            "text": "He was supposed to be helping me out with this bug.  In the end I had to grovel to Tanya for help - so embarrassing.  She did help me but not without being totally sarcastic - the way she talks to me you would think I was about 5!  You done much this week?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Good job!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "You must be starting to make some really good progress.  Pete and I are going out this weekend as I have the weekend off.  Movie and pizza - such romance!  Have a great weekend!"
+        }
+    ]
+}

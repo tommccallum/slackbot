@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "12",
+    "send_date": "2021-12-03",
+    "send_time": "14:30",
+    "dialog": [
+        {
+            "text": "Spoke to Jeff earlier and he's still slaving away but I am sure he'll be fine.  I had a message from Tanya this morning gloating that she had already submitted her portfolio - made me panic and check the deadline time again!  Have you submitted yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well done, I am so proud of you!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Keep going!"
+                }
+            ]
+        },
+        {
+            "text": "We have a couple of weeks left but I wanted to get mine in before the holidays start as I need to work more hours to get some cash together.   I finally managed to submit my work just now \ud83d\ude03, took 3 hours to upload :frowning:  After the first hour, Mum was shouting up the stairs as it was interfering with her watching Netflix - oops!    Mum's making my favourite tonight - sausage and mash, and I'll some wine to celebrate.  You doing anything special?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds exciting!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You should do something."
+                }
+            ]
+        },
+        {
+            "text": "Thanks for all your support this semester - I couldn't have done it without you.  Got to go now - need to get Mum some flowers for being so great.  I hope you get your submission in.  Have a good Christmas!"
+        }
+    ]
+}

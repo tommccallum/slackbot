@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "10",
+    "send_date": "2021-11-19",
+    "send_time": "13:00",
+    "dialog": [
+        {
+            "text": "Hey %you.first_name%, just finished my third LeetCode problem!  Have you done any problems yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well done!  I've done a couple so far."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Oh come on %you.first_name%.  We had a pact!"
+                }
+            ]
+        },
+        {
+            "text": "I think I might be finally getting this javascript stuff.  I had to do a problem with counting integers - and I understood what the problem was - go me!  Have you started writing stuff up yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Good on you!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "I haven't."
+                }
+            ]
+        },
+        {
+            "text": "I am just doing a plan for the next 2 weeks.  I have some stuff in my portfolio, but I need to get more reflections done and pull it together.  Tanya has been ignoring me all week and then out of the blue she messaged me about a bug she had found in a login form I'd done.  Normally I wouldn't mind but she wrote it in such a condescending way it really got me riled up.  I am not going to let her get to me!  I need to get some lunch now before the guest lecture starts - see ya!"
+        }
+    ]
+}

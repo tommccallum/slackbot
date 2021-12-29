@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "2",
+    "send_date": "2021-09-15",
+    "send_time": "14:42",
+    "dialog": [
+        {
+            "text": "How's it going?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Lucky you."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Yeah, things have not been going well for me either."
+                }
+            ]
+        },
+        {
+            "text": "I have spent the last couple of days trying to get my head around HTML and create a webpage.  Spent hours trying to center my image!  Eventually had to get Tom to help me.  Are you working anywhere at the moment - for money I mean?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Its hard isn't it!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Lucky you!"
+                }
+            ]
+        },
+        {
+            "text": "I used to work five days a week but have reduced my shift to just weekends.  Now I am finishing uni work on Friday and then spend all weekend delivering parcels.  Its boring work, but I like the solo time.  I hope I can keep it going as I really need the cash.  Got to run, catch you later."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "10",
+    "send_date": "2021-11-15",
+    "send_time": "09:54",
+    "dialog": [
+        {
+            "text": "Afternoon %you.first_name%, sorry I missed your message this morning was busy on my project.  How was the weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sound like you had a great time."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Sounds boring!"
+                }
+            ]
+        },
+        {
+            "text": "Mine was too.  Managed to get Sunday off and moved my life - a grand total of 3 boxes and 2 suitcases - into my Mum's house.  Its not a big room, but its quiet.  Mum and me had a great chat and I realised how much I had missed being at home - you know what I mean?  Mum's been so great.  Anyway - new week, new goals - right!  Did you get any work done over the weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Great going!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "Lets make a pact to do a LeetCode problem a day.  Oh is that the time - got to shoot!"
+        }
+    ]
+}

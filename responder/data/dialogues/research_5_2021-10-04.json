@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "5",
+    "send_date": "2021-10-04",
+    "send_time": "14:43",
+    "dialog": [
+        {
+            "text": "Hi %you.first_name%, I had the best weekend.  Had to work days but on Saturday night me and Pete watched the Ed Sheeran :smiling_face_with_3_hearts: concert on JamBase.  It was soooo good!  How about you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sound like you had a great time."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "At the meeting today I got tasked with doing more HTML and CSS on this new project - thought I would get something new to do :disappointed:  Tanya bagged the database task, which I wanted - she always seems to beat me to it!  Have you tried HackerRank yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Its mental isn't it - totally no idea what is going on."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You should give it a go.  I've totally no idea what is going on."
+                }
+            ]
+        },
+        {
+            "text": "Maybe we can work on a problem together sometime?  Anyway got to go - catch you later!"
+        }
+    ]
+}

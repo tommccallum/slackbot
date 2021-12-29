@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "12",
+    "send_date": "2021-11-29",
+    "send_time": "14:45",
+    "dialog": [
+        {
+            "text": "5 days to go before submission and I still haven't found those files :cold_sweat:  Looks like I am going to have to pull an all-nighter to rewrite some of them.  Are you almost there with yours?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like you got a lot done."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Not a great weekend then?"
+                }
+            ]
+        },
+        {
+            "text": "I tried to push through although Mum was complaining as it was a lovely day and I was just sat at the computer all day.  Jeff was sending me messages all weekend - I think he's in a panic.  Have you heard from him?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "That's comforting."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Hope he's ok."
+                }
+            ]
+        },
+        {
+            "text": "He's been so calm all the way through, but he was panicking as I don't think he had been doing anything apart from the project work.   Anyway, we are almost at the finish line.  I still have a couple more reflections to do about my last project. Let's get this done!"
+        }
+    ]
+}

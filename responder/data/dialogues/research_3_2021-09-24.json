@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "3",
+    "send_date": "2021-09-24",
+    "send_time": "09:18",
+    "dialog": [
+        {
+            "text": "Presentation day today :worried:  I hate speaking in front of other people and feel so stupid when I get asked a question.  You nervous?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Me too."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You seem so calm."
+                }
+            ]
+        },
+        {
+            "text": "Still what could possibly go wrong - right?!  I think Tanya is presenting first for our group - she is dominating our team so much - there won't be much for us to say and I will be sitting there like a lemon! I really hope we are changing teams next week.  Aren't you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Next one will be better, I'm sure!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You've had a good team this time."
+                }
+            ]
+        },
+        {
+            "text": "We may be working together - here's hoping!  Have a good weekend!"
+        }
+    ]
+}

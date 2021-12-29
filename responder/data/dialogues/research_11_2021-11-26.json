@@ -1,0 +1,28 @@
+{
+    "message_type": "im",
+    "week_number": "11",
+    "send_date": "2021-11-26",
+    "send_time": "11:49",
+    "dialog": [
+        {
+            "text": "Project has officially ground to a halt \ud83d\ude29  I was just getting into it as well.  I think I am further ahead than I thought, but I need to get something down for the security learning outcome.  Any progress your side?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like things are looking up."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Better not wait too long."
+                }
+            ]
+        },
+        {
+            "text": "Mum keeps asking me to fix her laptop - I guess I have to put up with that now I'm at home :wink:  Got work off this weekend so I can concentrate on putting in a final push.  Have you got much more to do?",
+            "joins": []
+        },
+        {
+            "text": "Douglas gave me a good piece of advice - concentrate on getting a little done for everything and then try and do more on a couple of learning outcomes.  You won't get a stella grade but you'll pass.  It is only first year after all \ud83d\ude0c Anyway, got to go - have a good weekend!"
+        }
+    ]
+}

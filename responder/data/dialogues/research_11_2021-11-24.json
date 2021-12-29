@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "11",
+    "send_date": "2021-11-24",
+    "send_time": "13:13",
+    "dialog": [
+        {
+            "text": "We are never going to get this project done in 5 days.  Most of the team are just concentrating on getting ready for submitting.  How is your team getting on?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "That sounds positive."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "I'm sure it'll improve."
+                }
+            ]
+        },
+        {
+            "text": "I wish I had written stuff up as I went along, am having to spend time rewatching all the guest lectures and re-writing my notes.  I shared some with Jeff and he gave me some good pointers, like adding Harvard referencing.  He didn't sound very happy though, he said he had re-written his several times already.  Its such a faff though, don't you think?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Starting to think exams weren't so bad \ud83d\ude03"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "You're a natural at this stuff though."
+                }
+            ]
+        },
+        {
+            "text": "Did I tell you that Jeff said he was laughing so hard in the meeting yesterday as he saw I had an Ed Sheeran poster in the background, not sure what he found so funny.  When I challenged him to turn his on - he had transformers - so who's laughing now! \ud83d\ude02 Anyway, got to go.  Keep at it!"
+        }
+    ]
+}

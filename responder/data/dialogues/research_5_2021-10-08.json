@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "5",
+    "send_date": "2021-10-08",
+    "send_time": "14:32",
+    "dialog": [
+        {
+            "text": "Tried doing some easy problems on HackerRank - stuck again already.  How's you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds positive."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Hugs!"
+                }
+            ]
+        },
+        {
+            "text": "Its all so mathsy - what's this got to do with programming stuff?  I thought I was going to be writing games and mobile apps.  How's your project going this week?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well, at least one of us is getting on ok."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Yeah, it's not going great for me as well."
+                }
+            ]
+        },
+        {
+            "text": "Pete totally annoyed me last night.  He came home, saw I was studying and then just walked out again - I just went to bed and did not hear him come in but I could tell he'd been drinking.  Not looking forward to seeing him tonight!  See you Monday!"
+        }
+    ]
+}

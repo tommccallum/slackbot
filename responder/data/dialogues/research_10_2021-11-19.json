@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "10",
+    "send_date": "2021-11-19",
+    "send_time": "15:00",
+    "dialog": [
+        {
+            "text": "Got some texts from Pete today - don't you hate it when that happens!  He says he wants me back and misses me.  I suppose I miss him too.  Mum said to move on but I haven't decided if I am going to message him back - not yet anyway. How did you get on this week on your project?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "I am on a bit of a roll - Mum is working four days a week so I have the house to myself.  I managing to put a decent number of hours in now so I hope I can get something in by end of term. Have you tried any LeetCode problems yet?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Well done!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Perhaps try one this evening."
+                }
+            ]
+        },
+        {
+            "text": "I only managed another 1 from Wednesday.  I accidentally tried a medium one and gave up after 2 hours!  Think I need to stick to the easy ones for now :smiley:  Ah, need to finish this last project task off before work tomorrow - catch you later!"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "12",
+    "send_date": "2021-12-01",
+    "send_time": "11:03",
+    "dialog": [
+        {
+            "text": "It's December!  I love Christmas :partying_face: all the baubles, the tree and classic films - we always watch Mary Poppins.  Don't you love it too?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad I'm not the only one :wink:"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Spoil sport :wink:"
+                }
+            ]
+        },
+        {
+            "text": "Thank goodness this semester will be soon - I could do with a break .  I have almost finished my reflections for each learning outcome and then I need to check everything over.  Only 3 days to go.  Do you have any reflections yet to do?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Keep going then - we are almost there!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Well done!"
+                }
+            ]
+        },
+        {
+            "text": "I am trying to follow what Tom said in class, get something down even if its not perfect.  I know I missed out some bits but they can't mark what they don't have so I put some short audio recordings together.  Jeff sent me a text to remind me to download the mapping.csv from the Portal otherwise you will get a zero!"
+        }
+    ]
+}

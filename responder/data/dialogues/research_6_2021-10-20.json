@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "6",
+    "send_date": "2021-10-20",
+    "send_time": "13:30",
+    "dialog": [
+        {
+            "text": "Sorry I missed you yesterday, I was feeling crap and just stayed in bed.  Mum offered my old room again, but Pete and I talked some more and I think things are going to be better.  How are you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "Douglas was asking me about my notes on the guest speakers this morning - like, what notes :blush: Luckily Jeff was a star and got off the hook.  Yet another thing I have failed to do!  Are you enjoying the guest speakers?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "At least one of us is, I've no idea what they are talking about most of the time."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither, no idea what they are talking about most of the time."
+                }
+            ]
+        },
+        {
+            "text": "I spent 3 hours on a bug this morning - completely wasted my morning and then Pete came home for lunch.  Will have to get back to it now - catch you Friday!"
+        }
+    ]
+}

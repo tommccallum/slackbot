@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "9",
+    "send_date": "2021-11-12",
+    "send_time": "13:59",
+    "dialog": [
+        {
+            "text": "Hi %you.first_name%, how's things?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "Rang Mum today, told her that wanted to move back home.  Don't want to move back in with my folks but I think its for the best, Pete just doesn't understand me anymore.  Did I tell you what he said to me yesterday?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "I know right!  How dare he say that I thought I was better than him?"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Well, we got into an argument and he said that I thought I was better than him!"
+                }
+            ]
+        },
+        {
+            "text": "I hope your life isn't as chaotic as this.  I guess we all have our problems though, right?  Anyway, I'd better finish off as I have work this weekend.  Have a good one!"
+        }
+    ]
+}

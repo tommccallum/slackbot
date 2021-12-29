@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "7",
+    "send_date": "2021-10-31",
+    "send_time": "09:35",
+    "dialog": [
+        {
+            "text": "Well, that does I quit!  I managed to show my work to Tanya and she ripped into it:  “You need a comment here Alice”, “where’s the test case Alice?”, “this should be an if not a while Alice”.  I was so close to tears!  Do you think I should quit?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "You're a barrel of confidence - cheers!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Well, I won't if you say so."
+                }
+            ]
+        },
+        {
+            "text": "Got a lovely glass of wine and not going to think about work now until tomorrow.  Are you studying this weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "I'm not."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Me neither."
+                }
+            ]
+        },
+        {
+            "text": "Totally chill - that's what I say.  Hopefully Pete will be home early tonight and we can get a take-out.  Going to go and watch Community on Netflix now, catch you later!"
+        }
+    ]
+}

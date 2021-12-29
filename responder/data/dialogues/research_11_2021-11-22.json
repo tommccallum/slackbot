@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "11",
+    "send_date": "2021-11-22",
+    "send_time": "10:15",
+    "dialog": [
+        {
+            "text": "Oh shit, went to organise my work ready for submission and deleted some of my old reflection files \ud83d\ude28 That's all I need right now!  How was your weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Glad to hear it."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "That sucks!"
+                }
+            ]
+        },
+        {
+            "text": "Bit lonely without Pete, I did message him back in the end but told him to go find himself someone else to f... oops better not put that in here :wink:.  Mum was right - time to move on.  I ended up watching Netflix and eating a whole tub of Ben and Jerry's :woozy_face:  Spent some time tidying up my room so I can try using my webcam this week.  At least I don't have Pete's clothes lying around the room now.   Did you manage to get much done over the weekend?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounds like you did loads, I'd better get a move on as we only have 2 weeks left."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Better get to it, only two weeks to go!"
+                }
+            ]
+        },
+        {
+            "text": "I got Jeff to look over some of my reflections.  He said I wrote like a five year old - ha, what a cheek!  Am going to ask for some feedback today from Tom and Douglas.  Got to go - team meeting."
+        }
+    ]
+}

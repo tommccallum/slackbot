@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "9",
+    "send_date": "2021-11-10",
+    "send_time": "12:15",
+    "dialog": [
+        {
+            "text": "Morning %you.first_name%.  Finally caught up with Tanya.  We were on a Slack call and I told her how I thought she had been mean to me over the last 8 weeks.  Do you want to know what she said?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Good, cause I was going to tell you anyway \ud83d\ude03"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Course you do - lol!"
+                }
+            ]
+        },
+        {
+            "text": "She claimed that she saw I was struggling and thought she was being helpful.  Well I said that's now how she came across - although not in those words :wink:  I then made some excuse and got off the call.  How's your team doing?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "You have been so lucky with your team mates."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "Still struggling myself."
+                }
+            ]
+        },
+        {
+            "text": "I know you've had some problems, but at least the ones that have are nice.  I just don't seem to connect to anyone except for you and Jeff.  Anyway, got to go get something to eat."
+        }
+    ]
+}

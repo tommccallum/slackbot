@@ -1,0 +1,37 @@
+{
+    "message_type": "im",
+    "week_number": "4",
+    "send_date": "2021-09-29",
+    "send_time": "09:34",
+    "dialog": [
+        {
+            "text": "Morning %you.first_name%, was up late last night gaming with Pete again.  How's you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Sounding chipper today!"
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "If I can help, let me know."
+                }
+            ]
+        },
+        {
+            "text": "I was looking at the big-O stuff Tom was telling us about.  Wtf?  I understood none of that, did you?",
+            "joins": [
+                {
+                    "condition": "positive-sentiment",
+                    "text": "Wow, I'm impressed."
+                },
+                {
+                    "condition": "negative-sentiment",
+                    "text": "What we going to do?"
+                }
+            ]
+        },
+        {
+            "text": "If that is some of the simple stuff, what's the hard stuff gonna be like!  Ah, time to have a break.  Catch you later!"
+        }
+    ]
+}

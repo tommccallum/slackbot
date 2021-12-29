@@ -13,7 +13,7 @@ responder/data/bookmarks*.html
 responder/data/talis*
 *.log
 .~*
-responder/data/dialogues/research_*
+# responder/data/dialogues/research_*
 research/
 users_in_research.json.*
 
