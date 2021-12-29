@@ -171,6 +171,13 @@ Now you can run the following:
 php AddHashes.php
 ```
 
+## IMDB Sentiment Data
+
+The imdb data used to train the sentiment analyser was from https://gitlab.istic.univ-rennes1.fr/18005675/ai_rome_le-dean/-/tree/master/TP2/aclImdb.
+
+Reference: Potts, Christopher. 2011. On the negativity of negation. In Nan Li and David Lutz, eds., Proceedings of Semantics and Linguistic Theory 20, 636-659.
+
+
 ### Problem: Timeout when inserting data
 
 If you get the following error:
@@ -192,3 +199,5 @@ If you are running on a low memory footprint server then you might want to add t
 innodb_buffer_pool_size = 64M
 performance_schema = off
 ```
+
+
