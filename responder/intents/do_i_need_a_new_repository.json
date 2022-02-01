@@ -1,0 +1,12 @@
+{
+    "name": "do_i_need_a_new_repository",
+    "examples": [
+        "do I need to create a new repository for my project",
+        "I was wondering if i should store them in my personal repo or create a separate one",
+        "should I store this project in my personal repository"
+    ],
+    "selection": "random",
+    "replies": [
+        "Yes, each project should be stored in a separate repository."
+    ]
+}
