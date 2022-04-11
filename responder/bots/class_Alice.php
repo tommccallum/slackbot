@@ -173,7 +173,7 @@ class Alice extends Bot
                 // save out intents so if need be we could write a proc to retry and then take a different option.
                 $responseState['clauses'][$index]['matchingIntents'] = $matchingIntents;
 
-                // var_dump($matchingIntents);
+                var_dump($matchingIntents);
 
                 # we will respond in the same order as the intents
                 # we then generate the appropriate replies
